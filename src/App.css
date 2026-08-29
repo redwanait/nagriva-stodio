@@ -1,7 +1,7 @@
 .navbar {
   position: sticky;
   top: 1rem;
-  z-index: 1000;
+  z-index: 20;
 
   width: min(1120px, calc(100% - 32px));
   min-height: 64px;
