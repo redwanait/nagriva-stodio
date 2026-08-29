@@ -14,16 +14,14 @@
 
   padding: 0 var(--space-sm) 0 var(--space-lg);
 
-  background: rgba(22, 22, 22, .94);
-  border: 1px solid rgba(245, 245, 245, .12);
+  background: #161616;
+
+  border: 1px solid rgba(245, 245, 245, 0.12);
   border-radius: 18px;
 
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-
   box-shadow:
-    0 0 42px rgba(217, 242, 38, .07),
-    0 12px 32px rgba(0, 0, 0, .3);
+    0 0 42px rgba(217, 242, 38, 0.07),
+    0 12px 32px rgba(0, 0, 0, 0.3);
 }
 .navbar a { color: var(--color-text); text-decoration: none; }
 .navbar__brand, .navbar__cta, h1, h2, h3, .footer__brand { font-family: var(--font-heading); }
