@@ -10,9 +10,10 @@ import nagrivaIntroVideo from "../assets/videos/nagriva-final.webm";
 
 import {
   services,
-  portfolioProjects,
+  featuredProjects,
   processSteps,
 } from "../data/siteData";
+import ProjectCard from "../components/ProjectCard";
 
 function Home() {
   const [activePortfolioFilter, ] = useState("All");
@@ -24,8 +25,8 @@ function Home() {
   const isPointerInsideVoiceAreaRef = useRef(false);
   const isVoiceFocusedRef = useRef(false);
   const visibleProjects = activePortfolioFilter === "All"
-    ? portfolioProjects
-    : portfolioProjects.filter((project) => project.filterCategories.includes(activePortfolioFilter));
+    ? featuredProjects
+    : featuredProjects.filter((project) => project.filterCategories.includes(activePortfolioFilter));
 
   useEffect(() => {
     const audio = new Audio(headlineAudio);
@@ -184,27 +185,7 @@ function Home() {
 
           <div className="portfolio-grid">
             {visibleProjects.map((project) => (
-              <a
-                className="portfolio-card"
-                href={project.link}
-                key={project.title}
-                target={project.link === "#" ? undefined : "_blank"}
-                rel={project.link === "#" ? undefined : "noreferrer"}
-              >
-                <div className={`portfolio-card__visual portfolio-card__visual--${project.visual}`}>
-                  <img className="portfolio-visual__image" src={project.image} alt={`${project.title} website preview`} />
-                </div>
-                <div className="portfolio-card__body">
-                  <div>
-                    <h3>{project.title}</h3>
-                    <p>{project.categories}</p>
-                  </div>
-                  <div className="portfolio-card__client">
-                    <span className="portfolio-card__avatar" aria-hidden="true">{project.clientInitial}</span>
-                    <span>{project.clientName}</span>
-                  </div>
-                </div>
-              </a>
+              <ProjectCard key={project.title} project={project} />
             ))}
           </div>
           {visibleProjects.length === 0 && <p className="portfolio-empty-state">No projects in this category yet.</p>}

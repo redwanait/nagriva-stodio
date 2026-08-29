@@ -5,21 +5,25 @@ import Footer from "./components/Footer";
 import FinalCta from "./components/FinalCta";
 import Home from "./pages/Home";
 import Services from "./pages/Services";
+import Portfolio from "./pages/Portfolio";
 
-const HOME_ANCHORS = new Set(["", "#home", "#portfolio", "#about", "#process"]);
+const HOME_ANCHORS = new Set(["", "#home", "#about", "#process"]);
 
-function getRoute(): "home" | "services" {
-  return window.location.hash === "#services" ? "services" : "home";
+function getRoute(): "home" | "services" | "portfolio" {
+  const hash = window.location.hash;
+  if (hash === "#services") return "services";
+  if (hash === "#portfolio") return "portfolio";
+  return "home";
 }
 
 function App() {
-  const [route, setRoute] = useState<"home" | "services">(getRoute);
+  const [route, setRoute] = useState<"home" | "services" | "portfolio">(getRoute);
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
-      if (hash === "#services") {
-        setRoute("services");
+      if (hash === "#services" || hash === "#portfolio") {
+        setRoute(getRoute());
         window.scrollTo(0, 0);
         return;
       }
@@ -40,11 +44,13 @@ function App() {
     }
   }, [route]);
 
+  const page = route === "services" ? <Services /> : route === "portfolio" ? <Portfolio /> : <Home />;
+
   return (
     <>
       <Navbar />
-      {route === "services" ? <Services /> : <Home />}
-      <FinalCta />
+      {page}
+      {route !== "portfolio" && <FinalCta />}
       <Footer />
     </>
   );
