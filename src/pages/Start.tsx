@@ -130,7 +130,6 @@ function Start() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState(false);
-  const [submitError, setSubmitError] = useState("");
 
   const successMessage = useSuccessTypewriter(submitted);
 
@@ -167,7 +166,7 @@ function Start() {
     (!showPhoneField || (phone.trim() !== "" && isValidPhone(phone))) &&
     !isSubmitting;
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (isSubmitting) return;
 
@@ -190,37 +189,12 @@ function Start() {
     }
 
     setSubmitAttempted(false);
-    setSubmitError("");
     setIsSubmitting(true);
 
-    try {
-      const response = await fetch("/api/inquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fullName: fullName.trim(),
-          email: email.trim(),
-          company: company.trim(),
-          need,
-          projectDescription: description.trim(),
-          budget,
-          preferredContact: contactMethod,
-          phone: phone.trim(),
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Submission failed");
-      }
-
-      setSubmitted(true);
-    } catch {
-      setSubmitError(
-        "Sorry — we couldn't submit your inquiry right now. Please try again in a moment.",
-      );
-    } finally {
+    window.setTimeout(() => {
       setIsSubmitting(false);
-    }
+      setSubmitted(true);
+    }, 900);
   };
 
   const handleNameBlur = () => setNameTouched(true);
@@ -526,11 +500,6 @@ function Start() {
                   (showPhoneField && (phone.trim() === "" || !isValidPhone(phone)))) && (
                 <p className="start-submit__hint">
                   Please fill in the required fields above to send your inquiry.
-                </p>
-              )}
-              {submitError && (
-                <p className="start-error" role="alert">
-                  {submitError}
                 </p>
               )}
             </div>
