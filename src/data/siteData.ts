@@ -1,5 +1,4 @@
 import {faBullseye,faCartShopping,faCode,faWandMagicSparkles,} from "@fortawesome/free-solid-svg-icons";
-import post01 from "../assets/postes/post-01.png";
 import step01 from "../assets/steps/step-01.png";
 import step02 from "../assets/steps/step-02.png";
 import step03 from "../assets/steps/step-03.png";
