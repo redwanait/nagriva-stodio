@@ -8,25 +8,31 @@ import Services from "./pages/Services";
 import Portfolio from "./pages/Portfolio";
 import About from "./pages/About";
 import Process from "./pages/Process";
+import Start from "./pages/Start";
 
 const HOME_ANCHORS = new Set(["", "#home"]);
 
-function getRoute(): "home" | "services" | "portfolio" | "about" | "process" {
+type Route = "home" | "services" | "portfolio" | "about" | "process" | "start";
+
+const ROUTE_HASHES = new Set(["#services", "#portfolio", "#about", "#process", "#start"]);
+
+function getRoute(): Route {
   const hash = window.location.hash;
   if (hash === "#services") return "services";
   if (hash === "#portfolio") return "portfolio";
   if (hash === "#about") return "about";
   if (hash === "#process") return "process";
+  if (hash === "#start") return "start";
   return "home";
 }
 
 function App() {
-  const [route, setRoute] = useState<"home" | "services" | "portfolio" | "about" | "process">(getRoute);
+  const [route, setRoute] = useState<Route>(getRoute);
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
-      if (hash === "#services" || hash === "#portfolio" || hash === "#about" || hash === "#process") {
+      if (ROUTE_HASHES.has(hash)) {
         setRoute(getRoute());
         window.scrollTo(0, 0);
         return;
@@ -49,13 +55,18 @@ function App() {
   }, [route]);
 
   const page =
-    route === "about" ? <About /> : route === "services" ? <Services /> : route === "portfolio" ? <Portfolio /> : route === "process" ? <Process /> : <Home />;
+    route === "about" ? <About /> :
+    route === "services" ? <Services /> :
+    route === "portfolio" ? <Portfolio /> :
+    route === "process" ? <Process /> :
+    route === "start" ? <Start /> :
+    <Home />;
 
   return (
     <>
       <Navbar />
       {page}
-      {route !== "portfolio" && route !== "about" && route !== "process" && <FinalCta />}
+      {route !== "portfolio" && route !== "about" && route !== "process" && route !== "start" && <FinalCta />}
       <Footer />
     </>
   );
