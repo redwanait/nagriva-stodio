@@ -1,7 +1,5 @@
 import {faBullseye,faCartShopping,faCode,faWandMagicSparkles,} from "@fortawesome/free-solid-svg-icons";
 import post01 from "../assets/postes/post-01.png";
-import post02 from "../assets/postes/post-02.png";
-import post03 from "../assets/postes/post-03.png";
 import step01 from "../assets/steps/step-01.png";
 import step02 from "../assets/steps/step-02.png";
 import step03 from "../assets/steps/step-03.png";
@@ -20,6 +18,19 @@ import conversationImage from "../assets/processimage/messages/Conversation.png"
 import directionImage from "../assets/processimage/messages/Direction.png";
 import buildImage from "../assets/processimage/messages/Build.png";
 import launchImage from "../assets/processimage/messages/Launch.png";
+
+import img24hprint from "../assets/portfolioimages/24hprint.png";
+import imgAifdspa from "../assets/portfolioimages/aifdspa.png";
+import imgBexab from "../assets/portfolioimages/Bexab.png";
+import imgChidoLed from "../assets/portfolioimages/chidoled.png";
+import imgGo2ibra from "../assets/portfolioimages/gozibra.png";
+import imgKeyslab from "../assets/portfolioimages/keyslab.png";
+import imgLivingWisdom from "../assets/portfolioimages/Living Wisdom.png";
+import imgMa3ridkom from "../assets/portfolioimages/ma3ridkom.png";
+import imgNatecosmetics from "../assets/portfolioimages/natecosmetics.png";
+import imgOnlydigital from "../assets/portfolioimages/onlydigital.png";
+import imgSmartPanel from "../assets/portfolioimages/smartpanel.png";
+
 export const navLinks = [
   { label: "Home", href: "#home" },
   { label: "Services", href: "#services" },
@@ -68,7 +79,7 @@ export const featuredProjects = [
      filterCategories: ["Websites"],
     categories: ["Websites"],
     visual: "amare",
-    image: post02,
+    image: img24hprint,
     clientName: "Amare",
     clientInitial: "A",
     description:
@@ -84,7 +95,7 @@ export const featuredProjects = [
     categories: ["Websites"],
      filterCategories: ["Websites"],
     visual: "amna",
-    image: post02,
+    image: imgAifdspa,
     clientName: "Association AMNA",
     clientInitial: "A",
     description:
@@ -100,7 +111,7 @@ export const featuredProjects = [
     categories: ["Websites"],
      filterCategories: ["Websites"],
     visual: "bct",
-    image: post03,
+    image: imgBexab,
     clientName: "BCT AGENCY",
     clientInitial: "B",
     description:
@@ -113,196 +124,132 @@ export const featuredProjects = [
 
 export const portfolioProjects = [
   {
-    title: "Maison Lumiere",
+    title: "Chido LED official website",
     type: "Website Design · Client Work",
     filterCategories: ["Websites"],
-    categories: ["Websites", "E-commerce"],
-    visual: "lumiere",
-    image: post01,
-    clientName: "Maison Lumiere",
-    clientInitial: "M",
+    categories: [ "Websites E-commerce"],
+    visual: "Chido LED",
+    image: imgChidoLed,
+    clientName: "Partnership with Chido LED",
+    clientInitial: "C",
     description:
       "An editorial e-commerce experience for a contemporary lighting studio, built around product clarity and atmosphere.",
     result:
       "A refined storefront that frames each piece and makes browsing feel considered.",
-    linkOne: "#",
-    linkTwo: "#",
+    linkOne: "#start",
+    linkTwo: "https://chidoled.com/",
   },
   {
-    title: "Northwind Brewing Co.",
+    title: "Gozibra's official website",
     type: "Brand & Digital Experience",
     filterCategories: ["Brand"],
-    categories: ["Brand", "Digital Experience"],
+    categories: [ "Social Media Marketing"],
     visual: "northwind",
-    image: post02,
-    clientName: "Northwind Brewing",
-    clientInitial: "A",
+    image: imgGo2ibra,
+    clientName: "Partnership with Gozibra",
+    clientInitial: "G",
     description:
       "A bold, tactile brand and website for a small craft brewer, with strong typography and an honest voice.",
     result:
       "A distinctive online presence that stands out in a crowded independent scene.",
-    linkOne: "#",
-    linkTwo: "#",
+    linkOne: "#start",
+    linkTwo: "https://www.aifdspa.com/",
   },
   {
-    title: "Studio Kinship",
+    title: "Keys Lab official website ",
     type: "Website Design",
-    filterCategories: ["Websites"],
-    categories: ["Websites"],
+    filterCategories: ["Websites E-commerce"],
+    categories: ["Websites E-commerce"],
     visual: "kinship",
-    image: post01,
-    clientName: "Studio Kinship",
+    image: imgKeyslab,
+    clientName: "Partnership with Keys Lab",
     clientInitial: "K",
     description:
       "A calm, precisely structured site for an architecture studio, letting the work lead without noise.",
     result:
       "A professional portfolio where every project is presented with space and intention.",
-    linkOne: "#",
-    linkTwo: "#",
+    linkOne: "#start",
+    linkTwo: "https://keyslab.ma/",
   },
   {
-    title: "Field & Form",
+    title: "The official website of Living Wisdom",
     type: "E-commerce · Website Design",
-    filterCategories: ["E-commerce"],
-    categories: ["E-commerce"],
+    filterCategories: ["Blog Website"],
+    categories: ["Blog Website"],
     visual: "field",
-    image: post01,
-    clientName: "Field & Form",
-    clientInitial: "F",
+    image: imgLivingWisdom,
+    clientName: "Partnership with Living Wisdom",
+    clientInitial: "L",
     description:
       "A simple, product-forward store for a homeware brand, engineered for easy browsing and checkout.",
     result:
       "A responsive buying experience that keeps customers focused on the products.",
-    linkOne: "#",
-    linkTwo: "#",
+    linkOne: "#start",
+    linkTwo: "https://livingwisdomnow.com/",
   },
   {
-    title: "Atelier Nodia",
+    title: "The official website of ma3ridkom",
     type: "Brand & Digital Experience",
     filterCategories: ["Brand"],
-    categories: ["Brand", "Digital Experience"],
+    categories: ["Websites E-commerce"],
     visual: "nodia",
-    image: post01,
-    clientName: "Atelier Nodia",
-    clientInitial: "N",
+    image: imgMa3ridkom,
+    clientName: "Partnership with ma3ridkom",
+    clientInitial: "M",
     description:
       "Naming and digital direction for an independent fashion atelier with a considered, editorial feel.",
     result:
       "A cohesive identity that carries from campaign to website seamlessly.",
-    linkOne: "#",
-    linkTwo: "#",
+    linkOne: "#start",
+    linkTwo: "https://ma3ridkom.com/",
   },
   {
-    title: "Harbor & Co.",
+    title: "The official website of Nate Cosmetics",
     type: "Landing Pages",
     filterCategories: ["Landing"],
-    categories: ["Landing Pages"],
+    categories: ["Websites E-commerce"],
     visual: "harbor",
-    image: post01,
-    clientName: "Harbor & Co.",
-    clientInitial: "H",
+    image: imgNatecosmetics,
+    clientName: "Partnership with Nate Cosmetics.",
+    clientInitial: "N",
     description:
       "A high-converting launch page for a coastal real estate group, built around one clear action.",
     result:
       "A focused campaign page that turns attention into enquiries.",
-    linkOne: "#",
-    linkTwo: "#",
+    linkOne: "#start",
+    linkTwo: "https://natecosmetics.ma/",
   },
   {
-    title: "Verdant Produce",
+    title: "Only Digital's official website",
     type: "E-commerce · Website Design",
     filterCategories: ["E-commerce"],
-    categories: ["E-commerce"],
+    categories: ["Websites E-commerce"],
     visual: "verdant",
-    image: post01,
-    clientName: "Verdant Produce",
-    clientInitial: "V",
+    image: imgOnlydigital,
+    clientName: "Partnership with onlydigital",
+    clientInitial: "O",
     description:
       "A fresh, seasonal store for an organic produce supplier with a clean and appetising layout.",
     result:
       "A friendly shopping experience that reflects the brand's natural character.",
-    linkOne: "#",
-    linkTwo: "#",
+    linkOne: "#start",
+    linkTwo: "https://onlydigital.ma/",
   },
   {
-    title: "Cobalt Finance",
+    title: "The official website of Smart Panel",
     type: "Website Design · Client Work",
     filterCategories: ["Websites"],
-    categories: ["Websites"],
+    categories: ["Social Media Marketing"],
     visual: "cobalt",
-    image: post01,
-    clientName: "Cobalt Finance",
-    clientInitial: "C",
+    image: imgSmartPanel,
+    clientName: "Partnership with Smart Panel",
+    clientInitial: "S",
     description:
       "A trustworthy, structured website for a financial consultancy, prioritising credibility and clarity.",
     result:
       "A corporate site that communicates confidence through clean hierarchy.",
-    linkOne: "#",
-    linkTwo: "#",
-  },
-  {
-    title: "Paper Trails",
-    type: "Landing Pages · Brand",
-    filterCategories: ["Landing"],
-    categories: ["Landing Pages", "Brand"],
-    visual: "tracks",
-    image: post01,
-    clientName: "Paper Trails",
-    clientInitial: "P",
-    description:
-      "A storytelling landing page for a publishing collective, blending editorial copy with strong imagery.",
-    result:
-      "An immersive campaign page that keeps readers moving through the story.",
-    linkOne: "#",
-    linkTwo: "#",
-  },
-  {
-    title: "Ember Studio",
-    type: "Website Design",
-    filterCategories: ["Websites"],
-    categories: ["Websites"],
-    visual: "ember",
-    image: post01,
-    clientName: "Ember Studio",
-    clientInitial: "E",
-    description:
-      "A warm, minimal website for a ceramic studio, built to showcase craft and process.",
-    result:
-      "A gentle, image-led experience that mirrors the texture of the work itself.",
-    linkOne: "#",
-    linkTwo: "#",
-  },
-  {
-    title: "Lumen Health",
-    type: "Digital Experience · Website Design",
-    filterCategories: ["Websites"],
-    categories: ["Websites", "Digital Experience"],
-    visual: "lumen",
-    image: post01,
-    clientName: "Lumen Health",
-    clientInitial: "L",
-    description:
-      "A calm, reassuring platform for a health clinic, prioritising accessibility and clear information.",
-    result:
-      "A clear digital experience that puts patient confidence first.",
-    linkOne: "#",
-    linkTwo: "#",
-  },
-  {
-    title: "Ridge & Board",
-    type: "E-commerce · Brand",
-    filterCategories: ["E-commerce"],
-    categories: ["E-commerce", "Brand"],
-    visual: "ridge",
-    image: post01,
-    clientName: "Ridge & Board",
-    clientInitial: "R",
-    description:
-      "A rugged brand and store for an outdoor gear maker, designed to feel honest and dependable.",
-    result:
-      "A consistent brand experience across product pages and campaigns.",
-    linkOne: "#",
-    linkTwo: "#",
+    linkOne: "#start",
+    linkTwo: "https://smm.smartpanel.dev/",
   },
 ];
 

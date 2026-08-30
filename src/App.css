@@ -280,7 +280,7 @@ h1 { margin: 0; max-width: 600px; font-size: clamp(3.2rem, 4.6vw, .1rem); line-h
 .portfolio-page .portfolio-grid.portfolio-projects__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3.25rem 1.5rem; }
 @media (max-width: 1024px) { .portfolio-page .portfolio-grid.portfolio-projects__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px) { .portfolio-page .portfolio-grid.portfolio-projects__grid { grid-template-columns: 1fr; } }
-.portfolio-page .portfolio-projects__grid .portfolio-card__visual { aspect-ratio: 4 / 3; }
+.portfolio-page .portfolio-projects__grid .portfolio-card__visual { aspect-ratio: 1890 / 858; }
 .portfolio-page .portfolio-card__actions { display: grid; gap: .6rem; margin-top: .5rem; }
 .portfolio-page .portfolio-card__action { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; min-height: 42px; padding: 0 1rem; border-radius: 999px; font: 600 .68rem var(--font-heading); text-decoration: none; transition: box-shadow 160ms ease, transform 160ms ease, border-color 160ms ease, background-color 160ms ease; }
 .portfolio-page .portfolio-card__action span { font-size: 1rem; line-height: 0; transition: transform 160ms ease; }
