@@ -123,6 +123,7 @@ export const featuredProjects = [
 
 export const portfolioProjects = [
   {
+    id: "chido-led",
     title: "Chido LED official website",
     type: "Website Design · Client Work",
     filterCategories: ["Websites"],
@@ -136,9 +137,10 @@ export const portfolioProjects = [
     result:
       "A refined storefront that frames each piece and makes browsing feel considered.",
     linkOne: "#start",
-    linkTwo: "https://chidoled.com/",
+    websiteUrl: "https://chidoled.com/",
   },
   {
+    id: "gozibra",
     title: "Gozibra's official website",
     type: "Brand & Digital Experience",
     filterCategories: ["Brand"],
@@ -152,9 +154,10 @@ export const portfolioProjects = [
     result:
       "A distinctive online presence that stands out in a crowded independent scene.",
     linkOne: "#start",
-    linkTwo: "https://www.aifdspa.com/",
+    websiteUrl: "https://www.aifdspa.com/",
   },
   {
+    id: "keys-lab",
     title: "Keys Lab official website ",
     type: "Website Design",
     filterCategories: ["Websites E-commerce"],
@@ -168,9 +171,10 @@ export const portfolioProjects = [
     result:
       "A professional portfolio where every project is presented with space and intention.",
     linkOne: "#start",
-    linkTwo: "https://keyslab.ma/",
+    websiteUrl: "https://keyslab.ma/",
   },
   {
+    id: "living-wisdom",
     title: "The official website of Living Wisdom",
     type: "E-commerce · Website Design",
     filterCategories: ["Blog Website"],
@@ -184,9 +188,10 @@ export const portfolioProjects = [
     result:
       "A responsive buying experience that keeps customers focused on the products.",
     linkOne: "#start",
-    linkTwo: "https://livingwisdomnow.com/",
+    websiteUrl: "https://livingwisdomnow.com/",
   },
   {
+    id: "ma3ridkom",
     title: "The official website of ma3ridkom",
     type: "Brand & Digital Experience",
     filterCategories: ["Brand"],
@@ -200,9 +205,10 @@ export const portfolioProjects = [
     result:
       "A cohesive identity that carries from campaign to website seamlessly.",
     linkOne: "#start",
-    linkTwo: "https://ma3ridkom.com/",
+    websiteUrl: "https://ma3ridkom.com/",
   },
   {
+    id: "nate-cosmetics",
     title: "The official website of Nate Cosmetics",
     type: "Landing Pages",
     filterCategories: ["Landing"],
@@ -216,9 +222,10 @@ export const portfolioProjects = [
     result:
       "A focused campaign page that turns attention into enquiries.",
     linkOne: "#start",
-    linkTwo: "https://natecosmetics.ma/",
+    websiteUrl: "https://natecosmetics.ma/",
   },
   {
+    id: "only-digital",
     title: "Only Digital's official website",
     type: "E-commerce · Website Design",
     filterCategories: ["E-commerce"],
@@ -232,9 +239,10 @@ export const portfolioProjects = [
     result:
       "A friendly shopping experience that reflects the brand's natural character.",
     linkOne: "#start",
-    linkTwo: "https://onlydigital.ma/",
+    websiteUrl: "https://onlydigital.ma/",
   },
   {
+    id: "smart-panel",
     title: "The official website of Smart Panel",
     type: "Website Design · Client Work",
     filterCategories: ["Websites"],
@@ -248,7 +256,7 @@ export const portfolioProjects = [
     result:
       "A corporate site that communicates confidence through clean hierarchy.",
     linkOne: "#start",
-    linkTwo: "https://smm.smartpanel.dev/",
+    websiteUrl: "https://smm.smartpanel.dev/",
   },
 ];
 

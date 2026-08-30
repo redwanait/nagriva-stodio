@@ -1,9 +1,10 @@
 type ProjectCardProps = {
   project: {
+    id?: string;
     title: string;
     link?: string;
     linkOne?: string;
-    linkTwo?: string;
+    websiteUrl?: string;
     visual?: string;
     image?: string;
     categories: string[];
@@ -13,7 +14,8 @@ type ProjectCardProps = {
 };
 
 function ProjectCard({ project }: ProjectCardProps) {
-  const hasActions = Boolean(project.linkOne && project.linkTwo);
+  const showStartAction = Boolean(project.linkOne);
+  const showPreviewAction = Boolean(project.websiteUrl && project.id);
 
   const inner = (
     <>
@@ -37,14 +39,18 @@ function ProjectCard({ project }: ProjectCardProps) {
           </span>
           <span>{project.clientName}</span>
         </div>
-        {hasActions && (
+        {(showStartAction || showPreviewAction) && (
           <div className="portfolio-card__actions">
-            <a className="portfolio-card__action portfolio-card__action--primary" href={project.linkOne}>
-              Start with Nagriva <span aria-hidden="true"></span>
-            </a>
-            <a className="portfolio-card__action portfolio-card__action--secondary" href={project.linkTwo}>
-              View this website <span aria-hidden="true"></span>
-            </a>
+            {showStartAction && (
+              <a className="portfolio-card__action portfolio-card__action--primary" href={project.linkOne}>
+                Start with Nagriva <span aria-hidden="true"></span>
+              </a>
+            )}
+            {showPreviewAction && (
+              <a className="portfolio-card__action portfolio-card__action--secondary" href={`#/preview/${project.id}`}>
+                View this website <span aria-hidden="true"></span>
+              </a>
+            )}
           </div>
         )}
       </div>
