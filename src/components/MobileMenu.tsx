@@ -1,5 +1,5 @@
 import { useEffect, useRef, type RefObject } from "react";
-import logo from "../assets/logos/logo.png";
+import logo from "../assets/logos/logovideo.mp4";
 import { navLinks, socialLinks } from "../data/siteData";
 import { faArrowRight, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -77,7 +77,7 @@ function MobileMenu({ open, onClose, returnFocusRef }: MobileMenuProps) {
       <aside ref={menuRef} className="mobile-menu__drawer" aria-label="Mobile navigation">
         <div className="mobile-menu__header">
           <a className="mobile-menu__brand" href="#home" onClick={handleClose}>
-            <img src={logo} alt="Nagriva" />
+            <video src={logo} autoPlay muted loop playsInline />
           </a>
           <button
             ref={closeButtonRef}

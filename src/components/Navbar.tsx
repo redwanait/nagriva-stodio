@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { navLinks } from "../data/siteData";
-import logo from "../assets/logos/logo.png";
+import logo from "../assets/logos/logovideo.mp4";
 import { faArrowRight, faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MobileMenu from "./MobileMenu";
@@ -13,7 +13,15 @@ function Navbar() {
     <>
       <header className="navbar" aria-label="Primary navigation">
         <a className="navbar__brand" href="#home">
-          <img className="navbar__logo" src={logo} alt="Nagriva" />
+          <video
+            className="navbar__logo"
+            src={logo}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+          />
         </a>
 
         <nav className="navbar__links" aria-label="Main navigation">
