@@ -16,6 +16,10 @@ import saidClient from "../assets/aboutimage/clients/سعيد الخاضيري.j
 import azizClient from "../assets/aboutimage/clients/عزيز لكميري.jpeg";
 import mohamedClient from "../assets/aboutimage/clients/محمد ميان.jpeg";
 import naimaClient from "../assets/aboutimage/clients/نعيمة الحيان.jpeg";
+import conversationImage from "../assets/processimage/messages/Conversation.png";
+import directionImage from "../assets/processimage/messages/Direction.png";
+import buildImage from "../assets/processimage/messages/Build.png";
+import launchImage from "../assets/processimage/messages/Launch.png";
 export const navLinks = [
   { label: "Home", href: "#home" },
   { label: "Services", href: "#services" },
@@ -421,5 +425,83 @@ export const processSteps = [
     description:
       "Your website is built, refined, tested, and prepared for launch with a clean responsive finish.",
     image: step03,
+  },
+];
+
+export const processWorkflow = [
+  {
+    number: "01",
+    label: "Discover",
+    title: "Discover",
+    description:
+      "Understand the business, goals, audience, and requirements before anything is designed. Every project starts with clarity.",
+  },
+  {
+    number: "02",
+    label: "Design & Build",
+    title: "Design & Build",
+    description:
+      "Turn the direction into a clear visual system and a functional digital experience, refined detail by detail.",
+  },
+  {
+    number: "03",
+    label: "Launch & Grow",
+    title: "Launch & Grow",
+    description:
+      "Polish, test, and launch a finished experience that is ready to perform and evolve with the business.",
+  },
+];
+
+export const processApproach = {
+  eyebrow: " Our approach",
+  statement: "Clear process.",
+  statementAccent: "Better digital work.",
+  paragraphs: [
+    "We believe great digital work comes from a simple process: understand the problem first, stay focused on the scope, and make deliberate decisions at every step. Nothing is designed or built by accident.",
+    "Communication stays direct and honest. There are no unnecessary complexities, no inflated roadmaps — just a clear path from the first conversation to a finished experience you can be proud of.",
+    "Every project is a direct collaboration. You stay close to the work, and we keep the details moving toward a result that feels intentional and performs like it.",
+  ],
+};
+
+// Local image assets for each journey stage, wired up when available.
+export const processJourneyImages = {
+  conversationImage,
+  directionImage,
+  buildImage,
+  launchImage,
+};
+
+export const processJourney = [
+  {
+    number: "01",
+    label: "Conversation",
+    title: "Start with a conversation",
+    description:
+      "We start by understanding your business, your goals, and what you actually need.",
+    image: processJourneyImages.conversationImage,
+  },
+  {
+    number: "02",
+    label: "Direction",
+    title: "Find the right direction",
+    description:
+      "We turn the initial conversation into a clear visual direction before moving into production.",
+    image: processJourneyImages.directionImage,
+  },
+  {
+    number: "03",
+    label: "Build",
+    title: "Design & build",
+    description:
+      "We bring the direction to life, keeping you involved as the project takes shape.",
+    image: processJourneyImages.buildImage,
+  },
+  {
+    number: "04",
+    label: "Launch",
+    title: "Refine & launch",
+    description:
+      "We polish the final details, make sure everything works properly, and get your website ready to go live.",
+    image: processJourneyImages.launchImage,
   },
 ];
