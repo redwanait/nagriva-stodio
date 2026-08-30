@@ -5,6 +5,17 @@ import post03 from "../assets/postes/post-03.png";
 import step01 from "../assets/steps/step-01.png";
 import step02 from "../assets/steps/step-02.png";
 import step03 from "../assets/steps/step-03.png";
+import figmaLogo from "../assets/aboutimage/barnds/figma.png";
+import githubLogo from "../assets/aboutimage/barnds/github.png";
+import illustratorLogo from "../assets/aboutimage/barnds/illustrator.png";
+import photoshopLogo from "../assets/aboutimage/barnds/photoshop.png";
+import vsCodeLogo from "../assets/aboutimage/barnds/Visual Studio Code.png";
+import webflowLogo from "../assets/aboutimage/barnds/Webflow.png";
+import hichamClient from "../assets/aboutimage/clients/hicham-ait-ali.jpeg";
+import saidClient from "../assets/aboutimage/clients/سعيد الخاضيري.jpeg";
+import azizClient from "../assets/aboutimage/clients/عزيز لكميري.jpeg";
+import mohamedClient from "../assets/aboutimage/clients/محمد ميان.jpeg";
+import naimaClient from "../assets/aboutimage/clients/نعيمة الحيان.jpeg";
 export const navLinks = [
   { label: "Home", href: "#home" },
   { label: "Services", href: "#services" },
@@ -69,7 +80,7 @@ export const featuredProjects = [
     categories: ["Websites"],
      filterCategories: ["Websites"],
     visual: "amna",
-    image: post01,
+    image: post02,
     clientName: "Association AMNA",
     clientInitial: "A",
     description:
@@ -119,9 +130,9 @@ export const portfolioProjects = [
     filterCategories: ["Brand"],
     categories: ["Brand", "Digital Experience"],
     visual: "northwind",
-    image: post01,
+    image: post02,
     clientName: "Northwind Brewing",
-    clientInitial: "N",
+    clientInitial: "A",
     description:
       "A bold, tactile brand and website for a small craft brewer, with strong typography and an honest voice.",
     result:
@@ -290,6 +301,104 @@ export const portfolioProjects = [
     linkTwo: "#",
   },
 ];
+
+export const aboutData = {
+  hero: {
+    eyebrow: "About Nagriva",
+    title: "Digital work built with",
+    titleAccent: "clarity and intention.",
+    description:
+      "Nagriva is an independent digital studio designing and building focused websites, e-commerce experiences, and brand identity — for businesses that want to look credible online and perform like it.",
+  },
+  intro: {
+    eyebrow: "Why Nagriva",
+    title: "A small studio.",
+    titleAccent: "Built around focused work.",
+    paragraph:
+      "Nagriva started from a simple idea: digital work should be clear, intentional, and human. Design and development should work together in one process, communication should stay direct, and every project should avoid unnecessary complexity. That belief still shapes how the studio works today.",
+    founder: "Redouane Ait El-Hadj",
+    founderRole: "Founder · Designer & Developer",
+    linkOne: "#",
+    linkTwo: "#",
+  },
+  sections: {
+    capabilities: {
+      eyebrow: "What we do",
+      title: "Capabilities",
+      intro: "A focused set of skills, delivered to a premium finish every time.",
+    },
+    tools: {
+      eyebrow: "How we work",
+      title: "Tools we use",
+    },
+    clients: {
+      eyebrow: "Trusted by",
+      title: "Clients & Partners",
+      intro: "Brands and businesses Nagriva has built with and helped look serious online.",
+    },
+  },
+  capabilities: [
+    {
+      title: "Web Design & Development",
+      description: "Custom websites with clear structure, strong visuals, and responsive performance.",
+    },
+    {
+      title: "E-commerce",
+      description: "Online stores designed to present products clearly and make buying simple.",
+    },
+    {
+      title: "Brand & Digital Experience",
+      description: "Visual direction and digital presentation that keep your brand consistent online.",
+    },
+    {
+      title: "Landing Pages",
+      description: "Focused pages for campaigns, launches, and offers that need one clear action.",
+    },
+    {
+      title: "UI / UX Design",
+      description: "Interfaces built around clarity, hierarchy, and how people move through a page.",
+    },
+    {
+      title: "Webflow & Development",
+      description: "Clean builds that stay fast to update and easy to grow with the business.",
+    },
+  ],
+  tools: [
+    { name: "Figma", description: "Design, prototyping, and collaboration.", image: figmaLogo },
+    { name: "Adobe Illustrator", description: "Identity, logo, and illustration work.", image: illustratorLogo },
+    { name: "Adobe Photoshop", description: "Image composition and visual polish.", image: photoshopLogo },
+    { name: "GitHub", description: "Version control and clean handovers.", image: githubLogo },
+    { name: "VS Code", description: "Our daily environment for the web.", image: vsCodeLogo },
+    { name: "Webflow", description: "Visual development for marketing sites.", image: webflowLogo },
+  ],
+  clients: [
+    {
+      name: "Hicham Ait Ali",
+      image: hichamClient,
+      description: "Long-time client who trusted Nagriva with his brand's online presence.",
+    },
+    {
+      name: "Said El Khadir",
+      image: saidClient,
+      description: "Partnered with us across several focused digital projects.",
+    },
+    {
+      name: "Aziz Lkemiri",
+      image: azizClient,
+      description: "Arrived through a referral and stayed for the full experience.",
+    },
+    {
+      name: "Mohamed Miyan",
+      image: mohamedClient,
+      description: "Came with a clear idea and left with a focused, credible site.",
+    },
+    {
+      name: "Naima El Hayan",
+      image: naimaClient,
+      description: "Trusted Nagriva to bring clarity to her first online store.",
+    },
+  ],
+};
 
 export const processSteps = [
   {

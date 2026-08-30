@@ -1,5 +1,6 @@
 import FinalCta from "../components/FinalCta";
 import ProjectCard from "../components/ProjectCard";
+import ProjectFinder from "../components/ProjectFinder";
 import { portfolioProjects } from "../data/siteData";
 
 function Portfolio() {
@@ -40,6 +41,8 @@ function Portfolio() {
           ))}
         </div>
       </section>
+
+      <ProjectFinder />
 
       <FinalCta />
     </main>
