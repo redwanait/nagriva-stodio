@@ -14,6 +14,8 @@ import {
   processSteps,
 } from "../data/siteData";
 import ProjectCard from "../components/ProjectCard";
+import FeedbackSection from "../components/FeedbackSection";
+import FaqCtaSection from "../components/FaqCtaSection";
 
 function Home() {
   const [activePortfolioFilter, ] = useState("All");
@@ -248,6 +250,8 @@ function Home() {
           </div>
         </section>
 
+        <FeedbackSection />
+
         <section className="process-section" id="process" aria-labelledby="process-title">
           <div className="process-section__header">
             <div className="process-section__intro">
@@ -276,6 +280,8 @@ function Home() {
             ))}
           </div>
         </section>
+
+        <FaqCtaSection />
       </main>
     </>
   );
