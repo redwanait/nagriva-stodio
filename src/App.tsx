@@ -9,8 +9,6 @@ import Portfolio from "./pages/Portfolio";
 import About from "./pages/About";
 import Process from "./pages/Process";
 import Start from "./pages/Start";
-import IframeTest from "./pages/IframeTest";
-import ProjectPreview from "./pages/ProjectPreview";
 
 const HOME_ANCHORS = new Set(["", "#home"]);
 
@@ -28,30 +26,12 @@ function getRoute(): Route {
   return "home";
 }
 
-function getPreviewId(hash: string): string | null {
-  const match = hash.match(/^#\/preview\/(.+)$/);
-  return match ? decodeURIComponent(match[1]) : null;
-}
-
 function App() {
   const [route, setRoute] = useState<Route>(getRoute);
-  const [previewId, setPreviewId] = useState<string | null>(() =>
-    getPreviewId(window.location.hash)
-  );
-  const isIframeTest = window.location.hash === "#iframe-test";
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
-      if (hash === "#iframe-test") return;
-      const nextPreviewId = getPreviewId(hash);
-      if (nextPreviewId !== null) {
-        setPreviewId(nextPreviewId);
-        setRoute("home");
-        window.scrollTo(0, 0);
-        return;
-      }
-      setPreviewId(null);
       if (ROUTE_HASHES.has(hash)) {
         setRoute(getRoute());
         window.scrollTo(0, 0);
@@ -81,14 +61,6 @@ function App() {
     route === "process" ? <Process /> :
     route === "start" ? <Start /> :
     <Home />;
-
-  if (isIframeTest) {
-    return <IframeTest />;
-  }
-
-  if (previewId !== null) {
-    return <ProjectPreview projectId={previewId} />;
-  }
 
   return (
     <>

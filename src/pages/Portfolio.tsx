@@ -1,9 +1,43 @@
+import { useEffect, useState } from "react";
 import FinalCta from "../components/FinalCta";
 import ProjectCard from "../components/ProjectCard";
 import ProjectFinder from "../components/ProjectFinder";
 import { portfolioProjects } from "../data/siteData";
 
+const MOBILE_BREAKPOINT = "(max-width: 720px)";
+const INITIAL_VISIBLE: Record<"mobile" | "desktop", number> = {
+  mobile: 6,
+  desktop: 9,
+};
+const BATCH_SIZE = 6;
+const EAGER_LOAD_COUNT = 6;
+
 function Portfolio() {
+  const [visibleCount, setVisibleCount] = useState(() =>
+    window.matchMedia(MOBILE_BREAKPOINT).matches
+      ? INITIAL_VISIBLE.mobile
+      : INITIAL_VISIBLE.desktop
+  );
+  const total = portfolioProjects.length;
+  const hasMore = visibleCount < total;
+
+  useEffect(() => {
+    const mq = window.matchMedia(MOBILE_BREAKPOINT);
+    const syncInitial = () => {
+      const target = mq.matches ? INITIAL_VISIBLE.mobile : INITIAL_VISIBLE.desktop;
+      setVisibleCount((current) => Math.max(current, target));
+    };
+    if (mq.addEventListener) {
+      mq.addEventListener("change", syncInitial);
+      return () => mq.removeEventListener("change", syncInitial);
+    }
+    return undefined;
+  }, []);
+
+  const handleViewMore = () => {
+    setVisibleCount((current) => current + BATCH_SIZE);
+  };
+
   return (
     <main className="portfolio-page" id="portfolio-page">
       <section className="portfolio-hero" aria-labelledby="portfolio-hero-title">
@@ -36,10 +70,19 @@ function Portfolio() {
           </p>
         </div>
         <div className="portfolio-grid portfolio-projects__grid">
-          {portfolioProjects.map((project) => (
-            <ProjectCard key={project.title} project={project} />
+          {portfolioProjects.slice(0, visibleCount).map((project, index) => (
+            <ProjectCard
+              key={project.title}
+              project={project}
+              loading={index < EAGER_LOAD_COUNT ? "eager" : "lazy"}
+            />
           ))}
         </div>
+        {hasMore && (
+          <button type="button" className="portfolio-load-more" onClick={handleViewMore}>
+            View more projects <span aria-hidden="true">→</span>
+          </button>
+        )}
       </section>
 
       <ProjectFinder />

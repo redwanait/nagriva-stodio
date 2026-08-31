@@ -1,6 +1,5 @@
 type ProjectCardProps = {
   project: {
-    id?: string;
     title: string;
     link?: string;
     linkOne?: string;
@@ -11,11 +10,12 @@ type ProjectCardProps = {
     clientInitial?: string;
     clientName?: string;
   };
+  loading?: "lazy" | "eager";
 };
 
-function ProjectCard({ project }: ProjectCardProps) {
+function ProjectCard({ project, loading = "lazy" }: ProjectCardProps) {
   const showStartAction = Boolean(project.linkOne);
-  const showPreviewAction = Boolean(project.websiteUrl && project.id);
+  const showPreviewAction = Boolean(project.websiteUrl);
 
   const inner = (
     <>
@@ -25,6 +25,8 @@ function ProjectCard({ project }: ProjectCardProps) {
             className="portfolio-visual__image"
             src={project.image}
             alt={`${project.title} website preview`}
+            loading={loading}
+            decoding="async"
           />
         )}
       </div>
@@ -47,7 +49,12 @@ function ProjectCard({ project }: ProjectCardProps) {
               </a>
             )}
             {showPreviewAction && (
-              <a className="portfolio-card__action portfolio-card__action--secondary" href={`#/preview/${project.id}`}>
+              <a
+                className="portfolio-card__action portfolio-card__action--secondary"
+                href={project.websiteUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
                 View this website <span aria-hidden="true"></span>
               </a>
             )}
