@@ -7,6 +7,13 @@ import type {
   CommentSubmitPayload,
 } from "../types/feedback";
 
+function requireSupabase() {
+  if (!supabase) {
+    throw new Error("Feedback is unavailable right now.");
+  }
+  return supabase;
+}
+
 const FEEDBACK_COLUMNS = "id, author_name, author_role, author_company, author_avatar_url, content, status, created_at, published_at";
 
 function toFeedback(row: Feedback): Feedback {
@@ -40,7 +47,8 @@ function toComment(row: FeedbackComment): FeedbackComment {
  * fetching every comment body and avoids an N+1 set of requests.
  */
 async function fetchPublishedCommentCounts(): Promise<Map<string, number>> {
-  const { data, error } = await supabase
+  const client = requireSupabase();
+  const { data, error } = await client
     .from("feedback_comments")
     .select("feedback_id")
     .eq("status", "published");
@@ -63,7 +71,8 @@ async function fetchPublishedCommentCounts(): Promise<Map<string, number>> {
  * real like count and published comment count for each item.
  */
 export async function fetchPublishedFeedbacks(): Promise<FeedbackWithStats[]> {
-  const { data, error } = await supabase
+  const client = requireSupabase();
+  const { data, error } = await client
     .from("feedbacks")
     .select(`${FEEDBACK_COLUMNS}, likes:feedback_likes(count)`)
     .eq("status", "published");
@@ -106,7 +115,8 @@ export async function fetchPublishedFeedbacks(): Promise<FeedbackWithStats[]> {
  * The client can never set status to anything other than "pending".
  */
 export async function submitFeedback(payload: FeedbackSubmitPayload): Promise<void> {
-  const { error } = await supabase
+  const client = requireSupabase();
+  const { error } = await client
     .from("feedbacks")
     .insert({
       author_name: payload.author_name,
@@ -129,7 +139,8 @@ export async function submitFeedback(payload: FeedbackSubmitPayload): Promise<vo
  * number of rows in feedback_likes.
  */
 export async function addFeedbackLike(feedbackId: string): Promise<void> {
-  const { error } = await supabase
+  const client = requireSupabase();
+  const { error } = await client
     .from("feedback_likes")
     .insert({ feedback_id: feedbackId });
 
@@ -141,7 +152,8 @@ export async function addFeedbackLike(feedbackId: string): Promise<void> {
 
 /** Fetch the real like count for a single feedback. */
 export async function fetchLikeCount(feedbackId: string): Promise<number> {
-  const { count, error } = await supabase
+  const client = requireSupabase();
+  const { count, error } = await client
     .from("feedback_likes")
     .select("id", { count: "exact", head: true })
     .eq("feedback_id", feedbackId);
@@ -158,7 +170,8 @@ export async function fetchLikeCount(feedbackId: string): Promise<number> {
  * Fetch all published comments for a single feedback.
  */
 export async function fetchPublishedComments(feedbackId: string): Promise<FeedbackComment[]> {
-  const { data, error } = await supabase
+  const client = requireSupabase();
+  const { data, error } = await client
     .from("feedback_comments")
     .select("*")
     .eq("feedback_id", feedbackId)
@@ -178,7 +191,8 @@ export async function fetchPublishedComments(feedbackId: string): Promise<Feedba
  * The client can never publish a comment directly.
  */
 export async function submitComment(payload: CommentSubmitPayload): Promise<void> {
-  const { error } = await supabase
+  const client = requireSupabase();
+  const { error } = await client
     .from("feedback_comments")
     .insert({
       feedback_id: payload.feedback_id,
