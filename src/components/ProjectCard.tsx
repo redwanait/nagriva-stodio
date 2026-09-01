@@ -11,9 +11,10 @@ type ProjectCardProps = {
     clientName?: string;
   };
   loading?: "lazy" | "eager";
+  hideActions?: boolean;
 };
 
-function ProjectCard({ project, loading = "lazy" }: ProjectCardProps) {
+function ProjectCard({ project, loading = "lazy", hideActions = false }: ProjectCardProps) {
   const showStartAction = Boolean(project.linkOne);
   const showPreviewAction = Boolean(project.websiteUrl);
 
@@ -41,7 +42,7 @@ function ProjectCard({ project, loading = "lazy" }: ProjectCardProps) {
           </span>
           <span>{project.clientName}</span>
         </div>
-        {(showStartAction || showPreviewAction) && (
+        {!hideActions && (showStartAction || showPreviewAction) && (
           <div className="portfolio-card__actions">
             {showStartAction && (
               <a className="portfolio-card__action portfolio-card__action--primary" href={project.linkOne}>

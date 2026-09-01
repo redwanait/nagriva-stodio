@@ -10,15 +10,25 @@ import nagrivaIntroVideo from "../assets/videos/nagriva-final.webm";
 
 import {
   services,
-  featuredProjects,
+  portfolioProjects,
   processSteps,
 } from "../data/siteData";
 import ProjectCard from "../components/ProjectCard";
 import FeedbackSection from "../components/FeedbackSection";
 import FaqCtaSection from "../components/FaqCtaSection";
 
+const CAROUSEL_INTERVAL = 5000;
+const CAROUSEL_TRANSITION_MS = 700;
+
+type CarouselRotation =
+  | { status: "idle"; current: number }
+  | { status: "transitioning"; leaving: number; target: number };
+
 function Home() {
-  const [activePortfolioFilter, ] = useState("All");
+  const [rotation, setRotation] = useState<CarouselRotation>({
+    status: "idle",
+    current: 0,
+  });
   const [isVoiceVisible, setIsVoiceVisible] = useState(false);
   const [isHeadlineAudioPlaying, setIsHeadlineAudioPlaying] = useState(false);
   const headlineAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -26,9 +36,46 @@ function Home() {
   const isVoiceVisibleRef = useRef(false);
   const isPointerInsideVoiceAreaRef = useRef(false);
   const isVoiceFocusedRef = useRef(false);
-  const visibleProjects = activePortfolioFilter === "All"
-    ? featuredProjects
-    : featuredProjects.filter((project) => project.filterCategories.includes(activePortfolioFilter));
+
+  const [shouldReduceMotion, setShouldReduceMotion] = useState(
+    typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+
+  const groupsCount = Math.max(1, Math.ceil(portfolioProjects.length / 3));
+
+  const getCarouselGroup = (groupIndex: number) => {
+    if (portfolioProjects.length === 0) return [];
+    const groupStart = (groupIndex * 3) % portfolioProjects.length;
+    return Array.from({ length: 3 }, (_, k) =>
+      portfolioProjects[(groupStart + k) % portfolioProjects.length],
+    );
+  };
+
+  const transitioning = rotation.status === "transitioning";
+  const visibleGroup = transitioning
+    ? getCarouselGroup(rotation.target)
+    : getCarouselGroup(rotation.current);
+  const leavingGroup = transitioning ? getCarouselGroup(rotation.leaving) : [];
+
+  const rotationRef = useRef(rotation);
+  const shouldReduceMotionRef = useRef(shouldReduceMotion);
+  const rotationFinishTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    rotationRef.current = rotation;
+  }, [rotation]);
+
+  useEffect(() => {
+    shouldReduceMotionRef.current = shouldReduceMotion;
+  }, [shouldReduceMotion]);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const handler = (e: MediaQueryListEvent) => setShouldReduceMotion(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
 
   useEffect(() => {
     const audio = new Audio(headlineAudio);
@@ -113,6 +160,38 @@ function Home() {
 
   useEffect(() => () => clearVoiceVisibilityTimeout(), []);
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (document.hidden) return;
+      const currentRotation = rotationRef.current;
+      if (currentRotation.status === "transitioning") return;
+
+      const next = (currentRotation.current + 1) % groupsCount;
+
+      if (shouldReduceMotionRef.current) {
+        setRotation({ status: "idle", current: next });
+        return;
+      }
+
+      setRotation({
+        status: "transitioning",
+        leaving: currentRotation.current,
+        target: next,
+      });
+      rotationFinishTimerRef.current = setTimeout(() => {
+        setRotation({ status: "idle", current: next });
+      }, CAROUSEL_TRANSITION_MS);
+    }, CAROUSEL_INTERVAL);
+
+    return () => {
+      clearInterval(timer);
+      if (rotationFinishTimerRef.current !== null) {
+        clearTimeout(rotationFinishTimerRef.current);
+        rotationFinishTimerRef.current = null;
+      }
+    };
+  }, [groupsCount]);
+
   return (
     <>
       <main id="home">
@@ -143,8 +222,8 @@ function Home() {
               </div>
               <p className="hero__description">Nagriva designs and builds fast, responsive websites for businesses that want to look credible and perform better online.</p>
               <div className="hero__actions">
-                <a className="button button--primary" href="#start">Start your project <span aria-hidden="true">↗</span></a>
-                <a className="button button--secondary" href="#services">Talk to the founder<span aria-hidden="true">↗</span></a>
+                <a className="button button--primary" href="#start">Start your project</a>
+                <a className="button button--secondary" href="#services">Talk to Redoaune </a>
               </div>
               <div className="trust-row" aria-label="What we deliver">
                 <span><i />Professional but approachable.</span>
@@ -171,11 +250,10 @@ function Home() {
                 </div>
                 <h3>{service.title}</h3>
                 <p>{service.description}</p>
-                <a className="service-card__link" href="#start">Read more <span aria-hidden="true">→</span></a>
               </article>
             ))}
           </div>
-          <a className="services-cta" href="#start">Start with Nagriva <span aria-hidden="true">→</span></a>
+          <a className="services-cta" href="#start">Start with Nagriva</a>
         </section>
 
         <section className="portfolio-section" id="portfolio" aria-labelledby="portfolio-title">
@@ -185,12 +263,32 @@ function Home() {
 
           </div>
 
-          <div className="portfolio-grid">
-            {visibleProjects.map((project) => (
-              <ProjectCard key={project.title} project={project} />
-            ))}
+          <div className="portfolio-grid home-carousel">
+            <div className="home-carousel__set">
+              {visibleGroup.map((project, i) => (
+                <div
+                  className={`home-carousel-item${
+                    transitioning && !shouldReduceMotion
+                      ? ` home-carousel-item--enter-${i}`
+                      : ""
+                  }`}
+                  key={project.title}
+                >
+                  <ProjectCard project={project} loading="eager" hideActions />
+                </div>
+              ))}
+            </div>
+            {transitioning && (
+              <div className="home-carousel__set home-carousel__set--leaving" aria-hidden="true">
+                {leavingGroup.map((project, i) => (
+                  <div className={`home-carousel-item home-carousel-item--exit-${i}`} key={project.title}>
+                    <ProjectCard project={project} loading="eager" hideActions />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-          {visibleProjects.length === 0 && <p className="portfolio-empty-state">No projects in this category yet.</p>}
+          {visibleGroup.length === 0 && <p className="portfolio-empty-state">No projects in this category yet.</p>}
           <div className="portfolio-bottom-cta">
             <p>Want to see more of Nagriva's work?</p>
             <a className="portfolio-cta-button" href="#start">Explore all work</a>
@@ -262,7 +360,7 @@ function Home() {
               <p>
                 A clear process that takes your project from idea to launch without the usual confusion.
               </p>
-              <a className="process-section__cta" href="#start">Start with Nagriva <span aria-hidden="true">→</span></a>
+              <a className="process-section__cta" href="#start">Start with Nagriva</a>
             </div>
           </div>
 

@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useRef, useState } from "react";
 import type { KeyboardEvent, MouseEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,27 +10,28 @@ import meetImg from "../assets/faqimages/meet.png";
 import messengerImg from "../assets/faqimages/messenger.webp";
 import skypeImg from "../assets/faqimages/skype.png";
 import whatsappImg from "../assets/faqimages/whatsapp.png";
+import CallBookingModal from "./CallBookingModal";
 
 const faqItems = [
   {
-    q: "What services do you offer?",
-    a: "Nagriva offers website design and development, brand identity, and digital strategy for businesses that need a professional online presence. Every project is built from scratch with clean code, fast performance, and a focus on converting visitors into customers.",
+    q: "What does nagriva offer?",
+    a: "We offer modern website design and development that you won't find anywhere else outside of Nagriva.(Start with Nagriva, my friend.)",
   },
   {
-    q: "How does your process work?",
-    a: "We follow a simple three-step process: strategy and discovery, design and development, and launch with ongoing support. You'll be involved at key checkpoints, and everything is transparent — no surprises, no jargon.",
+    q: "How does the payment process work?",
+    a: "Payment is of two types. The first type is in three installments, meaning that after each completed task on the site, a payment is made towards the agreed-upon amount. The second type is a full payment, and this payment method is characterized by the speed of site completion. (Start with Nagriva, my friend.)",
   },
   {
-    q: "How long does a project take?",
-    a: "Most projects are completed within 3 to 6 weeks, depending on scope and complexity. During our initial call, we'll give you a clear timeline tailored to your specific needs.",
+    q: "How long does it take to complete the website?",
+    a: "Between two weeks and a month, depending on the customer's requirements. started with Nagriva, my friend.",
   },
   {
-    q: "How much does a website cost?",
-    a: "Pricing depends on the type and scope of the project. We offer transparent, upfront pricing after a brief discovery call — no hidden fees or surprise invoices. Most clients invest between $2,000 and $8,000 for a custom website.",
+    q: "Cost of creating a website",
+    a: "Between 500 dirhams, at Nagriva our concern is not profit, but helping you grow. Start with Nagriva, my friend.",
   },
   {
-    q: "Can you work with an existing brand?",
-    a: "Absolutely. We regularly work with established brands that need a website refresh or a new digital touchpoint. We adapt to your existing identity while improving how it performs online.",
+    q: "Is it possible to request changes after completion?",
+    a: "Yes, of course, we've had customers for 3 years and we're still working on improving the website. Start with Nagriva, my friend. ",
   },
 
 
@@ -38,6 +39,9 @@ const faqItems = [
 ];
 
 function FaqCtaSection() {
+  const [callModalOpen, setCallModalOpen] = useState(false);
+  const bookButtonRef = useRef<HTMLButtonElement | null>(null);
+
   const handleToggle = useCallback(
     (_index: number, e: MouseEvent<HTMLButtonElement>) => {
       const button = e.currentTarget;
@@ -85,9 +89,14 @@ function FaqCtaSection() {
             questions, and figure out the best next step.
           </p>
 
-          <a className="faq-cta-section__button" href="#start">
-            Book a Free Call <span aria-hidden="true">→</span>
-          </a>
+          <button
+            ref={bookButtonRef}
+            className="faq-cta-section__button"
+            type="button"
+            onClick={() => setCallModalOpen(true)}
+          >
+            Book a Free Call
+          </button>
           <p className="faq-cta-section__meta">15 min · Free · No commitment</p>
 
           <div className="faq-cta-section__icons" aria-hidden="true">
@@ -148,6 +157,13 @@ function FaqCtaSection() {
           </div>
         </div>
       </div>
+
+      {callModalOpen && (
+        <CallBookingModal
+          onClose={() => setCallModalOpen(false)}
+          returnFocusRef={bookButtonRef}
+        />
+      )}
     </section>
   );
 }

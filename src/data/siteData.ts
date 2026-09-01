@@ -49,7 +49,6 @@ export const navLinks = [
 export const socialLinks = [
   { label: "Instagram", href: "https://www.instagram.com/nagriva", icon: "fa-brands fa-instagram" },
   { label: "facebook", href: "https://www.linkedin.com/company/nagriva", icon: "fa-brands fa-facebook" },
-  { label: "youtube", href: "https://github.com/nagriva", icon: "fa-brands fa-youtube" },
   { label: "linkedin", href: "https://github.com/nagriva", icon: "fa-brands fa-linkedin" },
   { label: "GitHub", href: "https://github.com/nagriva", icon: "fa-brands fa-github" },
 ];
@@ -75,56 +74,6 @@ export const services = [
     title: "Brand & Digital Experience",
     description: "Visual direction and digital presentation that make your brand feel consistent online.",
     icon: faWandMagicSparkles,
-  },
-];
-
-export const featuredProjects = [
-  {
-    title: "Amare Website",
-    type: "Client Work · Website Design",
-     filterCategories: ["Websites"],
-    categories: ["Websites"],
-    visual: "amare",
-    image: imgAdKeyProd,
-    clientName: "Amare",
-    clientInitial: "A",
-    description:
-      "A fast, mobile-responsive website built to help the business engage online.",
-    result:
-      "Responsive experience aligned with the client requirements.",
-    link: "https://www.amare.ma/",
-  },
-
-  {
-    title: "Association AMNA Website",
-    type: "Concept Project · E-commerce",
-    categories: ["Websites"],
-     filterCategories: ["Websites"],
-    visual: "amna",
-    image: imgAdKeyProd,
-    clientName: "Association AMNA",
-    clientInitial: "A",
-    description:
-      "An e-commerce concept designed to present products clearly and create a simple browsing experience.",
-    result:
-      "A focused digital experience built around clarity and easy navigation.",
-    link: "https://www.associationamna.com/",
-  },
-
-  {
-    title: "BCT AGENCY Website",
-    type: "Client Work · Website Design",
-    categories: ["Websites"],
-     filterCategories: ["Websites"],
-    visual: "bct",
-    image: imgAdKeyProd,
-    clientName: "BCT AGENCY",
-    clientInitial: "B",
-    description:
-      "A professional website designed to present the agency clearly and strengthen its online presence.",
-    result:
-      "A clean responsive experience aligned with the agency's visual direction.",
-    link: "https://agence-bct.com/",
   },
 ];
 

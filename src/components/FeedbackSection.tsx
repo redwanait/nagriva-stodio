@@ -55,18 +55,11 @@ function FeedbackSection({ initialFeedbacks }: FeedbackSectionProps) {
     }
   }, [loading, feedbacks]);
 
-  const handleLikeChange = useCallback((feedbackId: string, count: number) => {
-    setFeedbacks((prev) =>
-      prev.map((f) => (f.id === feedbackId ? { ...f, likeCount: count } : f)),
-    );
-  }, []);
-
   const renderGroup = (clone: boolean) =>
     feedbacks.map((feedback) => (
       <FeedbackCard
         key={`${clone ? "clone-" : ""}${feedback.id}`}
         feedback={feedback}
-        onLikeChange={handleLikeChange}
         isClone={clone}
       />
     ));

@@ -161,7 +161,7 @@ function Footer() {
                 <img className="footer-redesign__logo" src={logo} alt="Nagriva" />
               </a>
               <p className="footer-redesign__description">
-                Nagriva creates focused digital experiences for businesses that want to look professional online.
+                Nagriva designs and builds fast, responsive websites for businesses that want to look credible and perform better online.
               </p>
               <div className="footer-redesign__socials" aria-label="Social links">
                 {socialLinks.map((social) => (
@@ -189,11 +189,11 @@ function Footer() {
                 ))}
               </nav>
               <div className="footer-redesign__column">
-                <span className="footer-redesign__label">Start a Project</span>
+                <span className="footer-redesign__label">Start/Help</span>
                 <a className="footer-redesign__link footer-redesign__project-link" href="#start">
                   Start with Nagriva <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
                 </a>
-                <a className="footer-redesign__link" href="mailto:hello@nagriva.com">Let&apos;s talk</a>
+                <a className="footer-redesign__link" href="mailto:hello@nagriva.com">Hand in hand </a>
                 <a className="footer-redesign__link footer-redesign__contact" href="mailto:hello@nagriva.com">
                   hello@nagriva.com
                 </a>
@@ -210,6 +210,7 @@ function Footer() {
             <div className="footer-redesign__legal">
               <a href="/privacy-policy">Privacy Policy</a>
               <a href="/terms-of-service">Terms of Service</a>
+              <a href="/brand">Brand</a>
             </div>
           </div>
         </div>
