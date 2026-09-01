@@ -47,9 +47,6 @@ function Services() {
               </div>
               <h3>{service.title}</h3>
               <p>{service.description}</p>
-              <a className="service-card__link" href="#start">
-                Read more <span aria-hidden="true">→</span>
-              </a>
             </article>
           ))}
         </div>

@@ -33,10 +33,10 @@ function About() {
           </p>
           <div className="about-founder__actions">
             <a className="button button--primary" href={aboutData.intro.linkOne}>
-              Talk to Redouane <span aria-hidden="true">→</span>
+              Talk to Redouane
             </a>
             <a className="button button--secondary" href={aboutData.intro.linkTwo}>
-              Know how is Nagriva <span aria-hidden="true">↗</span>
+              Know how is Nagriva
             </a>
           </div>
         </div>

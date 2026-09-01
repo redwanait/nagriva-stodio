@@ -80,7 +80,7 @@ function Portfolio() {
         </div>
         {hasMore && (
           <button type="button" className="portfolio-load-more" onClick={handleViewMore}>
-            View more projects <span aria-hidden="true">→</span>
+            View more projects 
           </button>
         )}
       </section>

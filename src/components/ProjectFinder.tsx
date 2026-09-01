@@ -130,7 +130,7 @@ function ProjectFinder() {
                     type="submit"
                     disabled={!canContinue}
                   >
-                    Continue <span aria-hidden="true">→</span>
+                    Continue
                   </button>
                 </div>
               </form>
@@ -173,11 +173,11 @@ function ProjectFinder() {
                     className="project-finder__button project-finder__button--primary"
                     type="submit"
                   >
-                    Send me the examples <span aria-hidden="true">→</span>
+                    Send me the examples
                   </button>
                 </div>
                 <button className="project-finder__back" type="button" onClick={handleBack}>
-                  <span aria-hidden="true">←</span> Change my request
+                Change my request
                 </button>
               </form>
             </div>
