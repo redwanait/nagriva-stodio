@@ -9,14 +9,17 @@ import Portfolio from "./pages/Portfolio";
 import About from "./pages/About";
 import Process from "./pages/Process";
 import Start from "./pages/Start";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 const HOME_ANCHORS = new Set(["", "#home"]);
 
-type Route = "home" | "services" | "portfolio" | "about" | "process" | "start";
+type Route = "home" | "services" | "portfolio" | "about" | "process" | "start" | "privacy-policy";
 
 const ROUTE_HASHES = new Set(["#services", "#portfolio", "#about", "#process", "#start"]);
 
 function getRoute(): Route {
+  const path = window.location.pathname;
+  if (path === "/privacy-policy") return "privacy-policy";
   const hash = window.location.hash;
   if (hash === "#services") return "services";
   if (hash === "#portfolio") return "portfolio";
@@ -30,7 +33,13 @@ function App() {
   const [route, setRoute] = useState<Route>(getRoute);
 
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleRouteChange = () => {
+      const path = window.location.pathname;
+      if (path === "/privacy-policy") {
+        setRoute("privacy-policy");
+        window.scrollTo(0, 0);
+        return;
+      }
       const hash = window.location.hash;
       if (ROUTE_HASHES.has(hash)) {
         setRoute(getRoute());
@@ -41,8 +50,12 @@ function App() {
         setRoute("home");
       }
     };
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    window.addEventListener("hashchange", handleRouteChange);
+    window.addEventListener("popstate", handleRouteChange);
+    return () => {
+      window.removeEventListener("hashchange", handleRouteChange);
+      window.removeEventListener("popstate", handleRouteChange);
+    };
   }, []);
 
   useEffect(() => {
@@ -60,13 +73,14 @@ function App() {
     route === "portfolio" ? <Portfolio /> :
     route === "process" ? <Process /> :
     route === "start" ? <Start /> :
+    route === "privacy-policy" ? <PrivacyPolicy /> :
     <Home />;
 
   return (
     <>
       <Navbar />
       {page}
-      {route !== "portfolio" && route !== "about" && route !== "process" && route !== "start" && <FinalCta />}
+      {route !== "portfolio" && route !== "about" && route !== "process" && route !== "start" && route !== "privacy-policy" && <FinalCta />}
       <Footer />
     </>
   );
