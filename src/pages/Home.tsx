@@ -16,6 +16,7 @@ import {
 import ProjectCard from "../components/ProjectCard";
 import FeedbackSection from "../components/FeedbackSection";
 import FaqCtaSection from "../components/FaqCtaSection";
+import ClientLogos from "../components/ClientLogos";
 
 const CAROUSEL_INTERVAL = 5000;
 const CAROUSEL_TRANSITION_MS = 700;
@@ -233,6 +234,8 @@ function Home() {
             </div>
           </div>
         </section>
+
+        <ClientLogos />
 
         <section className="services-section" id="services" aria-labelledby="services-title">
           <div className="section-heading">
