@@ -10,16 +10,20 @@ import About from "./pages/About";
 import Process from "./pages/Process";
 import Start from "./pages/Start";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import Brand from "./pages/Brand";
 
 const HOME_ANCHORS = new Set(["", "#home"]);
 
-type Route = "home" | "services" | "portfolio" | "about" | "process" | "start" | "privacy-policy";
+type Route = "home" | "services" | "portfolio" | "about" | "process" | "start" | "privacy-policy" | "terms-of-service" | "brand";
 
 const ROUTE_HASHES = new Set(["#services", "#portfolio", "#about", "#process", "#start"]);
 
 function getRoute(): Route {
   const path = window.location.pathname;
   if (path === "/privacy-policy") return "privacy-policy";
+  if (path === "/terms-of-service") return "terms-of-service";
+  if (path === "/brand") return "brand";
   const hash = window.location.hash;
   if (hash === "#services") return "services";
   if (hash === "#portfolio") return "portfolio";
@@ -37,6 +41,16 @@ function App() {
       const path = window.location.pathname;
       if (path === "/privacy-policy") {
         setRoute("privacy-policy");
+        window.scrollTo(0, 0);
+        return;
+      }
+      if (path === "/terms-of-service") {
+        setRoute("terms-of-service");
+        window.scrollTo(0, 0);
+        return;
+      }
+      if (path === "/brand") {
+        setRoute("brand");
         window.scrollTo(0, 0);
         return;
       }
@@ -74,13 +88,15 @@ function App() {
     route === "process" ? <Process /> :
     route === "start" ? <Start /> :
     route === "privacy-policy" ? <PrivacyPolicy /> :
+    route === "terms-of-service" ? <TermsOfService /> :
+    route === "brand" ? <Brand /> :
     <Home />;
 
   return (
     <>
       <Navbar />
       {page}
-      {route !== "portfolio" && route !== "about" && route !== "process" && route !== "start" && route !== "privacy-policy" && <FinalCta />}
+      {route !== "portfolio" && route !== "about" && route !== "process" && route !== "start" && route !== "privacy-policy" && route !== "terms-of-service" && route !== "brand" && <FinalCta />}
       <Footer />
     </>
   );

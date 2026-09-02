@@ -38,11 +38,11 @@ import imgEdigitaal from "../assets/portfolioimages/imgEdigitaal.webp";
 import imgWakune from "../assets/portfolioimages/imgWakune.webp";
 
 export const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "About", href: "#about" },
-  { label: "Process", href: "#process" },
+  { label: "Home", href: "/#home" },
+  { label: "Services", href: "/#services" },
+  { label: "Portfolio", href: "/#portfolio" },
+  { label: "About", href: "/#about" },
+  { label: "Process", href: "/#process" },
 ];
 
 

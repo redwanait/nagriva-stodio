@@ -76,7 +76,7 @@ function MobileMenu({ open, onClose, returnFocusRef }: MobileMenuProps) {
       <button className="mobile-menu__backdrop" type="button" aria-label="Close menu" onClick={handleClose} />
       <aside ref={menuRef} className="mobile-menu__drawer" aria-label="Mobile navigation">
         <div className="mobile-menu__header">
-          <a className="mobile-menu__brand" href="#home" onClick={handleClose}>
+          <a className="mobile-menu__brand" href="/#home" onClick={handleClose}>
             <img src={logo} alt="Nagriva" />
           </a>
           <button
@@ -92,7 +92,8 @@ function MobileMenu({ open, onClose, returnFocusRef }: MobileMenuProps) {
 
         <nav className="mobile-menu__nav" aria-label="Main navigation">
           {navLinks.map((link, index) => {
-            const isActive = (window.location.hash || "#home") === link.href;
+            const linkHash = link.href.startsWith("/#") ? link.href.slice(1) : link.href;
+            const isActive = (window.location.hash || "#home") === linkHash;
             return (
               <a
                 key={link.href}
@@ -111,7 +112,7 @@ function MobileMenu({ open, onClose, returnFocusRef }: MobileMenuProps) {
 
         <div className="mobile-menu__footer">
           <p className="mobile-menu__availability">Available for select projects.</p>
-          <a className="mobile-menu__cta" href="#start" onClick={handleClose}>
+          <a className="mobile-menu__cta" href="/#start" onClick={handleClose}>
             Start with Nagriva
             <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
           </a>
