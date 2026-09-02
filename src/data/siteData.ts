@@ -378,58 +378,23 @@ export const portfolioProjects = [
 
 export const aboutPage = {
   hero: {
-    eyebrow: "About Nagriva",
-    title: "About Nagriva",
+    title: "About US",
     statement:
-      "Nagriva is an independent digital studio for Moroccan businesses and freelancers who want to look credible online.",
+      "Nagriva is simply a Moroccan agency run by a Moroccan man, specifically from Azilal.",
     paragraph:
-      "Nagriva was built for one reason: too much digital work in Morocco is handed over without care, without structure, and without someone who actually understands the local market. We wanted the opposite — clear, honest, well-built digital work, done the way it should be.",
-    founderName: "Redouane",
-    founderRole: "Founder, Nagriva",
+      "Let's answer your question: the famous Moroccan question,Why did I choose you over others? Simply put, my friend, we are the best. (With all due narcissism, I mean, haha, I'm laughing.) And indeed, we are the best, especially considering the problems Morocco is facing. (Nagriva has a foreign level of skill.)",
+    founderName: "Redouane Ait EL-Hadj",
+    founderRole: "Founder, Team assistance",
   },
   problem: {
     eyebrow: "The problem",
     title: "Being a talented freelancer in Morocco is rarely the hard part.",
+    videoUrl: "https://www.youtube.com/embed/L6knl85bGm4",
+    videoTitle: "3lach l freelancers fl mghrib mrad ? (Glissa m3a Akram ep.2)",
     statement:
-      "The hard part is everything around the talent. The part nobody talks about.",
-    points: [
-      {
-        number: "01",
-        title: "Finding clients",
-        description:
-          "The work is out there, but it lives inside networks, referrals, and word of mouth. If you're not inside those circles, you stay invisible.",
-      },
-      {
-        number: "02",
-        title: "Building trust",
-        description:
-          "A profile and some screenshots are easy to copy. Proving you can actually deliver — reliably, on time — is a different conversation.",
-      },
-      {
-        number: "03",
-        title: "Competition",
-        description:
-          "Everyone is offering the same services at every price, from the basement to the sky. Standing out is not about being louder.",
-      },
-      {
-        number: "04",
-        title: "Visibility",
-        description:
-          "Being good at what you do means little if the right people never see it. Most talented freelancers simply never get found.",
-      },
-      {
-        number: "05",
-        title: "Organizing the work",
-        description:
-          "A full project is many small jobs — proposals, deadlines, revisions, handovers. Without structure, it becomes chaos and it shows.",
-      },
-      {
-        number: "06",
-        title: "Turning skills into a business",
-        description:
-          "A skill gets you a job here and there. A business needs consistency, credibility, and a way to be approached. Most freelancers never bridge that gap.",
-      },
-    ],
+      "The hard part isn't the skill. It's everything around the skill.",
+    paragraph:
+      "In Morocco, the gap isn't between knowing how to work and not knowing — it's between knowing how to work and being able to turn that skill into something that gets paid, consistently and with trust. The talent exists. The frustration does too.",
   },
   why: {
     eyebrow: "Why Nagriva",

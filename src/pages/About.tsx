@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { aboutPage } from "../data/siteData";
 import founderImage from "../assets/aboutimage/the founder.png";
+import senatorImage from "../assets/aboutimage/Senator.png";
 
 function About() {
   return (
@@ -22,16 +23,14 @@ function AboutHero() {
       <div className="about-hero__container">
         <div className="about-hero__inner">
           <div className="about-hero__content">
-            <p className="eyebrow about-hero__eyebrow">
-              <span className="eyebrow__dot" aria-hidden="true" />
-              {hero.eyebrow}
-            </p>
             <h1 id="about-hero-title">{hero.title}</h1>
             <p className="about-hero__statement">{hero.statement}</p>
             <p className="about-hero__paragraph">{hero.paragraph}</p>
-            <p className="about-hero__signature" aria-hidden="true">
-              Redouane
-            </p>
+            <img
+              className="about-hero__signature"
+              src={senatorImage}
+              alt="Handwritten signature of Redouane, founder of Nagriva"
+            />
           </div>
           <div className="about-hero__media">
             <img
@@ -54,25 +53,21 @@ function ProblemSection() {
   const { problem } = aboutPage;
   return (
     <section className="about-section about-problem" aria-labelledby="about-problem-title">
-      <div className="about-section__inner">
-        <p className="eyebrow about-section__eyebrow">
-          <span className="about-section__index">02</span>
-          {problem.eyebrow}
-        </p>
+      <div className="about-problem__heading">
         <h2 id="about-problem-title">{problem.title}</h2>
-        <p className="about-section__statement">{problem.statement}</p>
-
-        <ul className="about-problem__list">
-          {problem.points.map((point) => (
-            <li className="about-problem__item" key={point.number}>
-              <span className="about-problem__number" aria-hidden="true">
-                {point.number}
-              </span>
-              <h3>{point.title}</h3>
-              <p>{point.description}</p>
-            </li>
-          ))}
-        </ul>
+      </div>
+      <div className="about-problem__video-wrap">
+        <iframe
+          className="about-problem__video"
+          src={problem.videoUrl}
+          title={problem.videoTitle}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        />
+      </div>
+      <div className="about-problem__editorial">
+        <p className="about-problem__statement">{problem.statement}</p>
+        <p className="about-problem__paragraph">{problem.paragraph}</p>
       </div>
     </section>
   );
