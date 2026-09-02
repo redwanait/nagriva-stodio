@@ -47,10 +47,10 @@ export const navLinks = [
 
 
 export const socialLinks = [
-  { label: "Instagram", href: "https://www.instagram.com/nagriva", icon: "fa-brands fa-instagram" },
-  { label: "facebook", href: "https://www.linkedin.com/company/nagriva", icon: "fa-brands fa-facebook" },
-  { label: "linkedin", href: "https://github.com/nagriva", icon: "fa-brands fa-linkedin" },
-  { label: "GitHub", href: "https://github.com/nagriva", icon: "fa-brands fa-github" },
+  { label: "Instagram", href: "https://www.instagram.com/nagriva.co/?__pwa=1", icon: "fa-brands fa-instagram" },
+  { label: "facebook", href: "https://www.facebook.com/profile.php?id=61575750526639", icon: "fa-brands fa-facebook" },
+  { label: "linkedin", href: "https://www.linkedin.com/in/redouane-ait-el-hadj-167910315/", icon: "fa-brands fa-linkedin" },
+  { label: "GitHub", href: "https://github.com/redwanait", icon: "fa-brands fa-github" },
 ];
 
 export const services = [
