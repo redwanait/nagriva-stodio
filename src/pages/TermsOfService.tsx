@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 interface SectionContent {
   id: string;
   title: string;
-  body: Array<{ type: "p" | "h3" | "ul"; text?: string; items?: string[] }>;
+  body: Array<{ type: "p" | "h3" | "ul"; text?: ReactNode; items?: string[] }>;
 }
 
 const SECTIONS: SectionContent[] = [
