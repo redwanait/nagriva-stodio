@@ -36,6 +36,13 @@ import imgSmartPanel from "../assets/portfolioimages/imgSmartPanel.webp";
 import imgNordPremiumGardiennage from "../assets/portfolioimages/imgNordPremiumGardiennage.webp";
 import imgEdigitaal from "../assets/portfolioimages/imgEdigitaal.webp";
 import imgWakune from "../assets/portfolioimages/imgWakune.webp";
+import galleryBuild from "../assets/processimage/messages/Build.png";
+import galleryConversation from "../assets/processimage/messages/Conversation.png";
+import galleryDirection from "../assets/processimage/messages/Direction.png";
+import galleryLaunch from "../assets/processimage/messages/Launch.png";
+import galleryStepOne from "../assets/steps/step-01.png";
+import galleryStepTwo from "../assets/steps/step-02.png";
+import galleryStepThree from "../assets/steps/step-03.png";
 
 export const navLinks = [
   { label: "Home", href: "/#home" },
@@ -368,6 +375,144 @@ export const portfolioProjects = [
 },
 
 ];
+
+export const aboutPage = {
+  hero: {
+    eyebrow: "About Nagriva",
+    title: "About Nagriva",
+    statement:
+      "Nagriva is an independent digital studio for Moroccan businesses and freelancers who want to look credible online.",
+    paragraph:
+      "Nagriva was built for one reason: too much digital work in Morocco is handed over without care, without structure, and without someone who actually understands the local market. We wanted the opposite — clear, honest, well-built digital work, done the way it should be.",
+    founderName: "Redouane",
+    founderRole: "Founder, Nagriva",
+  },
+  problem: {
+    eyebrow: "The problem",
+    title: "Being a talented freelancer in Morocco is rarely the hard part.",
+    statement:
+      "The hard part is everything around the talent. The part nobody talks about.",
+    points: [
+      {
+        number: "01",
+        title: "Finding clients",
+        description:
+          "The work is out there, but it lives inside networks, referrals, and word of mouth. If you're not inside those circles, you stay invisible.",
+      },
+      {
+        number: "02",
+        title: "Building trust",
+        description:
+          "A profile and some screenshots are easy to copy. Proving you can actually deliver — reliably, on time — is a different conversation.",
+      },
+      {
+        number: "03",
+        title: "Competition",
+        description:
+          "Everyone is offering the same services at every price, from the basement to the sky. Standing out is not about being louder.",
+      },
+      {
+        number: "04",
+        title: "Visibility",
+        description:
+          "Being good at what you do means little if the right people never see it. Most talented freelancers simply never get found.",
+      },
+      {
+        number: "05",
+        title: "Organizing the work",
+        description:
+          "A full project is many small jobs — proposals, deadlines, revisions, handovers. Without structure, it becomes chaos and it shows.",
+      },
+      {
+        number: "06",
+        title: "Turning skills into a business",
+        description:
+          "A skill gets you a job here and there. A business needs consistency, credibility, and a way to be approached. Most freelancers never bridge that gap.",
+      },
+    ],
+  },
+  why: {
+    eyebrow: "Why Nagriva",
+    title: "We built Nagriva the way a Moroccan customer would.",
+    intro:
+      "Before a Moroccan business trusts a platform with its money and reputation, it asks a few honest questions. We built Nagriva to be the answer to those questions — not the other way around.",
+    reasons: [
+      {
+        number: "01",
+        question: "Can I see real work, not promises?",
+        answer:
+          "A Moroccan customer has been disappointed before. That's why everything here is shown before anyone asks for anything — real projects, real outcomes, nothing abstract. Trust starts with evidence.",
+      },
+      {
+        number: "02",
+        question: "Will I actually talk to a human?",
+        answer:
+          "No chatbots, no forms that swallow your message. When you reach Nagriva, you reach the person doing the work. In this market, that is the fastest way to be taken seriously.",
+      },
+      {
+        number: "03",
+        question: "Will it work for Morocco, not just somewhere else?",
+        answer:
+          "Payment habits, trust, language, how decisions really get made — we built around how this market actually behaves. Not a template imported from elsewhere and relabelled.",
+      },
+      {
+        number: "04",
+        question: "What will I actually get?",
+        answer:
+          "No vague 'solutions'. You get a clear scope, a clear price, and a clear result. Customers compare platforms on what they receive for what they pay — so that is exactly what Nagriva focuses on.",
+      },
+      {
+        number: "05",
+        question: "Will my money and my idea be safe?",
+        answer:
+          "A customer who is about to pay wants certainty. Nagriva keeps communication direct, agreements clear, and delivery tied to what was actually promised.",
+      },
+    ],
+  },
+  results: {
+    eyebrow: "Results",
+    title: "Customer results speak for the work.",
+    intro:
+      "Nagriva does not need to claim that it works. The outcomes of people who used it are the argument. Real situations, before and after, in the customer's own terms.",
+    principle:
+      "We let the work speak. Everything below is a real outcome — where the numbers exist, we show them. Where they don't yet, the space is there for them.",
+    items: [
+      {
+        label: "A client from a referral",
+        before: "Trusted in person, invisible online.",
+        after: "A clear, credible presence that matched the reputation he already had.",
+        note: "Outcome recorded — metric incoming.",
+      },
+      {
+        label: "An online store, first time",
+        before: "Untrusted as a real business because he had nowhere to point people.",
+        after: "A storefront that made browsing and buying feel simple and serious.",
+        note: "Outcome recorded — metric incoming.",
+      },
+      {
+        label: "A business that needed to be found",
+        before: "Good work, but nobody could find it online.",
+        after: "A presence built to be seen, understood, and approached in days, not months.",
+        note: "Outcome recorded — metric incoming.",
+      },
+    ],
+  },
+  gallery: {
+    eyebrow: "The real thing",
+    title: "The people and the work behind Nagriva.",
+    intro:
+      "This is not stock. These are the real moments, the real product, and the real projects around Nagriva.",
+    items: [
+      { image: galleryConversation, alt: "The first conversation behind a Nagriva project", tag: "The first conversation" },
+      { image: galleryDirection, alt: "Shaping the visual direction of a project", tag: "Finding the direction" },
+      { image: galleryBuild, alt: "Building and refining the product", tag: "Building the product" },
+      { image: galleryLaunch, alt: "Refining the details before launch", tag: "Final details" },
+      { image: galleryStepOne, alt: "Nagriva work in progress", tag: "In progress" },
+      { image: galleryStepTwo, alt: "Shaping the experience with a client", tag: "Working together" },
+      { image: galleryStepThree, alt: "A project ready to launch", tag: "Ready to launch" },
+    ],
+  },
+};
 
 export const aboutData = {
   hero: {

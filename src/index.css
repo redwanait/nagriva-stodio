@@ -1,5 +1,13 @@
 @import "./styles/tokens.css";
 
+@font-face {
+  font-family: "PT Serif";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/fonts/PT Serif/PTSerif-Italic.ttf") format("truetype");
+}
+
 * {
   box-sizing: border-box;
 }

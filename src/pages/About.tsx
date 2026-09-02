@@ -1,118 +1,244 @@
-import FinalCta from "../components/FinalCta";
-import { aboutData } from "../data/siteData";
+import { useEffect, useRef } from "react";
+import { aboutPage } from "../data/siteData";
 import founderImage from "../assets/aboutimage/the founder.png";
 
 function About() {
   return (
     <main className="about-page" id="about-page">
-      <section className="about-hero" aria-labelledby="about-hero-title">
-        <div className="about-hero__container">
+      <AboutHero />
+      <ProblemSection />
+      <WhySection />
+      <ResultsSection />
+      <GallerySection />
+      <FinalCta />
+    </main>
+  );
+}
+
+function AboutHero() {
+  const { hero } = aboutPage;
+  return (
+    <section className="about-hero" aria-labelledby="about-hero-title">
+      <div className="about-hero__container">
+        <div className="about-hero__inner">
           <div className="about-hero__content">
             <p className="eyebrow about-hero__eyebrow">
               <span className="eyebrow__dot" aria-hidden="true" />
-              {aboutData.hero.eyebrow}
+              {hero.eyebrow}
             </p>
-            <h1 id="about-hero-title">
-              {aboutData.hero.title} <span>{aboutData.hero.titleAccent}</span>
-            </h1>
-            <p className="about-hero__description">{aboutData.hero.description}</p>
+            <h1 id="about-hero-title">{hero.title}</h1>
+            <p className="about-hero__statement">{hero.statement}</p>
+            <p className="about-hero__paragraph">{hero.paragraph}</p>
+            <p className="about-hero__signature" aria-hidden="true">
+              Redouane
+            </p>
+          </div>
+          <div className="about-hero__media">
+            <img
+              className="about-hero__image"
+              src={founderImage}
+              alt="Redouane, founder of Nagriva"
+            />
+            <span className="about-hero__tag">
+              <strong>{hero.founderName}</strong>
+              <span>{hero.founderRole}</span>
+            </span>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
 
-      <section className="about-founder" aria-labelledby="about-founder-title">
-        <div className="about-founder__content">
-          <p className="eyebrow about-founder__eyebrow">{aboutData.intro.eyebrow}</p>
-          <h2 id="about-founder-title">
-            {aboutData.intro.title} <span>{aboutData.intro.titleAccent}</span>
-          </h2>
-          <p className="about-founder__paragraph">{aboutData.intro.paragraph}</p>
-          <p className="about-founder__identity">
-            <strong>{aboutData.intro.founder}</strong>
-            <span>{aboutData.intro.founderRole}</span>
-          </p>
-          <div className="about-founder__actions">
-            <a className="button button--primary" href={aboutData.intro.linkOne}>
-              Talk to Redouane
-            </a>
-            <a className="button button--secondary" href={aboutData.intro.linkTwo}>
-              Know how is Nagriva
-            </a>
-          </div>
-        </div>
-        <div className="about-founder__media">
-          <img
-            className="about-founder__image"
-            src={founderImage}
-            alt="Redouane Ait El-Hadji, founder of Nagriva"
-          />
-        </div>
-      </section>
+function ProblemSection() {
+  const { problem } = aboutPage;
+  return (
+    <section className="about-section about-problem" aria-labelledby="about-problem-title">
+      <div className="about-section__inner">
+        <p className="eyebrow about-section__eyebrow">
+          <span className="about-section__index">02</span>
+          {problem.eyebrow}
+        </p>
+        <h2 id="about-problem-title">{problem.title}</h2>
+        <p className="about-section__statement">{problem.statement}</p>
 
-      <section className="about-capabilities" aria-labelledby="about-capabilities-title">
-        <div className="about-section-heading">
-          <p className="eyebrow">{aboutData.sections.capabilities.eyebrow}</p>
-          <h2 id="about-capabilities-title">{aboutData.sections.capabilities.title}</h2>
-          <p className="about-section-heading__intro">
-            {aboutData.sections.capabilities.intro}
-          </p>
-        </div>
-        <div className="about-capabilities__grid">
-          {aboutData.capabilities.map((capability, index) => (
-            <article className="about-capability" key={capability.title}>
-              <span className="about-capability__index" aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
+        <ul className="about-problem__list">
+          {problem.points.map((point) => (
+            <li className="about-problem__item" key={point.number}>
+              <span className="about-problem__number" aria-hidden="true">
+                {point.number}
               </span>
-              <h3>{capability.title}</h3>
-              <p>{capability.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="about-tools" aria-labelledby="about-tools-title">
-        <div className="about-section-heading">
-          <p className="eyebrow">{aboutData.sections.tools.eyebrow}</p>
-          <h2 id="about-tools-title">{aboutData.sections.tools.title}</h2>
-        </div>
-        <ul className="about-tools__list">
-          {aboutData.tools.map((tool) => (
-            <li className="about-tool" key={tool.name}>
-              <h3>
-                <img className="about-tool__logo" src={tool.image} alt={`${tool.name} logo`} />
-                {tool.name}
-              </h3>
-              <p>{tool.description}</p>
+              <h3>{point.title}</h3>
+              <p>{point.description}</p>
             </li>
           ))}
         </ul>
-      </section>
+      </div>
+    </section>
+  );
+}
 
-      <section className="about-clients" aria-labelledby="about-clients-title">
-        <div className="about-section-heading">
-          <p className="eyebrow">{aboutData.sections.clients.eyebrow}</p>
-          <h2 id="about-clients-title">{aboutData.sections.clients.title}</h2>
-          <p className="about-section-heading__intro">
-            {aboutData.sections.clients.intro}
-          </p>
+function WhySection() {
+  const { why } = aboutPage;
+  return (
+    <section className="about-section about-why" aria-labelledby="about-why-title">
+      <div className="about-section__inner">
+        <p className="eyebrow about-section__eyebrow">
+          <span className="about-section__index">03</span>
+          {why.eyebrow}
+        </p>
+        <div className="about-why__header">
+          <h2 id="about-why-title">{why.title}</h2>
+          <p className="about-section__statement">{why.intro}</p>
         </div>
-        <div className="about-clients__grid">
-          {aboutData.clients.map((client) => (
-            <article className="about-client" key={client.name}>
-              <img
-                className="about-client__avatar"
-                src={client.image}
-                alt={`${client.name}, Nagriva client`}
-              />
-              <h3>{client.name}</h3>
-              <p>{client.description}</p>
+
+        <ol className="about-why__list">
+          {why.reasons.map((reason) => (
+            <li className="about-why__item" key={reason.number}>
+              <span className="about-why__number" aria-hidden="true">
+                {reason.number}
+              </span>
+              <h3>{reason.question}</h3>
+              <p>{reason.answer}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+function ResultsSection() {
+  const { results } = aboutPage;
+  return (
+    <section className="about-section about-results" aria-labelledby="about-results-title">
+      <div className="about-section__inner">
+        <p className="eyebrow about-section__eyebrow about-results__eyebrow">
+          <span className="about-section__index">04</span>
+          {results.eyebrow}
+        </p>
+        <h2 id="about-results-title">{results.title}</h2>
+        <p className="about-section__statement">{results.intro}</p>
+
+        <div className="about-results__list">
+          {results.items.map((item, index) => (
+            <article className="about-result" key={index}>
+              <h3 className="about-result__label">{item.label}</h3>
+              <div className="about-result__row">
+                <div className="about-result__side">
+                  <span className="about-result__side-label">Before</span>
+                  <p>{item.before}</p>
+                </div>
+                <span className="about-result__arrow" aria-hidden="true">
+                  →
+                </span>
+                <div className="about-result__side about-result__side--after">
+                  <span className="about-result__side-label">After</span>
+                  <p>{item.after}</p>
+                </div>
+              </div>
+              <p className="about-result__note">
+                <span aria-hidden="true" />
+                {item.note}
+              </p>
             </article>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
 
-      <FinalCta />
-    </main>
+function GallerySection() {
+  const { gallery } = aboutPage;
+  const listRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+    if (!("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("about-gallery__item--visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 },
+    );
+    list.querySelectorAll(".about-gallery__item").forEach((item) => observer.observe(item));
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section className="about-section about-gallery" aria-labelledby="about-gallery-title">
+      <div className="about-section__inner">
+        <p className="eyebrow about-section__eyebrow">
+          <span className="about-section__index">05</span>
+          {gallery.eyebrow}
+        </p>
+        <h2 id="about-gallery-title">{gallery.title}</h2>
+        <p className="about-section__statement">{gallery.intro}</p>
+
+        <ul className="about-gallery__grid" ref={listRef}>
+          {gallery.items.map((item, index) => (
+            <li className={`about-gallery__item about-gallery__item--${index + 1}`} key={index}>
+              <figure className="about-gallery__figure">
+                <img src={item.image} alt={item.alt} loading="lazy" />
+                <figcaption>{item.tag}</figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+function FinalCta() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    if (!("IntersectionObserver" in window)) {
+      section.classList.add("about-cta--visible");
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          section.classList.add("about-cta--visible");
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section className="about-cta" ref={sectionRef} aria-labelledby="about-cta-title">
+      <div className="about-cta__panel">
+        <p className="eyebrow about-cta__eyebrow">Take the next step</p>
+        <h2 id="about-cta-title">
+          You&apos;ve seen the story.
+          <br />
+          <span>Let&apos;s start yours.</span>
+        </h2>
+        <p className="about-cta__description">
+          Tell us what you&apos;re working on. If we can help, we&apos;ll tell you honestly —
+          and if we can&apos;t, we&apos;ll tell you that too.
+        </p>
+        <a className="about-cta__button" href="#start">
+          Start with Nagriva
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
   );
 }
 
