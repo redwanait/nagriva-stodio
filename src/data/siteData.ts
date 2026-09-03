@@ -402,13 +402,9 @@ export const aboutPage = {
     },
   },
   why: {
-    eyebrow: "Why Nagriva",
-    title: "Built around how the market actually works.",
-    intro: "The gap isn't talent. It's everything between talent and opportunity.",
-
-    talent: "TALENT",
-    opportunity: "OPPORTUNITY",
-    final: "We bridge the gap.",
+    question: "Why Nagriva?",
+    answer: "Let me answer that for you.",
+    punchline: "Because we're the best, my friend.",
   },
   results: {
     eyebrow: "Results",

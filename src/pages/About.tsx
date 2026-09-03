@@ -1,12 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { aboutPage } from "../data/siteData";
-import nagrivaLogo from "../assets/logos/logo.png";
 import founderImage from "../assets/aboutimage/the founder.png";
 import senatorImage from "../assets/aboutimage/Senator.png";
 
-const NAGRIVA_LOGO = nagrivaLogo;
 
 function About() {
   return (
@@ -193,103 +189,62 @@ function ProblemAnimation({ words }: { words: ProblemWords }) {
 
 function WhySection() {
   const { why } = aboutPage;
-  return (
-    <section className="about-section about-why" aria-labelledby="about-why-title">
-      <div className="about-section__inner">
-        <p className="eyebrow about-section__eyebrow">
-          <span className="about-section__index">03</span>
-          {why.eyebrow}
-        </p>
-        <div className="about-why__header">
-          <h2 id="about-why-title">{why.title}</h2>
-          <p className="about-section__statement">{why.intro}</p>
-        </div>
-
-        <WhyAnimation talent={why.talent} opportunity={why.opportunity} final={why.final} />
-
-      </div>
-    </section>
-  );
-}
-
-function WhyAnimation({
-  talent,
-  opportunity,
-  final,
-}: {
-  talent: string;
-  opportunity: string;
-  final: string;
-}) {
-  const stageRef = useRef<HTMLDivElement>(null);
-  const [running, setRunning] = useState(true);
-  const [step, setStep] = useState(0);
-  const stepTimer = useRef<number | null>(null);
-
-  const stepDurations = [2000, 2400, 1100, 1500, 2200, 2200];
-
-  const shifting = step >= 1 && step < 3;
-  const logoActive = step >= 3;
-  const finalActive = step >= 4;
+  const sectionRef = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const stage = stageRef.current;
-    if (!stage) return;
-    if (!("IntersectionObserver" in window)) return;
+    const section = sectionRef.current;
+    if (!section) return;
+    if (typeof IntersectionObserver === "undefined") {
+      const id = window.setTimeout(() => setVisible(true), 0);
+      return () => window.clearTimeout(id);
+    }
     const observer = new IntersectionObserver(
-      ([entry]) => setRunning(entry.isIntersecting),
-      { threshold: 0.25 },
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 },
     );
-    observer.observe(stage);
+    observer.observe(section);
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (!running) return;
-    const reset = window.setTimeout(() => setStep(0), 0);
-    return () => window.clearTimeout(reset);
-  }, [running]);
-
-  useEffect(() => {
-    if (!running) return;
-    stepTimer.current = window.setTimeout(() => {
-      setStep((s) => (s >= stepDurations.length - 1 ? 0 : s + 1));
-    }, stepDurations[step]);
-    return () => {
-      if (stepTimer.current !== null) window.clearTimeout(stepTimer.current);
-    };
-  }, [step, running]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const stageClass = [
-    "about-why__stage",
-    running ? "about-why__stage--running" : "",
-    shifting ? "about-why__stage--shift" : "",
-    logoActive ? "about-why__stage--logo" : "",
-    finalActive ? "about-why__stage--final" : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const [before, after] = why.punchline.split("the best");
+  const head = before.trimEnd().split(/\s+/);
+  const accent = "the best".split(/\s+/);
 
   return (
-    <div className={stageClass} ref={stageRef}>
-      <span className="about-why__talent">{talent}</span>
+    <section
+      className="about-section about-why"
+      aria-labelledby="about-why-title"
+      ref={sectionRef}
+    >
+      <div className="about-section__inner">
+        <p className="eyebrow about-section__eyebrow">
+        </p>
 
-      <span className="about-why__arrow" aria-hidden="true">
-        <FontAwesomeIcon icon={faArrowRight} />
-      </span>
+        <div
+          className={`about-why__body${visible ? " about-why__body--visible" : ""}`}
+        >
+          <h2 id="about-why-title" className="about-why__question">
+            {why.question}
+          </h2>
 
-      <span className="about-why__opportunity">{opportunity}</span>
+          <p className="about-why__answer">{why.answer}</p>
 
-      <img
-        className="about-why__mark"
-        src={NAGRIVA_LOGO}
-        alt="Nagriva"
-        width={240}
-        height={240}
-      />
-
-      <span className="about-why__finalline">{final}</span>
-    </div>
+          <p className="about-why__punchline">
+            <span className="why-word">{head[0]}</span>{" "}
+            <span className="why-word">{head[1]}</span>{" "}
+            <span className="why-word why-word--accent">{accent[0]}</span>{" "}
+            <span className="why-word why-word--accent why-word--best">{accent[1]}</span>
+            <span className="why-word why-word--rest">{after}</span>
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }
 
