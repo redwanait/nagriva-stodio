@@ -388,51 +388,27 @@ export const aboutPage = {
   },
   problem: {
     eyebrow: "The problem",
-    title: "Being a talented freelancer in Morocco is rarely the hard part.",
-    videoUrl: "https://www.youtube.com/embed/L6knl85bGm4",
-    videoTitle: "3lach l freelancers fl mghrib mrad ? (Glissa m3a Akram ep.2)",
+    title: "Being good isn't always enough.",
     statement:
-      "The hard part isn't the skill. It's everything around the skill.",
+      "The gap isn't talent.\nIt's everything between talent and opportunity.",
     paragraph:
-      "In Morocco, the gap isn't between knowing how to work and not knowing — it's between knowing how to work and being able to turn that skill into something that gets paid, consistently and with trust. The talent exists. The frustration does too.",
+      "In Morocco, having the skill is only the beginning. The harder part is being seen, trusted, and chosen consistently.",
+    transition: "And that's where Nagriva begins.",
+    animation: {
+      single: ["SKILL", "WORK", "EXPERIENCE"],
+      punchline: "STILL NOT ENOUGH.",
+      needs: ["BE SEEN", "BE TRUSTED", "BE CHOSEN"],
+      final: "THAT'S THE GAP.",
+    },
   },
   why: {
     eyebrow: "Why Nagriva",
-    title: "We built Nagriva the way a Moroccan customer would.",
-    intro:
-      "Before a Moroccan business trusts a platform with its money and reputation, it asks a few honest questions. We built Nagriva to be the answer to those questions — not the other way around.",
-    reasons: [
-      {
-        number: "01",
-        question: "Can I see real work, not promises?",
-        answer:
-          "A Moroccan customer has been disappointed before. That's why everything here is shown before anyone asks for anything — real projects, real outcomes, nothing abstract. Trust starts with evidence.",
-      },
-      {
-        number: "02",
-        question: "Will I actually talk to a human?",
-        answer:
-          "No chatbots, no forms that swallow your message. When you reach Nagriva, you reach the person doing the work. In this market, that is the fastest way to be taken seriously.",
-      },
-      {
-        number: "03",
-        question: "Will it work for Morocco, not just somewhere else?",
-        answer:
-          "Payment habits, trust, language, how decisions really get made — we built around how this market actually behaves. Not a template imported from elsewhere and relabelled.",
-      },
-      {
-        number: "04",
-        question: "What will I actually get?",
-        answer:
-          "No vague 'solutions'. You get a clear scope, a clear price, and a clear result. Customers compare platforms on what they receive for what they pay — so that is exactly what Nagriva focuses on.",
-      },
-      {
-        number: "05",
-        question: "Will my money and my idea be safe?",
-        answer:
-          "A customer who is about to pay wants certainty. Nagriva keeps communication direct, agreements clear, and delivery tied to what was actually promised.",
-      },
-    ],
+    title: "Built around how the market actually works.",
+    intro: "The gap isn't talent. It's everything between talent and opportunity.",
+
+    talent: "TALENT",
+    opportunity: "OPPORTUNITY",
+    final: "We bridge the gap.",
   },
   results: {
     eyebrow: "Results",

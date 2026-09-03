@@ -1,7 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { aboutPage } from "../data/siteData";
+import nagrivaLogo from "../assets/logos/logo.png";
 import founderImage from "../assets/aboutimage/the founder.png";
 import senatorImage from "../assets/aboutimage/Senator.png";
+
+const NAGRIVA_LOGO = nagrivaLogo;
 
 function About() {
   return (
@@ -56,20 +61,133 @@ function ProblemSection() {
       <div className="about-problem__heading">
         <h2 id="about-problem-title">{problem.title}</h2>
       </div>
-      <div className="about-problem__video-wrap">
-        <iframe
-          className="about-problem__video"
-          src={problem.videoUrl}
-          title={problem.videoTitle}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-        />
-      </div>
+
+      <ProblemAnimation words={problem.animation} />
+
       <div className="about-problem__editorial">
         <p className="about-problem__statement">{problem.statement}</p>
         <p className="about-problem__paragraph">{problem.paragraph}</p>
       </div>
+
+      <p className="about-problem__transition">{problem.transition}</p>
     </section>
+  );
+}
+
+type ProblemWords = {
+  single: string[];
+  punchline: string;
+  needs: string[];
+  final: string;
+};
+
+function ProblemAnimation({ words }: { words: ProblemWords }) {
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [running, setRunning] = useState(true);
+  const [phase, setPhase] = useState(0);
+  const phaseTimer = useRef<number | null>(null);
+
+  const phases = [
+    ...words.single.map((w) => ({ kind: "single" as const, label: w, duration: 2000 })),
+    { kind: "stack" as const, label: "", duration: 2100 },
+    { kind: "punch" as const, label: words.punchline, duration: 2500 },
+    ...words.needs.map((w) => ({ kind: "need" as const, label: w, duration: 1500 })),
+    { kind: "final" as const, label: words.final, duration: 2300 },
+  ];
+
+  const singleIndex = phase < words.single.length ? phase : -1;
+  const stackActive = phase === words.single.length;
+  const punchActive = phase === words.single.length + 1;
+  const needIndex =
+    phase >= words.single.length + 2 && phase < words.single.length + 2 + words.needs.length
+      ? phase - (words.single.length + 2)
+      : -1;
+  const finalActive = phase === phases.length - 1;
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    if (!("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setRunning(entry.isIntersecting),
+      { threshold: 0.25 },
+    );
+    observer.observe(stage);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!running) return;
+    const reset = window.setTimeout(() => setPhase(0), 0);
+    return () => window.clearTimeout(reset);
+  }, [running]);
+
+  useEffect(() => {
+    if (!running) return;
+    const duration = phases[phase].duration;
+    phaseTimer.current = window.setTimeout(() => {
+      setPhase((p) => (p >= phases.length - 1 ? 0 : p + 1));
+    }, duration);
+    return () => {
+      if (phaseTimer.current !== null) window.clearTimeout(phaseTimer.current);
+    };
+  }, [phase, running]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <div
+      className={`about-problem__stage${running ? " about-problem__stage--running" : ""}`}
+      ref={stageRef}
+      role="presentation"
+    >
+      <div className="about-problem__single-wrap">
+        {words.single.map((w, i) => (
+          <span
+            className={`about-problem__single${
+              singleIndex === i ? " about-problem__single--active" : ""
+            }`}
+            key={w}
+          >
+            {w}
+          </span>
+        ))}
+      </div>
+
+      <div
+        className={`about-problem__stack${stackActive ? " about-problem__stack--active" : ""}`}
+        aria-hidden="true"
+      >
+        {words.single.map((w) => (
+          <span className="about-problem__stack-word" key={w}>
+            {w}
+          </span>
+        ))}
+      </div>
+
+      <span
+        className={`about-problem__punch${punchActive ? " about-problem__punch--active" : ""}`}
+        aria-hidden="true"
+      >
+        {words.punchline}
+      </span>
+
+      <div className="about-problem__needs-wrap" aria-hidden="true">
+        {words.needs.map((w, i) => (
+          <span
+            className={`about-problem__need${needIndex === i ? " about-problem__need--active" : ""}`}
+            key={w}
+          >
+            {w}
+          </span>
+        ))}
+      </div>
+
+      <span
+        className={`about-problem__final${finalActive ? " about-problem__final--active" : ""}`}
+        aria-hidden="true"
+      >
+        {words.final}
+      </span>
+    </div>
   );
 }
 
@@ -87,19 +205,91 @@ function WhySection() {
           <p className="about-section__statement">{why.intro}</p>
         </div>
 
-        <ol className="about-why__list">
-          {why.reasons.map((reason) => (
-            <li className="about-why__item" key={reason.number}>
-              <span className="about-why__number" aria-hidden="true">
-                {reason.number}
-              </span>
-              <h3>{reason.question}</h3>
-              <p>{reason.answer}</p>
-            </li>
-          ))}
-        </ol>
+        <WhyAnimation talent={why.talent} opportunity={why.opportunity} final={why.final} />
+
       </div>
     </section>
+  );
+}
+
+function WhyAnimation({
+  talent,
+  opportunity,
+  final,
+}: {
+  talent: string;
+  opportunity: string;
+  final: string;
+}) {
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [running, setRunning] = useState(true);
+  const [step, setStep] = useState(0);
+  const stepTimer = useRef<number | null>(null);
+
+  const stepDurations = [2000, 2400, 1100, 1500, 2200, 2200];
+
+  const shifting = step >= 1 && step < 3;
+  const logoActive = step >= 3;
+  const finalActive = step >= 4;
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    if (!("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setRunning(entry.isIntersecting),
+      { threshold: 0.25 },
+    );
+    observer.observe(stage);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!running) return;
+    const reset = window.setTimeout(() => setStep(0), 0);
+    return () => window.clearTimeout(reset);
+  }, [running]);
+
+  useEffect(() => {
+    if (!running) return;
+    stepTimer.current = window.setTimeout(() => {
+      setStep((s) => (s >= stepDurations.length - 1 ? 0 : s + 1));
+    }, stepDurations[step]);
+    return () => {
+      if (stepTimer.current !== null) window.clearTimeout(stepTimer.current);
+    };
+  }, [step, running]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const stageClass = [
+    "about-why__stage",
+    running ? "about-why__stage--running" : "",
+    shifting ? "about-why__stage--shift" : "",
+    logoActive ? "about-why__stage--logo" : "",
+    finalActive ? "about-why__stage--final" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return (
+    <div className={stageClass} ref={stageRef}>
+      <span className="about-why__talent">{talent}</span>
+
+      <span className="about-why__arrow" aria-hidden="true">
+        <FontAwesomeIcon icon={faArrowRight} />
+      </span>
+
+      <span className="about-why__opportunity">{opportunity}</span>
+
+      <img
+        className="about-why__mark"
+        src={NAGRIVA_LOGO}
+        alt="Nagriva"
+        width={240}
+        height={240}
+      />
+
+      <span className="about-why__finalline">{final}</span>
+    </div>
   );
 }
 
