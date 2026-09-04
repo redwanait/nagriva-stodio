@@ -17,6 +17,15 @@ import ProjectCard from "../components/ProjectCard";
 import FeedbackSection from "../components/FeedbackSection";
 import FaqCtaSection from "../components/FaqCtaSection";
 import ClientLogos from "../components/ClientLogos";
+import { useSeo } from "../hooks/useSeo";
+
+const SEO = {
+  title: "Nagriva \u2014 Website Design & Development Studio",
+  description: "Nagriva designs and builds fast, responsive websites for businesses that want to look credible and perform better online. Based in Morocco.",
+  canonical: "https://nagriva.ma/",
+  og: { title: "Nagriva \u2014 Website Design & Development Studio", description: "Nagriva designs and builds fast, responsive websites for businesses that want to look credible and perform better online.", url: "https://nagriva.ma/" },
+  twitter: { title: "Nagriva \u2014 Website Design & Development Studio", description: "Nagriva designs and builds fast, responsive websites for businesses that want to look credible and perform better online.", card: "summary_large_image" as const },
+};
 
 const CAROUSEL_INTERVAL = 5000;
 const CAROUSEL_TRANSITION_MS = 700;
@@ -26,6 +35,7 @@ type CarouselRotation =
   | { status: "transitioning"; leaving: number; target: number };
 
 function Home() {
+  useSeo(SEO);
   const [rotation, setRotation] = useState<CarouselRotation>({
     status: "idle",
     current: 0,

@@ -1,7 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { services } from "../data/siteData";
+import { useSeo } from "../hooks/useSeo";
+
+const SEO = {
+  title: "Services \u2014 Nagriva",
+  description: "Website design, e-commerce, landing pages, and brand digital experience \u2014 focused digital work delivered with clarity and a premium finish.",
+  canonical: "https://nagriva.ma/services",
+  og: { title: "Services \u2014 Nagriva", description: "Website design, e-commerce, landing pages, and brand digital experience delivered with clarity and a premium finish.", url: "https://nagriva.ma/services" },
+  twitter: { title: "Services \u2014 Nagriva", description: "Website design, e-commerce, landing pages, and brand digital experience delivered with clarity and a premium finish.", card: "summary_large_image" as const },
+};
 
 function Services() {
+  useSeo(SEO);
   return (
     <main className="services-page" id="services">
       <section className="services-hero" aria-labelledby="services-hero-title">

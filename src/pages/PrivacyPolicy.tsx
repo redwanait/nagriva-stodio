@@ -1,4 +1,13 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useSeo } from "../hooks/useSeo";
+
+const SEO = {
+  title: "Privacy Policy \u2014 Nagriva",
+  description: "How Nagriva collects, uses, stores, and protects your information when you visit our website or use our services.",
+  canonical: "https://nagriva.ma/privacy-policy",
+  og: { title: "Privacy Policy \u2014 Nagriva", description: "How Nagriva collects, uses, stores, and protects your information.", url: "https://nagriva.ma/privacy-policy" },
+  twitter: { title: "Privacy Policy \u2014 Nagriva", description: "How Nagriva collects, uses, stores, and protects your information.", card: "summary" as const },
+};
 
 interface SectionContent {
   id: string;
@@ -180,6 +189,7 @@ function renderLink(text: string): ReactNode {
 }
 
 function PrivacyPolicy() {
+  useSeo(SEO);
   const [activeSection, setActiveSection] = useState(SECTIONS[0].id);
   const observerRef = useRef<IntersectionObserver | null>(null);
 

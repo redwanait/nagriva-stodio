@@ -1,4 +1,13 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useSeo } from "../hooks/useSeo";
+
+const SEO = {
+  title: "Terms of Service \u2014 Nagriva",
+  description: "Terms governing the use of the Nagriva website and the services provided by Nagriva.",
+  canonical: "https://nagriva.ma/terms-of-service",
+  og: { title: "Terms of Service \u2014 Nagriva", description: "Terms governing the use of the Nagriva website and services.", url: "https://nagriva.ma/terms-of-service" },
+  twitter: { title: "Terms of Service \u2014 Nagriva", description: "Terms governing the use of the Nagriva website and services.", card: "summary" as const },
+};
 
 interface SectionContent {
   id: string;
@@ -163,6 +172,7 @@ function renderContact(text: string): ReactNode {
 }
 
 function TermsOfService() {
+  useSeo(SEO);
   const [activeSection, setActiveSection] = useState(SECTIONS[0].id);
   const observerRef = useRef<IntersectionObserver | null>(null);
 

@@ -5,6 +5,15 @@ import white from "../assets/brand/2.png";
 import black from "../assets/brand/3.png";
 import symbolWordmark from "../assets/brand/4.png";
 import wordmark from "../assets/brand/5.png";
+import { useSeo } from "../hooks/useSeo";
+
+const SEO = {
+  title: "Brand Assets \u2014 Nagriva",
+  description: "Download the official Nagriva logo assets for use across digital and print applications.",
+  canonical: "https://nagriva.ma/brand",
+  og: { title: "Brand Assets \u2014 Nagriva", description: "Download the official Nagriva logo assets for use across digital and print applications.", url: "https://nagriva.ma/brand" },
+  twitter: { title: "Brand Assets \u2014 Nagriva", description: "Download the official Nagriva logo assets for use across digital and print applications.", card: "summary_large_image" as const },
+};
 
 interface BrandAsset {
   name: string;
@@ -43,6 +52,7 @@ async function fetchAsBlob(src: string, file: string): Promise<Blob> {
 }
 
 function Brand() {
+  useSeo(SEO);
   const [busy, setBusy] = useState(false);
 
   const downloadOne = async (asset: BrandAsset) => {
@@ -227,6 +237,7 @@ function Brand() {
         <div className="brand-page__container">
           <header className="brand-page__header">
             <span className="brand-page__eyebrow">Brand Assets</span>
+            <h1 className="brand-page__title">Brand Assets</h1>
             <p className="brand-page__desc">
               Download the official Nagriva logo assets for use across digital and print applications.
             </p>

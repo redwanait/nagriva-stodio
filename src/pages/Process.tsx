@@ -1,6 +1,15 @@
 import { useEffect, useRef } from "react";
 import FinalCta from "../components/FinalCta";
 import { processWorkflow, processApproach, processJourney } from "../data/siteData";
+import { useSeo } from "../hooks/useSeo";
+
+const SEO = {
+  title: "Process \u2014 Nagriva",
+  description: "From the first conversation to the final launch \u2014 a clear, focused process that takes your project from idea to a finished digital experience.",
+  canonical: "https://nagriva.ma/process",
+  og: { title: "Process \u2014 Nagriva", description: "From the first conversation to the final launch \u2014 a clear, focused process that takes your project from idea to a finished digital experience.", url: "https://nagriva.ma/process" },
+  twitter: { title: "Process \u2014 Nagriva", description: "From the first conversation to the final launch \u2014 a clear, focused process that takes your project from idea to a finished digital experience.", card: "summary_large_image" as const },
+};
 import step01 from "../assets/processimage/steps/step01.png";
 import step02 from "../assets/processimage/steps/step02.png";
 import step03 from "../assets/processimage/steps/step03.png";
@@ -111,6 +120,7 @@ function Journey() {
 }
 
 function Process() {
+  useSeo(SEO);
   const rootRef = useReveal();
 
   return (
