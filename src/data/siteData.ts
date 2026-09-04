@@ -386,6 +386,38 @@ export const aboutPage = {
     founderName: "Redouane Ait EL-Hadj",
     founderRole: "Founder, Team assistance",
   },
+  whatIs: {
+    title: "What is Nagriva?",
+    paragraph:
+      "Nagriva is a digital studio based in Morocco. We design and build websites, online stores, and brand identities for businesses that want to look credible and perform online. One team, one process — from the first conversation to the final launch. We keep things simple, direct, and focused on what actually matters: work that speaks for itself.",
+    buttons: [
+      { label: "Know More", href: "#start" },
+      { label: "Hand in Hand", href: "#start", variant: "secondary" as const },
+    ],
+  },
+  whyNagriva: {
+    title: "Why Nagriva?",
+    principles: [
+      {
+        number: "01",
+        title: "No unnecessary complexity",
+        description:
+          "We start with what the project actually needs. No unnecessary features or complexity just to make a website look bigger.",
+      },
+      {
+        number: "02",
+        title: "Designed to be understood",
+        description:
+          "Every detail has a purpose — structure, content, navigation, and interaction. The goal is to make the project clear and easy to understand.",
+      },
+      {
+        number: "03",
+        title: "Built around your business",
+        description:
+          "We don't force the same solution onto every project. The website is built around the business, its audience, and its goals.",
+      },
+    ],
+  },
   problem: {
     eyebrow: "The problem",
     title: "Being good isn't always enough.",
