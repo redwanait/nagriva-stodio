@@ -2,6 +2,8 @@ import { useEffect } from "react";
 
 export const SITE_NAME = "Nagriva";
 export const SITE_URL = "https://nagriva.ma";
+export const OG_IMAGE = `${SITE_URL}/og-image.png`;
+export const OG_IMAGE_ALT = "Nagriva";
 
 export interface OgMeta {
   title: string;
@@ -64,18 +66,17 @@ function buildHeadMeta(meta: SeoMeta): HeadMeta[] {
     { id: "seo-twitter-description", tag: "meta", attrs: { name: "twitter:description", content: twitter.description } },
   ];
 
-  if (og.image) {
-    list.push({ id: "seo-og-image", tag: "meta", attrs: { property: "og:image", content: og.image } });
-    if (og.imageAlt) {
-      list.push({ id: "seo-og-image-alt", tag: "meta", attrs: { property: "og:image:alt", content: og.imageAlt } });
-    }
-  }
-  if (twitter.image) {
-    list.push({ id: "seo-twitter-image", tag: "meta", attrs: { name: "twitter:image", content: twitter.image } });
-    if (twitter.imageAlt) {
-      list.push({ id: "seo-twitter-image-alt", tag: "meta", attrs: { name: "twitter:image:alt", content: twitter.imageAlt } });
-    }
-  }
+  const ogImage = og.image ?? OG_IMAGE;
+  const ogImageAlt = og.imageAlt ?? OG_IMAGE_ALT;
+  const twitterImage = twitter.image ?? ogImage;
+  const twitterImageAlt = twitter.imageAlt ?? ogImageAlt;
+
+  list.push(
+    { id: "seo-og-image", tag: "meta", attrs: { property: "og:image", content: ogImage } },
+    { id: "seo-og-image-alt", tag: "meta", attrs: { property: "og:image:alt", content: ogImageAlt } },
+    { id: "seo-twitter-image", tag: "meta", attrs: { name: "twitter:image", content: twitterImage } },
+    { id: "seo-twitter-image-alt", tag: "meta", attrs: { name: "twitter:image:alt", content: twitterImageAlt } },
+  );
 
   return list;
 }
@@ -86,17 +87,9 @@ export function useSeo(meta: SeoMeta): void {
     document.title = meta.title;
 
     const toApply = buildHeadMeta(meta);
-    const appliedIds = new Set<string>();
 
     for (const item of toApply) {
       getOrCreate(item.id, item.tag, item.attrs);
-      appliedIds.add(item.id);
-    }
-
-    for (const id of document.head.querySelectorAll<HTMLElement>("[id^='seo-og-image'], [id^='seo-og-image-alt'], [id^='seo-twitter-image'], [id^='seo-twitter-image-alt']")) {
-      if (!appliedIds.has(id.id)) {
-        id.remove();
-      }
     }
 
     return () => {
