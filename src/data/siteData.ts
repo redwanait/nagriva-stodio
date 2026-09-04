@@ -391,7 +391,7 @@ export const aboutPage = {
     paragraph:
       "Nagriva is a digital studio based in Morocco. We design and build websites, online stores, and brand identities for businesses that want to look credible and perform online. One team, one process — from the first conversation to the final launch. We keep things simple, direct, and focused on what actually matters: work that speaks for itself.",
     buttons: [
-      { label: "Know More", href: "#start" },
+      { label: "Learn more ", href: "#start" },
       { label: "Hand in Hand", href: "#start", variant: "secondary" as const },
     ],
   },
