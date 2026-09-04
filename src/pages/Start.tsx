@@ -1,4 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (
+        container: HTMLElement,
+        options: {
+          sitekey: string;
+          callback: (token: string) => void;
+          "error-callback"?: () => void;
+          "expired-callback"?: () => void;
+          theme?: "light" | "dark" | "auto";
+        },
+      ) => string;
+      reset: (widgetId?: string) => void;
+    };
+  }
+}
 
 type NeedOption = "New Website" | "Website Redesign" | "E-commerce Website" | "Landing Page";
 type BudgetOption = "Under 3000 DH" | "3000 DH – 5000 DH" | "5000 DH – 10000 DH" | "10000 DH+" | "Not sure yet";
@@ -128,12 +146,44 @@ function Start() {
 
   const showPhoneField = PHONE_REQUIRED_METHODS.includes(contactMethod);
 
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+  const turnstileWidgetRef = useRef<string | null>(null);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
   const successMessage = useSuccessTypewriter(submitted);
+
+  useEffect(() => {
+    if (submitted) return;
+    const container = turnstileContainerRef.current;
+    if (!container || !window.turnstile) return;
+    const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+    if (!siteKey) return;
+    container.innerHTML = "";
+    turnstileWidgetRef.current = window.turnstile.render(container, {
+      sitekey: siteKey,
+      callback: (token: string) => setTurnstileToken(token),
+      "error-callback": () => setTurnstileToken(""),
+      "expired-callback": () => setTurnstileToken(""),
+      theme: "auto",
+    });
+    return () => {
+      if (turnstileWidgetRef.current && window.turnstile) {
+        window.turnstile.reset(turnstileWidgetRef.current);
+      }
+    };
+  }, [submitted]);
+
+  useEffect(() => {
+    if (!submitted) return;
+    if (turnstileWidgetRef.current && window.turnstile) {
+      window.turnstile.reset(turnstileWidgetRef.current);
+    }
+  }, [submitted]);
 
   const nameError = nameTouched && fullName.trim() === "" ? "Please enter your full name." : "";
   const emailError =
@@ -166,6 +216,7 @@ function Start() {
   const canSubmit =
     baseValid &&
     (!showPhoneField || (phone.trim() !== "" && isValidPhone(phone))) &&
+    turnstileToken !== "" &&
     !isSubmitting;
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -208,6 +259,7 @@ function Start() {
           preferredContact: contactMethod,
           phone: phone.trim(),
           website,
+          turnstileToken,
         }),
       });
 
@@ -216,8 +268,13 @@ function Start() {
         throw new Error(data?.error ?? "Submission failed.");
       }
 
+      setTurnstileToken("");
       setSubmitted(true);
     } catch (err) {
+      setTurnstileToken("");
+      if (turnstileWidgetRef.current && window.turnstile) {
+        window.turnstile.reset(turnstileWidgetRef.current);
+      }
       setSubmitError(
         err instanceof Error && err.message
           ? err.message
@@ -523,6 +580,10 @@ function Start() {
                 tabIndex={-1}
                 autoComplete="off"
               />
+            </div>
+
+            <div className="start-section">
+              <div ref={turnstileContainerRef} className="start-turnstile" />
             </div>
 
             <div className="start-submit">
