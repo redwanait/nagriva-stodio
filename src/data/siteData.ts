@@ -45,11 +45,11 @@ import galleryStepTwo from "../assets/steps/step-02.png";
 import galleryStepThree from "../assets/steps/step-03.png";
 
 export const navLinks = [
-  { label: "Home", href: "/#home" },
-  { label: "Services", href: "/#services" },
-  { label: "Portfolio", href: "/#portfolio" },
-  { label: "About", href: "/#about" },
-  { label: "Process", href: "/#process" },
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "Portfolio", href: "/portfolio" },
+  { label: "About", href: "/about" },
+  { label: "Process", href: "/process" },
 ];
 
 
@@ -98,11 +98,11 @@ export const portfolioProjects = [
     "A modern corporate website for an energy and engineering company, designed to communicate its expertise, solutions, and commitment to sustainable development.",
   result:
     "A professional digital presence that presents Econer's expertise and solutions with clarity, credibility, and a modern visual direction.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://www.econer.ma/",
 },
-  {
-  title: "AdKey Prod official website",
+{
+title: "AdKey Prod official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
   categories: ["Websites Corporate"],
@@ -114,7 +114,7 @@ export const portfolioProjects = [
     "A cinematic corporate website for a Moroccan video production agency, designed to showcase its productions, services, and nationwide expertise.",
   result:
     "A polished digital presence that puts AdKey Prod’s portfolio and production capabilities at the center.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://www.adkeyprod.ma/",
 },
 {
@@ -130,7 +130,7 @@ export const portfolioProjects = [
     "A premium travel and transport website designed to showcase Northy's tours, private transfers, chauffeur services, and VIP experiences across northern Morocco.",
   result:
     "A polished travel platform that makes discovering services, destinations, and booking options feel clear and effortless.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://www.northy.ma/",
 },
 {
@@ -146,7 +146,7 @@ export const portfolioProjects = [
     "A professional corporate website for Manafie, designed to present its services, expertise, and business offering through a clear and structured digital experience.",
   result:
     "A credible online presence that makes Manafie's services easier to understand while giving the brand a polished and professional identity.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://www.manafie.ma/",
 },
 {
@@ -162,7 +162,7 @@ export const portfolioProjects = [
     "A dynamic digital news platform designed to deliver Moroccan and international news through a clear, fast, and content-focused editorial experience.",
   result:
     "A structured media experience that makes discovering breaking news, stories, and editorial content feel direct and effortless.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://www.maroc24.com/",
 },
 {
@@ -178,7 +178,7 @@ export const portfolioProjects = [
     "A thoughtful wellness and personal growth website created to share wisdom, guidance, and transformative resources through a calm and accessible digital experience.",
   result:
     "A warm digital space that makes exploring teachings, resources, and personal development content feel intuitive and engaging.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://livingwisdomnow.com/",
 },
 {
@@ -194,7 +194,7 @@ export const portfolioProjects = [
     "A modern technology-focused website designed to present KeysLab's digital solutions, expertise, and services through a clear and contemporary experience.",
   result:
     "A polished digital presence that communicates KeysLab's capabilities with clarity while creating a strong and credible first impression.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://keyslab.ma/",
 },
 {
@@ -210,7 +210,7 @@ export const portfolioProjects = [
     "A modern digital agency website designed to showcase Only Digital's services, expertise, and creative approach through a bold and engaging online experience.",
   result:
     "A distinctive digital presence that communicates the agency's capabilities while making its services and value proposition easy to explore.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://onlydigital.ma/",
 },
 {
@@ -226,7 +226,7 @@ export const portfolioProjects = [
     "A beauty-focused e-commerce website showcasing cosmetics, skincare, haircare, and natural wellness products through a clean and accessible shopping experience.",
   result:
     "A complete online storefront that makes discovering products, exploring categories, and placing orders simple and convenient.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://natecosmetics.ma/",
 },
 {
@@ -242,7 +242,7 @@ export const portfolioProjects = [
     "A multi-category e-commerce platform offering a wide range of products across electronics, home appliances, fashion, beauty, accessories, and everyday essentials.",
   result:
     "A versatile online marketplace that makes browsing, discovering, and purchasing products across multiple categories simple and convenient.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://ma3ridkom.com/",
 },
 {
@@ -258,7 +258,7 @@ export const portfolioProjects = [
     "An online printing e-commerce platform offering custom printing products, packaging, promotional materials, and business solutions with nationwide delivery in Morocco.",
   result:
     "A complete online ordering experience that makes configuring, pricing, and purchasing custom print products simple and efficient.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://www.24hprint.ma/",
 },
 {
@@ -274,7 +274,7 @@ export const portfolioProjects = [
     "A modern corporate website for a Moroccan LED display specialist, designed to showcase custom indoor, outdoor, mobile, and flexible LED solutions.",
   result:
     "A polished digital presence that presents Chido LED's expertise, solutions, and services while making it easy for businesses to request a tailored quote.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://chidoled.com/",
 },
 {
@@ -290,7 +290,7 @@ export const portfolioProjects = [
     "A modern educational website for an international academy offering professional, artisanal, and sports training programs through flexible learning options.",
   result:
     "A structured digital platform that clearly presents the academy's programs, mission, and training opportunities while encouraging students to start their journey.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://www.aifdspa.com/",
 },
 {
@@ -306,7 +306,7 @@ export const portfolioProjects = [
     "A streamlined SMM platform offering social media marketing services through an accessible dashboard built for individuals, agencies, and resellers.",
   result:
     "A functional digital platform that simplifies accessing, managing, and reselling social media growth services from one centralized interface.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://gozibra.com/",
 },
 {
@@ -322,7 +322,7 @@ export const portfolioProjects = [
     "A comprehensive SMM platform designed to manage social media marketing services across Instagram, TikTok, YouTube, Facebook, and other major networks.",
   result:
     "A streamlined digital platform that makes ordering, managing, and reselling social media services simple through one centralized dashboard.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://smm.smartpanel.dev/",
 },
 {
@@ -338,7 +338,7 @@ export const portfolioProjects = [
     "A professional corporate website for a Moroccan company providing security, cleaning, gardening, and property maintenance services for individuals and businesses.",
   result:
     "A trustworthy digital presence that clearly presents Nord Premium Gardiennage's services, expertise, and commitment to reliable professional support.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://www.nordpremiumgardiennage.ma/",
 },
 {
@@ -354,7 +354,7 @@ export const portfolioProjects = [
     "A modern digital agency website designed to showcase Edigitaal's expertise across web development, digital marketing, branding, and mobile app solutions.",
   result:
     "A polished agency presence that brings services, capabilities, case studies, and expertise together in a clear and engaging digital experience.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://dev254.kodesolution.com/edigitaal/",
 },
 {
@@ -370,7 +370,7 @@ export const portfolioProjects = [
     "A modern digital agency website designed to present Wakune's digital services, expertise, and solutions through a clean and engaging online experience.",
   result:
     "A professional digital presence that clearly communicates Wakune's capabilities while making its services easy to discover and explore.",
-  linkOne: "#start",
+  linkOne: "/start",
   websiteUrl: "https://www.wakune.com/",
 },
 
@@ -391,8 +391,8 @@ export const aboutPage = {
     paragraph:
       "Nagriva is a digital studio based in Morocco. We design and build websites, online stores, and brand identities for businesses that want to look credible and perform online. One team, one process — from the first conversation to the final launch. We keep things simple, direct, and focused on what actually matters: work that speaks for itself.",
     buttons: [
-      { label: "Learn more ", href: "#start" },
-      { label: "Hand in Hand", href: "#start", variant: "secondary" as const },
+      { label: "Learn more ", href: "/start" },
+      { label: "Hand in Hand", href: "/start", variant: "secondary" as const },
     ],
   },
   whyNagriva: {

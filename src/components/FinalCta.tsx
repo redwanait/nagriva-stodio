@@ -37,7 +37,7 @@ function FinalCta() {
             purposeful digital experience.
           </p>
           <div className="final-cta__actions">
-            <a className="final-cta__button final-cta__button--primary" href="#start">
+            <a className="final-cta__button final-cta__button--primary" href="/start">
               Start with Nagriva
             </a>
             <a className="final-cta__button final-cta__button--secondary" href="mailto:hello@nagriva.com">

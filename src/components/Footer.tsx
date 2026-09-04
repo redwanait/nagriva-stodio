@@ -3,11 +3,11 @@ import logo from "../assets/logos/logo.png";
 import { socialLinks } from "../data/siteData";
 
 const exploreLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "About", href: "#about" },
-  { label: "Process", href: "#process" },
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "Portfolio", href: "/portfolio" },
+  { label: "About", href: "/about" },
+  { label: "Process", href: "/process" },
 ];
 
 function Footer() {
@@ -157,7 +157,7 @@ function Footer() {
         <div className="footer-redesign__content">
           <div className="footer-redesign__main">
             <div>
-              <a className="footer-redesign__brand" href="/#home" aria-label="Nagriva home">
+              <a className="footer-redesign__brand" href="/" aria-label="Nagriva home">
                 <img className="footer-redesign__logo" src={logo} alt="Nagriva" />
               </a>
               <p className="footer-redesign__description">
@@ -190,7 +190,7 @@ function Footer() {
               </nav>
               <div className="footer-redesign__column">
                 <span className="footer-redesign__label">Start/Help</span>
-                <a className="footer-redesign__link footer-redesign__project-link" href="/#start">
+                <a className="footer-redesign__link footer-redesign__project-link" href="/start">
                   Start with Nagriva <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
                 </a>
                 <a className="footer-redesign__link" href="mailto:hello@nagriva.com">Hand in hand </a>

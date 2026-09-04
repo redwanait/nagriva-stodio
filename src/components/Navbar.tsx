@@ -12,7 +12,7 @@ function Navbar() {
   return (
     <>
       <header className="navbar" aria-label="Primary navigation">
-        <a className="navbar__brand" href="/#home">
+        <a className="navbar__brand" href="/">
           <img className="navbar__logo" src={logo} alt="Nagriva" />
         </a>
 
@@ -25,7 +25,7 @@ function Navbar() {
           ))}
         </nav>
 
-        <a className="navbar__cta" href="/#start">
+        <a className="navbar__cta" href="/start">
           Start with Nagriva
           <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
         </a>

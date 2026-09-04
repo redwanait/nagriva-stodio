@@ -172,7 +172,7 @@ function renderLink(text: string): ReactNode {
   if (text === "Website: nagriva.com") {
     return (
       <>
-        <strong>Website:</strong> <a href="#home">nagriva.com</a>
+        <strong>Website:</strong> <a href="/">nagriva.com</a>
       </>
     );
   }

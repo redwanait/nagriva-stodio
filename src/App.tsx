@@ -13,23 +13,26 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import Brand from "./pages/Brand";
 
-const HOME_ANCHORS = new Set(["", "#home"]);
-
 type Route = "home" | "services" | "portfolio" | "about" | "process" | "start" | "privacy-policy" | "terms-of-service" | "brand";
 
-const ROUTE_HASHES = new Set(["#services", "#portfolio", "#about", "#process", "#start"]);
+const LEGACY_HASH_MAP: Record<string, string> = {
+  "#services": "/services",
+  "#portfolio": "/portfolio",
+  "#about": "/about",
+  "#process": "/process",
+  "#start": "/start",
+};
 
 function getRoute(): Route {
   const path = window.location.pathname;
+  if (path === "/services") return "services";
+  if (path === "/portfolio") return "portfolio";
+  if (path === "/about") return "about";
+  if (path === "/process") return "process";
+  if (path === "/start") return "start";
   if (path === "/privacy-policy") return "privacy-policy";
   if (path === "/terms-of-service") return "terms-of-service";
   if (path === "/brand") return "brand";
-  const hash = window.location.hash;
-  if (hash === "#services") return "services";
-  if (hash === "#portfolio") return "portfolio";
-  if (hash === "#about") return "about";
-  if (hash === "#process") return "process";
-  if (hash === "#start") return "start";
   return "home";
 }
 
@@ -37,49 +40,23 @@ function App() {
   const [route, setRoute] = useState<Route>(getRoute);
 
   useEffect(() => {
-    const handleRouteChange = () => {
-      const path = window.location.pathname;
-      if (path === "/privacy-policy") {
-        setRoute("privacy-policy");
-        window.scrollTo(0, 0);
-        return;
-      }
-      if (path === "/terms-of-service") {
-        setRoute("terms-of-service");
-        window.scrollTo(0, 0);
-        return;
-      }
-      if (path === "/brand") {
-        setRoute("brand");
-        window.scrollTo(0, 0);
-        return;
-      }
-      const hash = window.location.hash;
-      if (ROUTE_HASHES.has(hash)) {
-        setRoute(getRoute());
-        window.scrollTo(0, 0);
-        return;
-      }
-      if (HOME_ANCHORS.has(hash)) {
-        setRoute("home");
-      }
-    };
-    window.addEventListener("hashchange", handleRouteChange);
-    window.addEventListener("popstate", handleRouteChange);
-    return () => {
-      window.removeEventListener("hashchange", handleRouteChange);
-      window.removeEventListener("popstate", handleRouteChange);
-    };
+    const hash = window.location.hash;
+    if (hash && LEGACY_HASH_MAP[hash]) {
+      window.location.replace(LEGACY_HASH_MAP[hash]);
+      return;
+    }
   }, []);
 
   useEffect(() => {
-    if (route !== "home") return;
-    const hash = window.location.hash;
-    if (hash !== "" && hash !== "#home") {
-      const target = document.getElementById(hash.slice(1));
-      if (target) target.scrollIntoView();
-    }
-  }, [route]);
+    const handleRouteChange = () => {
+      setRoute(getRoute());
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener("popstate", handleRouteChange);
+    return () => {
+      window.removeEventListener("popstate", handleRouteChange);
+    };
+  }, []);
 
   const page =
     route === "about" ? <About /> :
@@ -96,7 +73,7 @@ function App() {
     <>
       <Navbar />
       {page}
-      {route !== "portfolio" && route !== "about" && route !== "process" && route !== "start" && route !== "privacy-policy" && route !== "terms-of-service" && route !== "brand" && <FinalCta />}
+      {route === "home" && <FinalCta />}
       <Footer />
     </>
   );

@@ -350,7 +350,7 @@ function Start() {
               )}
             </div>
             <div className="start-success__actions">
-              <a className="start-success__button start-success__button--primary" href="#home">
+              <a className="start-success__button start-success__button--primary" href="/">
                 Back to Home <span aria-hidden="true">↗</span>
               </a>
               <a
