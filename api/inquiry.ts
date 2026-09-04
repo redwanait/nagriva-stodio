@@ -157,6 +157,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 }
 
+function makeInfoRow(label: string, value: string, hasBorder: boolean = true): string {
+  const border = hasBorder ? "border-bottom:1px solid #e5e5e5;" : "border-bottom:none;";
+  return `<tr><td class="email-divider" style="padding:12px 0;${border}"><p class="email-info-label" style="margin:0;font-size:12px;color:#a3a3a3;">${label}</p><p class="email-info-value" style="margin:4px 0 0;font-size:14px;font-weight:600;color:#1a1a1a;">${escapeHtml(value)}</p></td></tr>`;
+}
+
 function clientEmailHtml(input: {
   fullName: string;
   need: string;
@@ -166,41 +171,139 @@ function clientEmailHtml(input: {
   preferredContact: string;
   phone: string;
 }): string {
-  const budgetLine = input.budget
-    ? `<div style="display:flex;justify-content:space-between;padding:6px 0;"><span style="color:#8a8a8a;">Budget</span><strong>${escapeHtml(input.budget)}</strong></div>`
-    : "";
-  const companyLine = input.company
-    ? `<div style="display:flex;justify-content:space-between;padding:6px 0;"><span style="color:#8a8a8a;">Company / Brand</span><strong>${escapeHtml(input.company)}</strong></div>`
-    : "";
-  const phoneLine =
-    input.preferredContact !== "Email"
-      ? `<div style="display:flex;justify-content:space-between;padding:6px 0;"><span style="color:#8a8a8a;">Contact number</span><strong>${escapeHtml(input.phone)}</strong></div>`
-      : "";
+  const hasPhoneRow = input.preferredContact !== "Email" && input.phone;
+  const infoRows: string[] = [];
+  infoRows.push(makeInfoRow("Project need", input.need));
+  if (input.company) infoRows.push(makeInfoRow("Company / Brand", input.company));
+  if (input.budget) infoRows.push(makeInfoRow("Budget", input.budget));
+  infoRows.push(makeInfoRow("Preferred contact", input.preferredContact, !hasPhoneRow));
+  if (hasPhoneRow) infoRows.push(makeInfoRow("Phone / WhatsApp", input.phone, false));
 
-  return `<!doctype html>
-<html>
-  <body style="margin:0;padding:0;background:#0b0b0b;font-family:Helvetica,Arial,sans-serif;color:#f5f5f5;">
-    <div style="max-width:600px;margin:0 auto;padding:40px 24px;background:#111;border:1px solid rgba(245,245,245,.08);border-radius:16px;">
-      <div style="text-align:center;margin-bottom:28px;">
-        <span style="font-size:26px;font-weight:700;letter-spacing:-.03em;">nagriva<span style="color:#d9f226;">.</span></span>
-      </div>
-      <h1 style="font-size:24px;line-height:1.25;margin:0 0 12px;letter-spacing:-.02em;">We received your project inquiry, ${escapeHtml(input.fullName)}.</h1>
-      <p style="margin:0 0 20px;color:#b9b9b9;font-size:15px;line-height:1.7;">Thanks for getting in touch. Your inquiry about a <strong style="color:#f5f5f5;">${escapeHtml(input.need)}</strong> is in — we&rsquo;ll review the details and get back to you soon.</p>
-      <div style="background:#161616;border-radius:12px;padding:20px;margin-bottom:24px;">
-        <p style="margin:0 0 12px;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#8a8a8a;">Project summary</p>
-        <p style="margin:0 0 18px;color:#dddddd;font-size:14px;line-height:1.7;">${escapeHtml(input.projectDescription)}</p>
-        <div style="display:flex;justify-content:space-between;padding:6px 0;"><span style="color:#8a8a8a;">What you need</span><strong>${escapeHtml(input.need)}</strong></div>
-        ${companyLine}
-        ${budgetLine}
-        ${phoneLine}
-        <div style="display:flex;justify-content:space-between;padding:6px 0;"><span style="color:#8a8a8a;">Preferred contact</span><strong>${escapeHtml(input.preferredContact)}</strong></div>
-      </div>
-      <p style="margin:0 0 8px;color:#b9b9b9;font-size:14px;line-height:1.7;">If you need anything else in the meantime, just reply to this email.</p>
-      <div style="margin-top:28px;padding-top:20px;border-top:1px solid rgba(245,245,245,.08);text-align:center;color:#8a8a8a;font-size:12px;">
-        Nagriva — digital work built with clarity and intention.
-      </div>
-    </div>
-  </body>
+  const descriptionSection = input.projectDescription
+    ? `<tr>
+        <td style="padding:24px 48px 0;">
+          <table class="email-desc-card" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#fafafa;border:1px solid #e5e5e5;border-radius:8px;">
+            <tr>
+              <td style="padding:20px 24px;">
+                <p style="margin:0 0 8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#a3a3a3;">Project description</p>
+                <p class="email-desc-text" style="margin:0;font-size:15px;line-height:1.7;color:#1a1a1a;">${escapeHtml(input.projectDescription)}</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>`
+    : "";
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <title>We received your project inquiry — Nagriva</title>
+  <!--[if mso]><style>table{border-collapse:collapse;}</style><![endif]-->
+  <style>
+    @media(prefers-color-scheme:dark){
+      .email-bg{background-color:#0a0a0a!important}
+      .email-container{background-color:#171717!important;border-color:#262626!important}
+      .email-heading{color:#f5f5f5!important}
+      .email-body{color:#a3a3a3!important}
+      .email-info-card{background-color:#1a1a1a!important;border-color:#262626!important}
+      .email-info-label{color:#737373!important}
+      .email-info-value{color:#f5f5f5!important}
+      .email-divider{border-color:#262626!important}
+      .email-desc-card{background-color:#1a1a1a!important;border-color:#262626!important}
+      .email-desc-text{color:#d4d4d4!important}
+      .email-footer{border-color:#262626!important}
+      .email-footer-text{color:#737373!important}
+      .email-footer-copy{color:#525252!important}
+    }
+  </style>
+</head>
+<body class="email-bg" style="margin:0;padding:0;background-color:#f5f5f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;-webkit-font-smoothing:antialiased;">
+  <table class="email-bg" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5f5f5;">
+    <tr>
+      <td align="center" style="padding:40px 16px;">
+        <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <table class="email-container" role="presentation" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#ffffff;border:1px solid #e5e5e5;border-radius:12px;overflow:hidden;">
+
+          <tr>
+            <td align="center" style="padding:40px 48px 0;">
+              <span style="font-size:24px;font-weight:700;letter-spacing:-0.03em;color:#1a1a1a;">nagriva<span style="color:#d9f226;">.</span></span>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:32px 48px 0;">
+              <h1 class="email-heading" style="margin:0;font-size:24px;font-weight:700;line-height:1.3;letter-spacing:-0.02em;color:#1a1a1a;">We received your project inquiry.</h1>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:20px 48px 0;">
+              <p class="email-body" style="margin:0;font-size:15px;line-height:1.7;color:#525252;">Hi ${escapeHtml(input.fullName)},</p>
+              <p class="email-body" style="margin:12px 0 0;font-size:15px;line-height:1.7;color:#525252;">Thank you for reaching out to Nagriva. We've received your project details and our team will review your request carefully.</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:32px 48px 0;">
+              <table class="email-info-card" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#fafafa;border:1px solid #e5e5e5;border-radius:8px;">
+                <tr>
+                  <td style="padding:20px 24px;">
+                    <p style="margin:0 0 4px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#a3a3a3;">Project details</p>
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                      ${infoRows.join("\n                      ")}
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          ${descriptionSection}
+
+          <tr>
+            <td style="padding:32px 48px 0;">
+              <p style="margin:0 0 8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#a3a3a3;">What happens next?</p>
+              <p class="email-body" style="margin:0;font-size:15px;line-height:1.7;color:#525252;">Your request is now with our team. We'll review the details and get back to you as soon as possible.</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center" style="padding:32px 48px 0;">
+              <table role="presentation" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="center" style="background-color:#171717;border-radius:8px;">
+                    <a href="https://nagriva.ma" target="_blank" style="display:inline-block;padding:14px 32px;font-size:14px;font-weight:600;color:#ffffff;text-decoration:none;letter-spacing:0.01em;">Visit Nagriva</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:40px 48px 0;">
+              <table class="email-footer" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #e5e5e5;">
+                <tr>
+                  <td style="padding:24px 0 0;">
+                    <p class="email-footer-text" style="margin:0;font-size:13px;color:#a3a3a3;text-align:center;">Nagriva — Digital work built with clarity and intention.</p>
+                    <p class="email-footer-copy" style="margin:8px 0 0;font-size:12px;color:#d4d4d4;text-align:center;">© 2026 Nagriva. All rights reserved.</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr><td style="padding:0 0 40px;"></td></tr>
+
+        </table>
+        <!--[if mso]></td></tr></table><![endif]-->
+      </td>
+    </tr>
+  </table>
+</body>
 </html>`;
 }
 
