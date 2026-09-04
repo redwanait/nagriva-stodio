@@ -38,7 +38,7 @@ function FinalCta() {
           </p>
           <div className="final-cta__actions">
             <a className="final-cta__button final-cta__button--primary" href="#start">
-              Start with Nagiva
+              Start with Nagriva
             </a>
             <a className="final-cta__button final-cta__button--secondary" href="mailto:hello@nagriva.com">
               Talk to Redoaune

@@ -118,6 +118,7 @@ function Start() {
   const [budget, setBudget] = useState<BudgetOption | "">("");
   const [contactMethod, setContactMethod] = useState<ContactOption>("Email");
   const [phone, setPhone] = useState("");
+  const [website, setWebsite] = useState("");
 
   const [nameTouched, setNameTouched] = useState(false);
   const [emailTouched, setEmailTouched] = useState(false);
@@ -130,6 +131,7 @@ function Start() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitAttempted, setSubmitAttempted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const successMessage = useSuccessTypewriter(submitted);
 
@@ -166,7 +168,7 @@ function Start() {
     (!showPhoneField || (phone.trim() !== "" && isValidPhone(phone))) &&
     !isSubmitting;
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (isSubmitting) return;
 
@@ -189,12 +191,41 @@ function Start() {
     }
 
     setSubmitAttempted(false);
+    setSubmitError("");
     setIsSubmitting(true);
 
-    window.setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const response = await fetch("/api/inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: fullName.trim(),
+          email: email.trim(),
+          company: company.trim(),
+          need,
+          projectDescription: description.trim(),
+          budget,
+          preferredContact: contactMethod,
+          phone: phone.trim(),
+          website,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        throw new Error(data?.error ?? "Submission failed.");
+      }
+
       setSubmitted(true);
-    }, 900);
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error && err.message
+          ? err.message
+          : "Sorry — we couldn't submit your inquiry right now. Please try again in a moment.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleNameBlur = () => setNameTouched(true);
@@ -481,6 +512,19 @@ function Start() {
               )}
             </fieldset>
 
+            <div className="visually-hidden" aria-hidden="true">
+              <label htmlFor="website">Website</label>
+              <input
+                id="website"
+                type="text"
+                name="website"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
             <div className="start-submit">
               <p className="start-submit__note">No pressure. We&apos;ll review your inquiry and get back to you soon.</p>
               <button
@@ -500,6 +544,11 @@ function Start() {
                   (showPhoneField && (phone.trim() === "" || !isValidPhone(phone)))) && (
                 <p className="start-submit__hint">
                   Please fill in the required fields above to send your inquiry.
+                </p>
+              )}
+              {submitError && (
+                <p className="start-error" role="alert">
+                  {submitError}
                 </p>
               )}
             </div>
