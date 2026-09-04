@@ -1,11 +1,38 @@
 import { useEffect } from "react";
 
-interface SeoMeta {
+export const SITE_NAME = "Nagriva";
+export const SITE_URL = "https://nagriva.ma";
+
+export interface OgMeta {
+  title: string;
+  description: string;
+  url: string;
+  type?: string;
+  site_name?: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+export interface TwitterMeta {
+  title: string;
+  description: string;
+  card: "summary_large_image" | "summary";
+  image?: string;
+  imageAlt?: string;
+}
+
+export interface SeoMeta {
   title: string;
   description: string;
   canonical: string;
-  og: { title: string; description: string; url: string };
-  twitter: { title: string; description: string; card: "summary_large_image" | "summary" };
+  og: OgMeta;
+  twitter: TwitterMeta;
+}
+
+interface HeadMeta {
+  id: string;
+  tag: "meta" | "link";
+  attrs: Record<string, string>;
 }
 
 function getOrCreate(id: string, tag: string, attrs: Record<string, string>): HTMLElement {
@@ -21,24 +48,59 @@ function getOrCreate(id: string, tag: string, attrs: Record<string, string>): HT
   return el;
 }
 
+function buildHeadMeta(meta: SeoMeta): HeadMeta[] {
+  const og = meta.og;
+  const twitter = meta.twitter;
+  const list: HeadMeta[] = [
+    { id: "seo-description", tag: "meta", attrs: { name: "description", content: meta.description } },
+    { id: "seo-canonical", tag: "link", attrs: { rel: "canonical", href: meta.canonical } },
+    { id: "seo-og-type", tag: "meta", attrs: { property: "og:type", content: og.type ?? "website" } },
+    { id: "seo-og-site-name", tag: "meta", attrs: { property: "og:site_name", content: og.site_name ?? SITE_NAME } },
+    { id: "seo-og-title", tag: "meta", attrs: { property: "og:title", content: og.title } },
+    { id: "seo-og-description", tag: "meta", attrs: { property: "og:description", content: og.description } },
+    { id: "seo-og-url", tag: "meta", attrs: { property: "og:url", content: og.url } },
+    { id: "seo-twitter-card", tag: "meta", attrs: { name: "twitter:card", content: twitter.card } },
+    { id: "seo-twitter-title", tag: "meta", attrs: { name: "twitter:title", content: twitter.title } },
+    { id: "seo-twitter-description", tag: "meta", attrs: { name: "twitter:description", content: twitter.description } },
+  ];
+
+  if (og.image) {
+    list.push({ id: "seo-og-image", tag: "meta", attrs: { property: "og:image", content: og.image } });
+    if (og.imageAlt) {
+      list.push({ id: "seo-og-image-alt", tag: "meta", attrs: { property: "og:image:alt", content: og.imageAlt } });
+    }
+  }
+  if (twitter.image) {
+    list.push({ id: "seo-twitter-image", tag: "meta", attrs: { name: "twitter:image", content: twitter.image } });
+    if (twitter.imageAlt) {
+      list.push({ id: "seo-twitter-image-alt", tag: "meta", attrs: { name: "twitter:image:alt", content: twitter.imageAlt } });
+    }
+  }
+
+  return list;
+}
+
 export function useSeo(meta: SeoMeta): void {
   useEffect(() => {
     const prev = document.title;
     document.title = meta.title;
 
-    getOrCreate("seo-description", "meta", { name: "description", content: meta.description });
-    getOrCreate("seo-canonical", "link", { rel: "canonical", href: meta.canonical });
-    getOrCreate("seo-og-title", "meta", { property: "og:title", content: meta.og.title });
-    getOrCreate("seo-og-description", "meta", { property: "og:description", content: meta.og.description });
-    getOrCreate("seo-og-url", "meta", { property: "og:url", content: meta.og.url });
-    getOrCreate("seo-og-type", "meta", { property: "og:type", content: "website" });
-    getOrCreate("seo-og-site-name", "meta", { property: "og:site_name", content: "Nagriva" });
-    getOrCreate("seo-twitter-card", "meta", { name: "twitter:card", content: meta.twitter.card });
-    getOrCreate("seo-twitter-title", "meta", { name: "twitter:title", content: meta.twitter.title });
-    getOrCreate("seo-twitter-description", "meta", { name: "twitter:description", content: meta.twitter.description });
+    const toApply = buildHeadMeta(meta);
+    const appliedIds = new Set<string>();
+
+    for (const item of toApply) {
+      getOrCreate(item.id, item.tag, item.attrs);
+      appliedIds.add(item.id);
+    }
+
+    for (const id of document.head.querySelectorAll<HTMLElement>("[id^='seo-og-image'], [id^='seo-og-image-alt'], [id^='seo-twitter-image'], [id^='seo-twitter-image-alt']")) {
+      if (!appliedIds.has(id.id)) {
+        id.remove();
+      }
+    }
 
     return () => {
       document.title = prev;
     };
-  }, [meta.title, meta.description, meta.canonical, meta.og.title, meta.og.description, meta.og.url, meta.twitter.card, meta.twitter.title, meta.twitter.description]);
+  }, [meta]);
 }
