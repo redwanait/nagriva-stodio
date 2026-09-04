@@ -1,13 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useSeo } from "../hooks/useSeo";
+import { seoConfigs } from "../data/seo";
 
-const SEO = {
-  title: "Start Your Project \u2014 Nagriva",
-  description: "Tell us about your project. No complicated brief needed \u2014 just the essentials. Nagriva will review your inquiry and get back to you soon.",
-  canonical: "https://nagriva.ma/start",
-  og: { title: "Start Your Project \u2014 Nagriva", description: "Tell us about your project. No complicated brief needed \u2014 just the essentials. Nagriva will review your inquiry and get back to you soon.", url: "https://nagriva.ma/start" },
-  twitter: { title: "Start Your Project \u2014 Nagriva", description: "Tell us about your project. Nagriva will review your inquiry and get back to you soon.", card: "summary_large_image" as const },
-};
+const SEO = seoConfigs.start;
 
 declare global {
   interface Window {

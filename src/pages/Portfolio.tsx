@@ -4,14 +4,9 @@ import ProjectCard from "../components/ProjectCard";
 import ProjectFinder from "../components/ProjectFinder";
 import { portfolioProjects } from "../data/siteData";
 import { useSeo } from "../hooks/useSeo";
+import { seoConfigs } from "../data/seo";
 
-const SEO = {
-  title: "Portfolio \u2014 Nagriva",
-  description: "A selection of websites, digital experiences, and brand work Nagriva has created for businesses that care about how they show up online.",
-  canonical: "https://nagriva.ma/portfolio",
-  og: { title: "Portfolio \u2014 Nagriva", description: "A selection of websites, digital experiences, and brand work created for businesses that care about how they show up online.", url: "https://nagriva.ma/portfolio" },
-  twitter: { title: "Portfolio \u2014 Nagriva", description: "A selection of websites, digital experiences, and brand work created for businesses that care about how they show up online.", card: "summary_large_image" as const },
-};
+const SEO = seoConfigs.portfolio;
 
 const MOBILE_BREAKPOINT = "(max-width: 720px)";
 const INITIAL_VISIBLE: Record<"mobile" | "desktop", number> = {

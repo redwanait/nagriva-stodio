@@ -2,14 +2,9 @@ import { useEffect, useRef } from "react";
 import FinalCta from "../components/FinalCta";
 import { processWorkflow, processApproach, processJourney } from "../data/siteData";
 import { useSeo } from "../hooks/useSeo";
+import { seoConfigs } from "../data/seo";
 
-const SEO = {
-  title: "Process \u2014 Nagriva",
-  description: "From the first conversation to the final launch \u2014 a clear, focused process that takes your project from idea to a finished digital experience.",
-  canonical: "https://nagriva.ma/process",
-  og: { title: "Process \u2014 Nagriva", description: "From the first conversation to the final launch \u2014 a clear, focused process that takes your project from idea to a finished digital experience.", url: "https://nagriva.ma/process" },
-  twitter: { title: "Process \u2014 Nagriva", description: "From the first conversation to the final launch \u2014 a clear, focused process that takes your project from idea to a finished digital experience.", card: "summary_large_image" as const },
-};
+const SEO = seoConfigs.process;
 import step01 from "../assets/processimage/steps/step01.png";
 import step02 from "../assets/processimage/steps/step02.png";
 import step03 from "../assets/processimage/steps/step03.png";

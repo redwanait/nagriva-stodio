@@ -1,13 +1,8 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useSeo } from "../hooks/useSeo";
+import { seoConfigs } from "../data/seo";
 
-const SEO = {
-  title: "Privacy Policy \u2014 Nagriva",
-  description: "How Nagriva collects, uses, stores, and protects your information when you visit our website or use our services.",
-  canonical: "https://nagriva.ma/privacy-policy",
-  og: { title: "Privacy Policy \u2014 Nagriva", description: "How Nagriva collects, uses, stores, and protects your information.", url: "https://nagriva.ma/privacy-policy" },
-  twitter: { title: "Privacy Policy \u2014 Nagriva", description: "How Nagriva collects, uses, stores, and protects your information.", card: "summary" as const },
-};
+const SEO = seoConfigs["privacy-policy"];
 
 interface SectionContent {
   id: string;

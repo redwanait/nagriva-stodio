@@ -3,14 +3,9 @@ import founderImage from "../assets/aboutimage/the founder.png";
 import senatorImage from "../assets/aboutimage/Senator.png";
 import FinalCta from "../components/FinalCta";
 import { useSeo } from "../hooks/useSeo";
+import { seoConfigs } from "../data/seo";
 
-const SEO = {
-  title: "About \u2014 Nagriva",
-  description: "Nagriva is a digital studio based in Morocco. We design and build websites, online stores, and brand identities \u2014 one team, one process.",
-  canonical: "https://nagriva.ma/about",
-  og: { title: "About \u2014 Nagriva", description: "Nagriva is a digital studio based in Morocco designing and building websites, online stores, and brand identities.", url: "https://nagriva.ma/about" },
-  twitter: { title: "About \u2014 Nagriva", description: "Nagriva is a digital studio based in Morocco designing and building websites, online stores, and brand identities.", card: "summary_large_image" as const },
-};
+const SEO = seoConfigs.about;
 
 function About() {
   useSeo(SEO);

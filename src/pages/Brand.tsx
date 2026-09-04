@@ -6,14 +6,9 @@ import black from "../assets/brand/3.png";
 import symbolWordmark from "../assets/brand/4.png";
 import wordmark from "../assets/brand/5.png";
 import { useSeo } from "../hooks/useSeo";
+import { seoConfigs } from "../data/seo";
 
-const SEO = {
-  title: "Brand Assets \u2014 Nagriva",
-  description: "Download the official Nagriva logo assets for use across digital and print applications.",
-  canonical: "https://nagriva.ma/brand",
-  og: { title: "Brand Assets \u2014 Nagriva", description: "Download the official Nagriva logo assets for use across digital and print applications.", url: "https://nagriva.ma/brand" },
-  twitter: { title: "Brand Assets \u2014 Nagriva", description: "Download the official Nagriva logo assets for use across digital and print applications.", card: "summary_large_image" as const },
-};
+const SEO = seoConfigs.brand;
 
 interface BrandAsset {
   name: string;
