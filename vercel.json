@@ -1,13 +1,13 @@
 {
   "rewrites": [
-    { "source": "/services(?:/)?", "destination": "/services/index.html" },
-    { "source": "/portfolio(?:/)?", "destination": "/portfolio/index.html" },
-    { "source": "/about(?:/)?", "destination": "/about/index.html" },
-    { "source": "/process(?:/)?", "destination": "/process/index.html" },
-    { "source": "/start(?:/)?", "destination": "/start/index.html" },
-    { "source": "/brand(?:/)?", "destination": "/brand/index.html" },
-    { "source": "/privacy-policy(?:/)?", "destination": "/privacy-policy/index.html" },
-    { "source": "/terms-of-service(?:/)?", "destination": "/terms-of-service/index.html" },
+    { "source": "^/services(/)?$", "destination": "/services/index.html" },
+    { "source": "^/portfolio(/)?$", "destination": "/portfolio/index.html" },
+    { "source": "^/about(/)?$", "destination": "/about/index.html" },
+    { "source": "^/process(/)?$", "destination": "/process/index.html" },
+    { "source": "^/start(/)?$", "destination": "/start/index.html" },
+    { "source": "^/brand(/)?$", "destination": "/brand/index.html" },
+    { "source": "^/privacy-policy(/)?$", "destination": "/privacy-policy/index.html" },
+    { "source": "^/terms-of-service(/)?$", "destination": "/terms-of-service/index.html" },
     { "source": "/((?!assets/|api/|.*\\..*).*)", "destination": "/index.html" }
   ]
 }
