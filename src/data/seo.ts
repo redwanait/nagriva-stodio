@@ -42,7 +42,6 @@ export type RouteKey =
   | "about"
   | "process"
   | "start"
-  | "brand"
   | "privacy-policy"
   | "terms-of-service";
 
@@ -59,7 +58,6 @@ export const ROUTES: RouteInfo[] = [
   { key: "about", path: "/about", dir: "about" },
   { key: "process", path: "/process", dir: "process" },
   { key: "start", path: "/start", dir: "start" },
-  { key: "brand", path: "/brand", dir: "brand" },
   { key: "privacy-policy", path: "/privacy-policy", dir: "privacy-policy" },
   { key: "terms-of-service", path: "/terms-of-service", dir: "terms-of-service" },
 ];
@@ -152,21 +150,6 @@ export const seoConfigs: Record<RouteKey, SeoMeta> = {
     twitter: {
       title: "Start Your Project \u2014 Nagriva",
       description: "Tell us about your project. Nagriva will review your inquiry and get back to you soon.",
-      card: "summary_large_image",
-    },
-  },
-  brand: {
-    title: "Brand Assets \u2014 Nagriva",
-    description: "Download the official Nagriva logo assets for use across digital and print applications.",
-    canonical: "https://nagriva.ma/brand",
-    og: {
-      title: "Brand Assets \u2014 Nagriva",
-      description: "Download the official Nagriva logo assets for use across digital and print applications.",
-      url: "https://nagriva.ma/brand",
-    },
-    twitter: {
-      title: "Brand Assets \u2014 Nagriva",
-      description: "Download the official Nagriva logo assets for use across digital and print applications.",
       card: "summary_large_image",
     },
   },

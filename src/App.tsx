@@ -11,9 +11,8 @@ import Process from "./pages/Process";
 import Start from "./pages/Start";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
-import Brand from "./pages/Brand";
 
-type Route = "home" | "services" | "portfolio" | "about" | "process" | "start" | "privacy-policy" | "terms-of-service" | "brand";
+type Route = "home" | "services" | "portfolio" | "about" | "process" | "start" | "privacy-policy" | "terms-of-service";
 
 const LEGACY_HASH_MAP: Record<string, string> = {
   "#services": "/services",
@@ -32,7 +31,6 @@ function getRoute(): Route {
   if (path === "/start") return "start";
   if (path === "/privacy-policy") return "privacy-policy";
   if (path === "/terms-of-service") return "terms-of-service";
-  if (path === "/brand") return "brand";
   return "home";
 }
 
@@ -66,7 +64,6 @@ function App() {
     route === "start" ? <Start /> :
     route === "privacy-policy" ? <PrivacyPolicy /> :
     route === "terms-of-service" ? <TermsOfService /> :
-    route === "brand" ? <Brand /> :
     <Home />;
 
   return (

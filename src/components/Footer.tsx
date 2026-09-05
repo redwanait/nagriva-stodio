@@ -210,7 +210,6 @@ function Footer() {
             <div className="footer-redesign__legal">
               <a href="/privacy-policy">Privacy Policy</a>
               <a href="/terms-of-service">Terms of Service</a>
-              <a href="/brand">Brand</a>
             </div>
           </div>
         </div>
