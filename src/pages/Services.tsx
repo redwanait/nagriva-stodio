@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { services } from "../data/siteData";
+import FinalCta from "../components/FinalCta";
 import { useSeo } from "../hooks/useSeo";
 import { seoConfigs } from "../data/seo";
 
@@ -76,6 +77,8 @@ function Services() {
           </ul>
         </div>
       </section>
+
+      <FinalCta />
     </main>
   );
 }

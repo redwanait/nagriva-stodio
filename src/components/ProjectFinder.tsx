@@ -1,4 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
+import { submitProjectInquiry } from "../lib/projectInquiryService";
 
 type Step = "request" | "whatsapp" | "success";
 
@@ -26,6 +27,8 @@ function ProjectFinder() {
   const [placeholder, setPlaceholder] = useState(PROJECT_PLACEHOLDERS[0]);
   const [isFocused, setIsFocused] = useState(false);
   const [triedSend, setTriedSend] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [reduceMotion, setReduceMotion] = useState(
     () =>
       typeof window !== "undefined"
@@ -85,16 +88,31 @@ function ProjectFinder() {
     setStep("whatsapp");
   };
 
-  const handleSend = (e: FormEvent) => {
+  const handleSend = async (e: FormEvent) => {
     e.preventDefault();
     setTriedSend(true);
     if (!whatsappValid) return;
-    setStep("success");
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      await submitProjectInquiry({
+        description: description.trim(),
+        whatsapp: whatsapp.trim(),
+      });
+      setStep("success");
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error ? err.message : "Unable to send your request. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleBack = () => {
     setStep("request");
     setTriedSend(false);
+    setSubmitError(null);
   };
 
   return (
@@ -172,10 +190,16 @@ function ProjectFinder() {
                   <button
                     className="project-finder__button project-finder__button--primary"
                     type="submit"
+                    disabled={submitting}
                   >
-                    Send me the examples
+                    {submitting ? "Sending…" : "Send me the examples"}
                   </button>
                 </div>
+                {submitError && (
+                  <p className="project-finder__error project-finder__error--global" role="alert">
+                    {submitError}
+                  </p>
+                )}
                 <button className="project-finder__back" type="button" onClick={handleBack}>
                 Change my request
                 </button>

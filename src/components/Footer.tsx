@@ -193,9 +193,9 @@ function Footer() {
                 <a className="footer-redesign__link footer-redesign__project-link" href="/start">
                   Start with Nagriva <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
                 </a>
-                <a className="footer-redesign__link" href="mailto:hello@nagriva.com">Hand in hand </a>
-                <a className="footer-redesign__link footer-redesign__contact" href="mailto:hello@nagriva.com">
-                  hello@nagriva.com
+                <a className="footer-redesign__link" href="mailto:contact@nagriva.ma">Hand in hand </a>
+                <a className="footer-redesign__link footer-redesign__contact" href="mailto:contact@nagriva.ma">
+                  contact@nagriva.ma
                 </a>
                 <a className="footer-redesign__link footer-redesign__contact" href="https://wa.me/+212728427278">
                   +212728427278

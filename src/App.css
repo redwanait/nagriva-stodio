@@ -474,6 +474,7 @@ h1 { margin: 0; max-width: 600px; font-size: clamp(3.2rem, 4.6vw, .1rem); line-h
 .call-modal__input:focus-visible { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(217, 242, 38, .14); }
 .call-modal__input[aria-invalid="true"] { border-color: rgba(255, 110, 110, .65); }
 .call-modal__error { margin: 0; color: #ff8a8a; font-size: .72rem; line-height: 1.4; }
+.call-modal__error--global { margin-top: .75rem; }
 .call-modal__actions { display: flex; align-items: center; gap: .75rem; margin-top: 1.25rem; }
 .call-modal__back {
   display: inline-flex;
@@ -637,6 +638,7 @@ h1 { margin: 0; max-width: 600px; font-size: clamp(3.2rem, 4.6vw, .1rem); line-h
 .project-finder__input:focus-visible { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(217,242,38,.18); }
 .project-finder__input[aria-invalid="true"] { border-color: rgba(255,90,90,.7); }
 .project-finder__error { margin: .9rem 0 0; color: rgba(255,120,120,.9); font-size: .78rem; line-height: 1.5; }
+.project-finder__error--global { margin-top: 1rem; }
 .project-finder__actions { display: flex; justify-content: center; margin-top: 1.6rem; }
 .project-finder__button { display: inline-flex; align-items: center; justify-content: center; gap: .7rem; min-height: 52px; padding: 0 1.6rem; border: 1px solid transparent; border-radius: var(--radius-button); font: 600 .74rem var(--font-heading); text-decoration: none; cursor: pointer; transition: box-shadow 160ms ease, transform 160ms ease, border-color 160ms ease, background-color 160ms ease; }
 .project-finder__button span { font-size: 1.05rem; line-height: 0; transition: transform 160ms ease; }

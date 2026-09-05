@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSeo } from "../hooks/useSeo";
 import { seoConfigs } from "../data/seo";
+import { submitStartInquiry } from "../lib/startInquiryService";
 
 const SEO = seoConfigs.start;
 
@@ -251,6 +252,18 @@ function Start() {
     setIsSubmitting(true);
 
     try {
+      // Persist the lead to Supabase before sending the confirmation emails.
+      await submitStartInquiry({
+        fullName: fullName.trim(),
+        email: email.trim(),
+        company: company.trim(),
+        need,
+        projectDescription: description.trim(),
+        budget,
+        preferredContact: contactMethod,
+        phone: phone.trim(),
+      });
+
       const response = await fetch("/api/inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -360,7 +373,7 @@ function Start() {
               </a>
               <a
                 className="start-success__button start-success__button--secondary"
-                href="mailto:hello@nagriva.com"
+                href="mailto:contact@nagriva.ma"
               >
                 Contact the founder <span aria-hidden="true">↗</span>
               </a>

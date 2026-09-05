@@ -138,7 +138,7 @@ const SECTIONS: SectionContent[] = [
       {
         type: "ul",
         items: [
-          "Email: hello@nagriva.com",
+          "Email: contact@nagriva.ma",
           "WhatsApp: +212 728 427 278",
         ],
       },
@@ -147,11 +147,11 @@ const SECTIONS: SectionContent[] = [
 ];
 
 function renderContact(text: string): ReactNode {
-  if (text === "Email: hello@nagriva.com") {
+  if (text === "Email: contact@nagriva.ma") {
     return (
       <>
         <strong>Email:</strong>{" "}
-        <a href="mailto:hello@nagriva.com">hello@nagriva.com</a>
+        <a href="mailto:contact@nagriva.ma">contact@nagriva.ma</a>
       </>
     );
   }

@@ -229,7 +229,7 @@ function Home() {
               <p className="hero__description">Nagriva designs and builds fast, responsive websites for businesses that want to look credible and perform better online.</p>
               <div className="hero__actions">
                 <a className="button button--primary" href="/start">Start your project</a>
-                <a className="button button--secondary" href="/services">Talk to Redoaune </a>
+                <a className="button button--secondary" href="https://wa.me/+212616523110">Talk to Redoaune </a>
               </div>
               <div className="trust-row" aria-label="What we deliver">
                 <span><i />Professional but approachable.</span>
@@ -299,7 +299,7 @@ function Home() {
           {visibleGroup.length === 0 && <p className="portfolio-empty-state">No projects in this category yet.</p>}
           <div className="portfolio-bottom-cta">
             <p>Want to see more of Nagriva's work?</p>
-            <a className="portfolio-cta-button" href="/start">Explore all work</a>
+            <a className="portfolio-cta-button" href="/services">Explore all work</a>
           </div>
         </section>
 

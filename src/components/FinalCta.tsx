@@ -40,7 +40,7 @@ function FinalCta() {
             <a className="final-cta__button final-cta__button--primary" href="/start">
               Start with Nagriva
             </a>
-            <a className="final-cta__button final-cta__button--secondary" href="mailto:hello@nagriva.com">
+            <a className="final-cta__button final-cta__button--secondary" href="https://wa.me/+212616523110">
               Talk to Redoaune
             </a>
           </div>
