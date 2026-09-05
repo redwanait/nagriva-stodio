@@ -3,7 +3,8 @@ import { dirname, join } from "node:path";
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import { buildMetaTags, ROUTES, seoConfigs } from "./src/data/seo.ts";
-import type { HeadMeta } from "./src/data/seo.ts";
+import type { HeadMeta, RouteKey } from "./src/data/seo.ts";
+import { buildPageGraph, serializeGraph } from "./src/data/schema.ts";
 
 function escapeAttr(input: string): string {
   return input
@@ -25,6 +26,19 @@ function renderHeadTag(item: HeadMeta): string {
   return `<${tagName} id="${escapeAttr(item.id)}" ${attrs}>`;
 }
 
+function escapeJsonLdJson(input: string): string {
+  return input
+    .replace(/</g, "\\u003c")
+    .replace(/>/g, "\\u003e")
+    .replace(/\u2028/g, "\\u2028")
+    .replace(/\u2029/g, "\\u2029");
+}
+
+function renderJsonLdScript(route: RouteKey): string {
+  const json = escapeJsonLdJson(serializeGraph(buildPageGraph(route)));
+  return `<script type="application/ld+json" id="seo-jsonld">${json}</script>`;
+}
+
 function generateSeoHtml(): Plugin {
   return {
     name: "generate-seo-html",
@@ -39,10 +53,11 @@ function generateSeoHtml(): Plugin {
         const metaHtml = buildMetaTags(config)
           .map(renderHeadTag)
           .join("\n");
+        const jsonLdHtml = renderJsonLdScript(route.key);
 
         const html = template
           .replace(/<title[^>]*>[\s\S]*?<\/title>/, () => `<title>${escapeHtmlText(config.title)}</title>`)
-          .replace("</head>", `${metaHtml}\n</head>`);
+          .replace("</head>", `${metaHtml}\n${jsonLdHtml}\n</head>`);
 
         if (route.dir === "") {
           writeFileSync(indexHtmlPath, html);
