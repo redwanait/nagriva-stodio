@@ -8,6 +8,19 @@ declare global {
 }
 
 let initialized = false;
+let gtagLoaded = false;
+let pendingView: Record<string, string> | null = null;
+
+function sendView(params: Record<string, string>): void {
+  window.gtag?.("event", "page_view", params);
+}
+
+function flushPendingView(): void {
+  if (!pendingView) return;
+  const params = pendingView;
+  pendingView = null;
+  sendView(params);
+}
 
 function loadGtagScript(): void {
   if (!GA_MEASUREMENT_ID) return;
@@ -20,6 +33,10 @@ function loadGtagScript(): void {
   script.async = true;
   script.dataset.gtagLoader = "true";
   script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+  script.onload = () => {
+    gtagLoaded = true;
+    flushPendingView();
+  };
   script.onerror = () => {};
   document.head.appendChild(script);
 }
@@ -44,9 +61,15 @@ export function initGA(): void {
 export function sendPageView(path: string, title: string, locationHref: string): void {
   if (!GA_MEASUREMENT_ID || !window.gtag) return;
 
-  window.gtag("event", "page_view", {
+  const params = {
     page_path: path,
     page_location: locationHref,
     page_title: title,
-  });
+  };
+
+  if (gtagLoaded) {
+    sendView(params);
+  } else {
+    pendingView = params;
+  }
 }
