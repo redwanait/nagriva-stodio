@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { FeedbackWithStats } from "../types/feedback";
+import type { Feedback } from "../types/feedback";
 import { fetchPublishedFeedbacks } from "../lib/feedbackService";
 import FeedbackCard from "./FeedbackCard";
 
 type FeedbackSectionProps = {
-  initialFeedbacks?: FeedbackWithStats[];
+  initialFeedbacks?: Feedback[];
 };
 
 function FeedbackSection({ initialFeedbacks }: FeedbackSectionProps) {
-  const [feedbacks, setFeedbacks] = useState<FeedbackWithStats[]>(initialFeedbacks ?? []);
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>(initialFeedbacks ?? []);
   const [loading, setLoading] = useState(!initialFeedbacks);
   const [error, setError] = useState<string | null>(null);
   const [retrying, setRetrying] = useState(false);

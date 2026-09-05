@@ -1,9 +1,9 @@
-import type { FeedbackWithStats } from "../types/feedback";
+import type { Feedback } from "../types/feedback";
 import Avatar from "./Avatar";
 import { formatFeedbackDate, getFeedbackHash } from "../lib/feedbackUtils";
 
 type FeedbackCardProps = {
-  feedback: FeedbackWithStats;
+  feedback: Feedback;
   isClone?: boolean;
 };
 
