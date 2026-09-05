@@ -16,6 +16,7 @@ export const NAGRIVA_NAME = "Nagriva";
 export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
 export const FOUNDER_ID = `${SITE_URL}/#founder`;
+export const LOCATION_ID = `${SITE_URL}/#location`;
 
 export const NAGRIVA_ORGANIZATION: JsonLdObject = {
   "@type": "Organization",
@@ -27,11 +28,7 @@ export const NAGRIVA_ORGANIZATION: JsonLdObject = {
   slogan: "Digital Studio made human",
   telephone: "+212 728427278",
   email: "contact@nagriva.ma",
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 31.9409,
-    longitude: -6.7111,
-  },
+  location: { "@id": LOCATION_ID },
   founder: { "@id": FOUNDER_ID },
   sameAs: ["https://www.instagram.com/nagriva.co/", "https://www.facebook.com/profile.php?id=61575750526639"],
 };
@@ -54,6 +51,16 @@ export const NAGRIVA_WEBSITE: JsonLdObject = {
   url: `${SITE_URL}/`,
   name: NAGRIVA_NAME,
   publisher: { "@id": ORGANIZATION_ID },
+};
+
+export const NAGRIVA_LOCATION: JsonLdObject = {
+  "@type": "Place",
+  "@id": LOCATION_ID,
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 31.9409,
+    longitude: -6.7111,
+  },
 };
 
 export const NAGRIVA_SERVICES: JsonLdObject[] = [
@@ -121,6 +128,7 @@ export function buildPageGraph(route: RouteKey): JsonLdGraph {
     NAGRIVA_ORGANIZATION,
     NAGRIVA_FOUNDER,
     NAGRIVA_WEBSITE,
+    NAGRIVA_LOCATION,
     buildWebPage(route),
   ];
   if (SERVICES_PAGE_ROUTES.has(route)) {
