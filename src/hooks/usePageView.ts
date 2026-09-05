@@ -4,6 +4,10 @@ import { initGA, sendPageView } from "../lib/analytics";
 export function usePageView(route: string): void {
   useEffect(() => {
     initGA();
-    sendPageView(window.location.pathname, document.title);
+    sendPageView(
+      window.location.pathname,
+      document.title,
+      window.location.href,
+    );
   }, [route]);
 }
