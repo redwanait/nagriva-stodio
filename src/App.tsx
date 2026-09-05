@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import { usePageView } from "./hooks/usePageView";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import FinalCta from "./components/FinalCta";
@@ -36,6 +37,8 @@ function getRoute(): Route {
 
 function App() {
   const [route, setRoute] = useState<Route>(getRoute);
+
+  usePageView(route);
 
   useEffect(() => {
     const hash = window.location.hash;
