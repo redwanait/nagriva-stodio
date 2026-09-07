@@ -93,6 +93,7 @@ const PAGE_TYPES: Record<RouteKey, string> = {
   about: "AboutPage",
   process: "WebPage",
   start: "ContactPage",
+  blog: "Blog",
   "privacy-policy": "WebPage",
   "terms-of-service": "WebPage",
 };

@@ -12,8 +12,24 @@ import Process from "./pages/Process";
 import Start from "./pages/Start";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
+import Blog from "./pages/Blog";
+import BlogPostDetails from "./pages/BlogPostDetails";
+import CategoryPage from "./pages/CategoryPage";
+import TagPage from "./pages/TagPage";
 
-type Route = "home" | "services" | "portfolio" | "about" | "process" | "start" | "privacy-policy" | "terms-of-service";
+type Route =
+  | "home"
+  | "services"
+  | "portfolio"
+  | "about"
+  | "process"
+  | "start"
+  | "blog"
+  | "blog-post"
+  | "blog-category"
+  | "blog-tag"
+  | "privacy-policy"
+  | "terms-of-service";
 
 const LEGACY_HASH_MAP: Record<string, string> = {
   "#services": "/services",
@@ -30,10 +46,39 @@ function getRoute(): Route {
   if (path === "/about") return "about";
   if (path === "/process") return "process";
   if (path === "/start") return "start";
+  if (/^\/blog\/category\/[^/]+$/.test(path)) return "blog-category";
+  if (/^\/blog\/tag\/[^/]+$/.test(path)) return "blog-tag";
+  if (/^\/blog\/[^/]+$/.test(path)) return "blog-post";
+  if (path === "/blog" || path.startsWith("/blog/")) return "blog";
   if (path === "/privacy-policy") return "privacy-policy";
   if (path === "/terms-of-service") return "terms-of-service";
   return "home";
 }
+
+function getBlogSlug(): string {
+  const path = window.location.pathname;
+  const match = /^\/blog\/([^/]+)\/?$/.exec(path);
+  return match ? decodeURIComponent(match[1]) : "";
+}
+
+function getBlogCategorySlug(): string {
+  const path = window.location.pathname;
+  const match = /^\/blog\/category\/([^/]+)\/?$/.exec(path);
+  return match ? decodeURIComponent(match[1]) : "";
+}
+
+function getBlogTagSlug(): string {
+  const path = window.location.pathname;
+  const match = /^\/blog\/tag\/([^/]+)\/?$/.exec(path);
+  return match ? decodeURIComponent(match[1]) : "";
+}
+
+const BLOG_ROUTES: ReadonlySet<Route> = new Set([
+  "blog",
+  "blog-post",
+  "blog-category",
+  "blog-tag",
+]);
 
 function App() {
   const [route, setRoute] = useState<Route>(getRoute);
@@ -65,6 +110,10 @@ function App() {
     route === "portfolio" ? <Portfolio /> :
     route === "process" ? <Process /> :
     route === "start" ? <Start /> :
+    route === "blog" ? <Blog /> :
+    route === "blog-post" ? <BlogPostDetails key={getBlogSlug()} slug={getBlogSlug()} /> :
+    route === "blog-category" ? <CategoryPage key={getBlogCategorySlug()} slug={getBlogCategorySlug()} /> :
+    route === "blog-tag" ? <TagPage key={getBlogTagSlug()} slug={getBlogTagSlug()} /> :
     route === "privacy-policy" ? <PrivacyPolicy /> :
     route === "terms-of-service" ? <TermsOfService /> :
     <Home />;
@@ -73,7 +122,7 @@ function App() {
     <>
       <Navbar />
       {page}
-      {route === "home" && <FinalCta />}
+      {(route === "home" || BLOG_ROUTES.has(route)) && <FinalCta />}
       <Footer />
     </>
   );
