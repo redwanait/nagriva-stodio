@@ -27,27 +27,8 @@ function FeedbackSection({ initialFeedbacks }: FeedbackSectionProps) {
   }, []);
 
   useEffect(() => {
-    let cancelled = false;
-
-    const run = () => {
-      if (!cancelled) loadFeedbacks();
-    };
-
-    // Defer the initial request off the critical rendering path. The fetch is
-    // identical; only its execution timing is moved to when the browser is idle.
-    if (typeof window.requestIdleCallback === "function") {
-      const idle = window.requestIdleCallback(run, { timeout: 3000 });
-      return () => {
-        cancelled = true;
-        window.cancelIdleCallback(idle);
-      };
-    }
-
-    const timer = window.setTimeout(run, 3000);
-    return () => {
-      cancelled = true;
-      window.clearTimeout(timer);
-    };
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadFeedbacks();
   }, [loadFeedbacks]);
 
   const handleRetry = useCallback(async () => {
