@@ -1,6 +1,8 @@
 
 import logo from "../assets/logos/logo.webp";
 import { socialLinks } from "../data/siteData";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const exploreLinks = [
   { label: "Home", href: "/" },
@@ -174,7 +176,7 @@ function Footer() {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    <i className={social.icon} aria-hidden="true"></i>
+                    <FontAwesomeIcon icon={social.icon} aria-hidden="true" />
                   </a>
                 ))}
               </div>
@@ -192,7 +194,7 @@ function Footer() {
               <div className="footer-redesign__column">
                 <span className="footer-redesign__label">Start/Help</span>
                 <a className="footer-redesign__link footer-redesign__project-link" href="/start">
-                  Start with Nagriva <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                  Start with Nagriva <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
                 </a>
                 <a className="footer-redesign__link" href="mailto:contact@nagriva.ma">Hand in hand </a>
                 <a className="footer-redesign__link footer-redesign__contact" href="mailto:contact@nagriva.ma">

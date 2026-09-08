@@ -85,7 +85,7 @@ function Home() {
 
   useEffect(() => {
     const audio = new Audio(headlineAudio);
-    audio.preload = "auto";
+    audio.preload = "none";
     headlineAudioRef.current = audio;
 
     const resetAudioState = () => setIsHeadlineAudioPlaying(false);

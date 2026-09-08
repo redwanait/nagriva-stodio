@@ -125,7 +125,7 @@ function MobileMenu({ open, onClose, returnFocusRef }: MobileMenuProps) {
                 rel="noreferrer"
                 onClick={handleClose}
               >
-                <i className={social.icon} aria-hidden="true"></i>
+                <FontAwesomeIcon icon={social.icon} aria-hidden="true" />
               </a>
             ))}
           </div>
