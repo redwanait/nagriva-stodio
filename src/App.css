@@ -2422,7 +2422,7 @@ h1 { margin: 0; max-width: 600px; font-size: clamp(3.2rem, 4.6vw, .1rem); line-h
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(100dvh - 200px);
+  min-height: 100dvh;
   padding: var(--space-3xl) var(--space-lg);
 }
 .not-found__content {
@@ -2460,7 +2460,6 @@ h1 { margin: 0; max-width: 600px; font-size: clamp(3.2rem, 4.6vw, .1rem); line-h
   .not-found__actions {
     flex-direction: column;
     align-items: stretch;
-    width: min(280px, 100%);
   }
   .not-found__actions .final-cta__button {
     width: 100%;
