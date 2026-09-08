@@ -16,6 +16,7 @@ import Blog from "./pages/Blog";
 import BlogPostDetails from "./pages/BlogPostDetails";
 import CategoryPage from "./pages/CategoryPage";
 import TagPage from "./pages/TagPage";
+import NotFound from "./pages/NotFound";
 
 type Route =
   | "home"
@@ -29,7 +30,8 @@ type Route =
   | "blog-category"
   | "blog-tag"
   | "privacy-policy"
-  | "terms-of-service";
+  | "terms-of-service"
+  | "not-found";
 
 const LEGACY_HASH_MAP: Record<string, string> = {
   "#services": "/services",
@@ -52,7 +54,8 @@ function getRoute(): Route {
   if (path === "/blog" || path.startsWith("/blog/")) return "blog";
   if (path === "/privacy-policy") return "privacy-policy";
   if (path === "/terms-of-service") return "terms-of-service";
-  return "home";
+  if (path === "/") return "home";
+  return "not-found";
 }
 
 function getBlogSlug(): string {
@@ -116,6 +119,7 @@ function App() {
     route === "blog-tag" ? <TagPage key={getBlogTagSlug()} slug={getBlogTagSlug()} /> :
     route === "privacy-policy" ? <PrivacyPolicy /> :
     route === "terms-of-service" ? <TermsOfService /> :
+    route === "not-found" ? <NotFound /> :
     <Home />;
 
   return (
