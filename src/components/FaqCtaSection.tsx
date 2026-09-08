@@ -6,10 +6,10 @@ import {
   faMinus,
 } from "@fortawesome/free-solid-svg-icons";
 
-import meetImg from "../assets/faqimages/meet.png";
+import meetImg from "../assets/faqimages/meet.webp";
 import messengerImg from "../assets/faqimages/messenger.webp";
-import skypeImg from "../assets/faqimages/skype.png";
-import whatsappImg from "../assets/faqimages/whatsapp.png";
+import skypeImg from "../assets/faqimages/skype.webp";
+import whatsappImg from "../assets/faqimages/whatsapp.webp";
 import CallBookingModal from "./CallBookingModal";
 
 const faqItems = [

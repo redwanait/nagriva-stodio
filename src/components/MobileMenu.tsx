@@ -1,5 +1,5 @@
 import { useEffect, useRef, type RefObject } from "react";
-import logo from "../assets/logos/logo.png";
+import logo from "../assets/logos/logo.webp";
 import { navLinks, socialLinks } from "../data/siteData";
 import { faArrowRight, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

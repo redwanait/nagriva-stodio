@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { navLinks } from "../data/siteData";
-import logo from "../assets/logos/logo.png";
+import logo from "../assets/logos/logo.webp";
 import { faArrowRight, faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MobileMenu from "./MobileMenu";

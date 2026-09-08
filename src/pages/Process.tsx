@@ -5,9 +5,9 @@ import { useSeo } from "../hooks/useSeo";
 import { seoConfigs } from "../data/seo";
 
 const SEO = seoConfigs.process;
-import step01 from "../assets/processimage/steps/step01.png";
-import step02 from "../assets/processimage/steps/step02.png";
-import step03 from "../assets/processimage/steps/step03.png";
+import step01 from "../assets/processimage/steps/step01.webp";
+import step02 from "../assets/processimage/steps/step02.webp";
+import step03 from "../assets/processimage/steps/step03.webp";
 
 const processImages = [step01, step02, step03];
 

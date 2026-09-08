@@ -9,7 +9,7 @@ import co8 from "../assets/companies/co8.png";
 import co9 from "../assets/companies/co9.png";
 import co10 from "../assets/companies/co10.png";
 import co11 from "../assets/companies/co11.png";
-import co12 from "../assets/companies/co12.png";
+import co12 from "../assets/companies/co12.webp";
 
 const logos = [
   { src: co1, alt: "Client logo" },

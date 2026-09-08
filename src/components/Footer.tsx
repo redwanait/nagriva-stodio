@@ -1,5 +1,5 @@
 
-import logo from "../assets/logos/logo.png";
+import logo from "../assets/logos/logo.webp";
 import { socialLinks } from "../data/siteData";
 
 const exploreLinks = [

@@ -1,7 +1,7 @@
 import {faBullseye,faCartShopping,faCode,faWandMagicSparkles,} from "@fortawesome/free-solid-svg-icons";
-import step01 from "../assets/steps/step-01.png";
-import step02 from "../assets/steps/step-02.png";
-import step03 from "../assets/steps/step-03.png";
+import step01 from "../assets/steps/step-01.webp";
+import step02 from "../assets/steps/step-02.webp";
+import step03 from "../assets/steps/step-03.webp";
 import figmaLogo from "../assets/aboutimage/barnds/figma.png";
 import githubLogo from "../assets/aboutimage/barnds/github.png";
 import illustratorLogo from "../assets/aboutimage/barnds/illustrator.png";
@@ -40,9 +40,9 @@ import galleryBuild from "../assets/processimage/messages/Build.png";
 import galleryConversation from "../assets/processimage/messages/Conversation.png";
 import galleryDirection from "../assets/processimage/messages/Direction.png";
 import galleryLaunch from "../assets/processimage/messages/Launch.png";
-import galleryStepOne from "../assets/steps/step-01.png";
-import galleryStepTwo from "../assets/steps/step-02.png";
-import galleryStepThree from "../assets/steps/step-03.png";
+import galleryStepOne from "../assets/steps/step-01.webp";
+import galleryStepTwo from "../assets/steps/step-02.webp";
+import galleryStepThree from "../assets/steps/step-03.webp";
 
 export const navLinks = [
   { label: "Home", href: "/" },

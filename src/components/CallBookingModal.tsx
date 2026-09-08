@@ -2,9 +2,9 @@ import { useEffect, useRef, useState, type FormEvent, type RefObject } from "rea
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
-import meetImg from "../assets/faqimages/meet.png";
-import skypeImg from "../assets/faqimages/skype.png";
-import whatsappImg from "../assets/faqimages/whatsapp.png";
+import meetImg from "../assets/faqimages/meet.webp";
+import skypeImg from "../assets/faqimages/skype.webp";
+import whatsappImg from "../assets/faqimages/whatsapp.webp";
 import { submitCallBooking, type CallMethod } from "../lib/callBookingService";
 
 const CALL_METHODS: Array<{ id: CallMethod; label: string; icon: string }> = [
