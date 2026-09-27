@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+/* Keep native form controls, scrollbars and the like in the light theme. */
+:root {
+  color-scheme: light;
+}
+
 html {
   background: var(--color-bg);
 }
@@ -19,8 +24,13 @@ body {
 }
 
 ::selection {
-  color: var(--color-bg);
+  color: #FFFFFF;
   background: var(--color-accent);
+}
+
+::placeholder {
+  color: var(--color-text-dim);
+  opacity: 1;
 }
 
 a {

@@ -194,7 +194,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 function makeInfoRow(label: string, value: string, hasBorder: boolean = true): string {
   const border = hasBorder ? "border-bottom:1px solid #e5e5e5;" : "border-bottom:none;";
-  return `<tr><td class="email-divider" style="padding:12px 0;${border}"><p class="email-info-label" style="margin:0;font-size:12px;color:#a3a3a3;">${label}</p><p class="email-info-value" style="margin:4px 0 0;font-size:14px;font-weight:600;color:#1a1a1a;">${escapeHtml(value)}</p></td></tr>`;
+  return `<tr><td class="email-divider" style="padding:12px 0;${border}"><p class="email-info-label" style="margin:0;font-size:12px;color:#666666;">${label}</p><p class="email-info-value" style="margin:4px 0 0;font-size:14px;font-weight:600;color:#000000;">${escapeHtml(value)}</p></td></tr>`;
 }
 
 function clientEmailHtml(input: {
@@ -220,8 +220,8 @@ function clientEmailHtml(input: {
           <table class="email-desc-card" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#fafafa;border:1px solid #e5e5e5;border-radius:8px;">
             <tr>
               <td style="padding:20px 24px;">
-                <p style="margin:0 0 8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#a3a3a3;">Project description</p>
-                <p class="email-desc-text" style="margin:0;font-size:15px;line-height:1.7;color:#1a1a1a;">${escapeHtml(input.projectDescription)}</p>
+                <p style="margin:0 0 8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#666666;">Project description</p>
+                <p class="email-desc-text" style="margin:0;font-size:15px;line-height:1.7;color:#000000;">${escapeHtml(input.projectDescription)}</p>
               </td>
             </tr>
           </table>
@@ -243,21 +243,21 @@ function clientEmailHtml(input: {
       .email-bg{background-color:#0a0a0a!important}
       .email-container{background-color:#171717!important;border-color:#262626!important}
       .email-heading{color:#f5f5f5!important}
-      .email-body{color:#a3a3a3!important}
-      .email-info-card{background-color:#1a1a1a!important;border-color:#262626!important}
+      .email-body{color:#666666!important}
+      .email-info-card{background-color:#000000!important;border-color:#262626!important}
       .email-info-label{color:#737373!important}
       .email-info-value{color:#f5f5f5!important}
       .email-divider{border-color:#262626!important}
-      .email-desc-card{background-color:#1a1a1a!important;border-color:#262626!important}
-      .email-desc-text{color:#d4d4d4!important}
+      .email-desc-card{background-color:#000000!important;border-color:#262626!important}
+      .email-desc-text{color:#666666!important}
       .email-footer{border-color:#262626!important}
       .email-footer-text{color:#737373!important}
-      .email-footer-copy{color:#525252!important}
+      .email-footer-copy{color:#666666!important}
     }
   </style>
 </head>
-<body class="email-bg" style="margin:0;padding:0;background-color:#f5f5f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;-webkit-font-smoothing:antialiased;">
-  <table class="email-bg" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5f5f5;">
+<body class="email-bg" style="margin:0;padding:0;background-color:#F7F7F7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#000000;-webkit-font-smoothing:antialiased;">
+  <table class="email-bg" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F7F7F7;">
     <tr>
       <td align="center" style="padding:40px 16px;">
         <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
@@ -265,20 +265,20 @@ function clientEmailHtml(input: {
 
           <tr>
             <td align="center" style="padding:40px 48px 0;">
-              <span style="font-size:24px;font-weight:700;letter-spacing:-0.03em;color:#1a1a1a;">nagriva<span style="color:#d9f226;">.</span></span>
+              <span style="font-size:24px;font-weight:700;letter-spacing:-0.03em;color:#000000;">nagriva<span style="color:#0047FF;">.</span></span>
             </td>
           </tr>
 
           <tr>
             <td style="padding:32px 48px 0;">
-              <h1 class="email-heading" style="margin:0;font-size:24px;font-weight:700;line-height:1.3;letter-spacing:-0.02em;color:#1a1a1a;">We received your project inquiry.</h1>
+              <h1 class="email-heading" style="margin:0;font-size:24px;font-weight:700;line-height:1.3;letter-spacing:-0.02em;color:#000000;">We received your project inquiry.</h1>
             </td>
           </tr>
 
           <tr>
             <td style="padding:20px 48px 0;">
-              <p class="email-body" style="margin:0;font-size:15px;line-height:1.7;color:#525252;">Hi ${escapeHtml(input.fullName)},</p>
-              <p class="email-body" style="margin:12px 0 0;font-size:15px;line-height:1.7;color:#525252;">Thank you for reaching out to Nagriva. We've received your project details and our team will review your request carefully.</p>
+              <p class="email-body" style="margin:0;font-size:15px;line-height:1.7;color:#666666;">Hi ${escapeHtml(input.fullName)},</p>
+              <p class="email-body" style="margin:12px 0 0;font-size:15px;line-height:1.7;color:#666666;">Thank you for reaching out to Nagriva. We've received your project details and our team will review your request carefully.</p>
             </td>
           </tr>
 
@@ -287,7 +287,7 @@ function clientEmailHtml(input: {
               <table class="email-info-card" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#fafafa;border:1px solid #e5e5e5;border-radius:8px;">
                 <tr>
                   <td style="padding:20px 24px;">
-                    <p style="margin:0 0 4px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#a3a3a3;">Project details</p>
+                    <p style="margin:0 0 4px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#666666;">Project details</p>
                     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                       ${infoRows.join("\n                      ")}
                     </table>
@@ -301,8 +301,8 @@ function clientEmailHtml(input: {
 
           <tr>
             <td style="padding:32px 48px 0;">
-              <p style="margin:0 0 8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#a3a3a3;">What happens next?</p>
-              <p class="email-body" style="margin:0;font-size:15px;line-height:1.7;color:#525252;">Your request is now with our team. We'll review the details and get back to you as soon as possible.</p>
+              <p style="margin:0 0 8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#666666;">What happens next?</p>
+              <p class="email-body" style="margin:0;font-size:15px;line-height:1.7;color:#666666;">Your request is now with our team. We'll review the details and get back to you as soon as possible.</p>
             </td>
           </tr>
 
@@ -310,7 +310,7 @@ function clientEmailHtml(input: {
             <td align="center" style="padding:32px 48px 0;">
               <table role="presentation" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td align="center" style="background-color:#171717;border-radius:8px;">
+                  <td align="center" style="background-color:#000000;border-radius:8px;">
                     <a href="https://nagriva.ma" target="_blank" style="display:inline-block;padding:14px 32px;font-size:14px;font-weight:600;color:#ffffff;text-decoration:none;letter-spacing:0.01em;">Visit Nagriva</a>
                   </td>
                 </tr>
@@ -323,8 +323,8 @@ function clientEmailHtml(input: {
               <table class="email-footer" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #e5e5e5;">
                 <tr>
                   <td style="padding:24px 0 0;">
-                    <p class="email-footer-text" style="margin:0;font-size:13px;color:#a3a3a3;text-align:center;">Nagriva — Digital work built with clarity and intention.</p>
-                    <p class="email-footer-copy" style="margin:8px 0 0;font-size:12px;color:#d4d4d4;text-align:center;">© 2026 Nagriva. All rights reserved.</p>
+                    <p class="email-footer-text" style="margin:0;font-size:13px;color:#666666;text-align:center;">Nagriva — Digital work built with clarity and intention.</p>
+                    <p class="email-footer-copy" style="margin:8px 0 0;font-size:12px;color:#666666;text-align:center;">© 2026 Nagriva. All rights reserved.</p>
                   </td>
                 </tr>
               </table>
@@ -355,7 +355,7 @@ function ownerEmailHtml(input: {
   const hasPhoneRow = input.preferredContact !== "Email" && input.phone;
   const infoRows: string[] = [];
   infoRows.push(makeInfoRow("Name", input.fullName));
-  infoRows.push(`<tr><td class="email-divider" style="padding:12px 0;border-bottom:1px solid #e5e5e5;"><p class="email-info-label" style="margin:0;font-size:12px;color:#a3a3a3;">Email</p><p class="email-info-value" style="margin:4px 0 0;font-size:14px;font-weight:600;"><a href="mailto:${escapeHtml(input.email)}" style="color:#1a1a1a;text-decoration:none;">${escapeHtml(input.email)}</a></p></td></tr>`);
+  infoRows.push(`<tr><td class="email-divider" style="padding:12px 0;border-bottom:1px solid #e5e5e5;"><p class="email-info-label" style="margin:0;font-size:12px;color:#666666;">Email</p><p class="email-info-value" style="margin:4px 0 0;font-size:14px;font-weight:600;"><a href="mailto:${escapeHtml(input.email)}" style="color:#000000;text-decoration:none;">${escapeHtml(input.email)}</a></p></td></tr>`);
   if (input.company) infoRows.push(makeInfoRow("Company / Brand", input.company));
   infoRows.push(makeInfoRow("Project need", input.need));
   if (input.budget) infoRows.push(makeInfoRow("Budget", input.budget));
@@ -368,8 +368,8 @@ function ownerEmailHtml(input: {
           <table class="email-desc-card" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#fafafa;border:1px solid #e5e5e5;border-radius:8px;">
             <tr>
               <td style="padding:20px 24px;">
-                <p style="margin:0 0 8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#a3a3a3;">Project description</p>
-                <p class="email-desc-text" style="margin:0;font-size:15px;line-height:1.7;color:#1a1a1a;">${escapeHtml(input.projectDescription)}</p>
+                <p style="margin:0 0 8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#666666;">Project description</p>
+                <p class="email-desc-text" style="margin:0;font-size:15px;line-height:1.7;color:#000000;">${escapeHtml(input.projectDescription)}</p>
               </td>
             </tr>
           </table>
@@ -391,22 +391,22 @@ function ownerEmailHtml(input: {
       .email-bg{background-color:#0a0a0a!important}
       .email-container{background-color:#171717!important;border-color:#262626!important}
       .email-heading{color:#f5f5f5!important}
-      .email-body{color:#a3a3a3!important}
-      .email-info-card{background-color:#1a1a1a!important;border-color:#262626!important}
+      .email-body{color:#666666!important}
+      .email-info-card{background-color:#000000!important;border-color:#262626!important}
       .email-info-label{color:#737373!important}
       .email-info-value{color:#f5f5f5!important}
-      .email-info-value a{color:#93c5fd!important}
+      .email-info-value a{color:#4D7CFF!important}
       .email-divider{border-color:#262626!important}
-      .email-desc-card{background-color:#1a1a1a!important;border-color:#262626!important}
-      .email-desc-text{color:#d4d4d4!important}
+      .email-desc-card{background-color:#000000!important;border-color:#262626!important}
+      .email-desc-text{color:#666666!important}
       .email-footer{border-color:#262626!important}
       .email-footer-text{color:#737373!important}
-      .email-footer-copy{color:#525252!important}
+      .email-footer-copy{color:#666666!important}
     }
   </style>
 </head>
-<body class="email-bg" style="margin:0;padding:0;background-color:#f5f5f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;-webkit-font-smoothing:antialiased;">
-  <table class="email-bg" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5f5f5;">
+<body class="email-bg" style="margin:0;padding:0;background-color:#F7F7F7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#000000;-webkit-font-smoothing:antialiased;">
+  <table class="email-bg" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F7F7F7;">
     <tr>
       <td align="center" style="padding:40px 16px;">
         <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
@@ -414,19 +414,19 @@ function ownerEmailHtml(input: {
 
           <tr>
             <td align="center" style="padding:40px 48px 0;">
-              <span style="font-size:24px;font-weight:700;letter-spacing:-0.03em;color:#1a1a1a;">nagriva<span style="color:#d9f226;">.</span></span>
+              <span style="font-size:24px;font-weight:700;letter-spacing:-0.03em;color:#000000;">nagriva<span style="color:#0047FF;">.</span></span>
             </td>
           </tr>
 
           <tr>
             <td style="padding:32px 48px 0;">
-              <h1 class="email-heading" style="margin:0;font-size:24px;font-weight:700;line-height:1.3;letter-spacing:-0.02em;color:#1a1a1a;">New project inquiry — ${escapeHtml(input.fullName)}</h1>
+              <h1 class="email-heading" style="margin:0;font-size:24px;font-weight:700;line-height:1.3;letter-spacing:-0.02em;color:#000000;">New project inquiry — ${escapeHtml(input.fullName)}</h1>
             </td>
           </tr>
 
           <tr>
             <td style="padding:20px 48px 0;">
-              <p class="email-body" style="margin:0;font-size:15px;line-height:1.7;color:#525252;">A new project inquiry was submitted through the Nagriva website. Below are the details.</p>
+              <p class="email-body" style="margin:0;font-size:15px;line-height:1.7;color:#666666;">A new project inquiry was submitted through the Nagriva website. Below are the details.</p>
             </td>
           </tr>
 
@@ -435,7 +435,7 @@ function ownerEmailHtml(input: {
               <table class="email-info-card" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#fafafa;border:1px solid #e5e5e5;border-radius:8px;">
                 <tr>
                   <td style="padding:20px 24px;">
-                    <p style="margin:0 0 4px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#a3a3a3;">Inquiry details</p>
+                    <p style="margin:0 0 4px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#666666;">Inquiry details</p>
                     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                       ${infoRows.join("\n                      ")}
                     </table>
@@ -451,7 +451,7 @@ function ownerEmailHtml(input: {
             <td align="center" style="padding:32px 48px 0;">
               <table role="presentation" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td align="center" style="background-color:#171717;border-radius:8px;">
+                  <td align="center" style="background-color:#000000;border-radius:8px;">
                     <a href="mailto:${escapeHtml(input.email)}" style="display:inline-block;padding:14px 32px;font-size:14px;font-weight:600;color:#ffffff;text-decoration:none;letter-spacing:0.01em;">Reply to inquiry</a>
                   </td>
                 </tr>
@@ -464,8 +464,8 @@ function ownerEmailHtml(input: {
               <table class="email-footer" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #e5e5e5;">
                 <tr>
                   <td style="padding:24px 0 0;">
-                    <p class="email-footer-text" style="margin:0;font-size:13px;color:#a3a3a3;text-align:center;">Nagriva — Digital work built with clarity and intention.</p>
-                    <p class="email-footer-copy" style="margin:8px 0 0;font-size:12px;color:#d4d4d4;text-align:center;">© 2026 Nagriva. All rights reserved.</p>
+                    <p class="email-footer-text" style="margin:0;font-size:13px;color:#666666;text-align:center;">Nagriva — Digital work built with clarity and intention.</p>
+                    <p class="email-footer-copy" style="margin:8px 0 0;font-size:12px;color:#666666;text-align:center;">© 2026 Nagriva. All rights reserved.</p>
                   </td>
                 </tr>
               </table>

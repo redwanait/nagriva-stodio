@@ -19,7 +19,8 @@ function Footer() {
       <style>{`
         .footer-redesign {
           padding: 4rem 1rem 1.5rem;
-          background: var(--color-bg);
+          background: var(--color-surface);
+          border-top: 1px solid var(--color-border);
         }
         .footer-redesign__content {
           width: min(1180px, 100%);
@@ -60,7 +61,7 @@ function Footer() {
           place-items: center;
           width: 32px;
           height: 32px;
-          border: 1px solid rgba(245,245,245,.12);
+          border: 1px solid var(--color-border);
           border-radius: 50%;
           color: var(--color-muted);
           font-size: .7rem;
@@ -69,7 +70,7 @@ function Footer() {
         }
         .footer-redesign__social:hover {
           border-color: var(--color-accent);
-          color: var(--color-accent);
+          color: var(--color-accent-text);
           transform: translateY(-2px);
         }
         .footer-redesign__columns {
@@ -85,7 +86,7 @@ function Footer() {
         }
         .footer-redesign__label {
           margin-bottom: .45rem;
-          color: var(--color-muted);
+          color: var(--color-text-dim);
           font-size: .62rem;
           font-weight: 600;
           letter-spacing: .15em;
@@ -98,13 +99,13 @@ function Footer() {
           transition: color 160ms ease;
         }
         .footer-redesign__link:hover {
-          color: var(--color-accent);
+          color: var(--color-accent-text);
         }
         .footer-redesign__project-link {
           display: inline-flex;
           align-items: center;
           gap: .55rem;
-          color: var(--color-accent);
+          color: var(--color-accent-text);
           font-family: var(--font-heading);
           font-weight: 600;
         }
@@ -122,14 +123,14 @@ function Footer() {
         .footer-redesign__divider {
           height: 1px;
           margin: clamp(2.75rem, 6vw, 5rem) 0 1.35rem;
-          background: rgba(245,245,245,.1);
+          background: var(--color-border);
         }
         .footer-redesign__bottom {
           display: flex;
           align-items: center;
           justify-content: space-between;
           gap: 1rem;
-          color: #5e5e5e;
+          color: var(--color-text-dim);
           font-size: .62rem;
         }
         .footer-redesign__legal {

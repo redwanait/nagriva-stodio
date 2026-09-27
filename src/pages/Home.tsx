@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faCheck,
+  faCopy,
   faPause,
   faVolumeHigh,
 } from "@fortawesome/free-solid-svg-icons";
@@ -25,6 +27,9 @@ const SEO = seoConfigs.home;
 const CAROUSEL_INTERVAL = 5000;
 const CAROUSEL_TRANSITION_MS = 700;
 
+const CONTACT_EMAIL = "contact@nagriva.ma";
+const EMAIL_COPIED_FEEDBACK_MS = 2400;
+
 type CarouselRotation =
   | { status: "idle"; current: number }
   | { status: "transitioning"; leaving: number; target: number };
@@ -37,6 +42,8 @@ function Home() {
   });
   const [isVoiceVisible, setIsVoiceVisible] = useState(false);
   const [isHeadlineAudioPlaying, setIsHeadlineAudioPlaying] = useState(false);
+  const [isEmailCopied, setIsEmailCopied] = useState(false);
+  const emailCopiedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const headlineAudioRef = useRef<HTMLAudioElement | null>(null);
   const voiceVisibilityTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isVoiceVisibleRef = useRef(false);
@@ -117,6 +124,57 @@ function Home() {
       .then(() => setIsHeadlineAudioPlaying(true))
       .catch(() => setIsHeadlineAudioPlaying(false));
   };
+
+  const flashEmailCopied = () => {
+    setIsEmailCopied(true);
+    if (emailCopiedTimerRef.current !== null) {
+      clearTimeout(emailCopiedTimerRef.current);
+    }
+    emailCopiedTimerRef.current = setTimeout(() => {
+      setIsEmailCopied(false);
+      emailCopiedTimerRef.current = null;
+    }, EMAIL_COPIED_FEEDBACK_MS);
+  };
+
+  const copyContactEmail = async () => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(CONTACT_EMAIL);
+        flashEmailCopied();
+        return;
+      }
+    } catch {
+      // fall through to the legacy path below
+    }
+
+    // Fallback for browsers/contexts where the async clipboard API is blocked.
+    const helper = document.createElement("textarea");
+    helper.value = CONTACT_EMAIL;
+    helper.setAttribute("readonly", "");
+    helper.style.position = "fixed";
+    helper.style.top = "-1000px";
+    helper.style.opacity = "0";
+    document.body.appendChild(helper);
+    helper.select();
+
+    try {
+      if (document.execCommand("copy")) {
+        flashEmailCopied();
+      }
+    } catch {
+      // Clipboard unavailable; leave the button in its idle state.
+    } finally {
+      document.body.removeChild(helper);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (emailCopiedTimerRef.current !== null) {
+        clearTimeout(emailCopiedTimerRef.current);
+      }
+    };
+  }, []);
 
   const clearVoiceVisibilityTimeout = () => {
     if (voiceVisibilityTimeoutRef.current !== null) {
@@ -230,6 +288,31 @@ function Home() {
               <div className="hero__actions">
                 <a className="button button--primary" href="/start">Start your project</a>
                 <a className="button button--secondary" href="https://wa.me/+212616523110">Talk to Redoaune </a>
+              </div>
+              <div className="hero__contact">
+                <span className="hero__contact-label" id="hero-contact-label">
+                  Prefer email?
+                </span>
+                <button
+                  className={`hero__email${isEmailCopied ? " hero__email--copied" : ""}`}
+                  type="button"
+                  onClick={() => {
+                    void copyContactEmail();
+                  }}
+                  aria-describedby="hero-contact-label"
+                >
+                  <span className="hero__email-value">{CONTACT_EMAIL}</span>
+                  <span className="hero__email-icon" aria-hidden="true">
+                    <FontAwesomeIcon icon={isEmailCopied ? faCheck : faCopy} />
+                  </span>
+                </button>
+                <span
+                  className="hero__email-status"
+                  role="status"
+                  aria-live="polite"
+                >
+                  {isEmailCopied ? "Email copied to clipboard" : ""}
+                </span>
               </div>
               <div className="trust-row" aria-label="What we deliver">
                 <span><i />Professional but approachable.</span>

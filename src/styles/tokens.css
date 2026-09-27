@@ -1,9 +1,79 @@
+/* ==========================================================================
+   NAGRIVA — DESIGN TOKENS
+   Official palette: White #FFFFFF · Black #000000 · Royal Blue #0047FF
+
+   Visual hierarchy:  WHITE = foundation · BLACK = primary · BLUE = signature
+   Blue is reserved for small accents: dots, lines, active/selected states,
+   numbers, small icons and focus rings. It is never a large fill.
+   ========================================================================== */
+
 :root {
-  --color-bg: #0d0d0d;
-  --color-surface: #161616;
-  --color-text: #f5f5f5;
-  --color-muted: #a1a1a1;
-  --color-accent: #d9f226;
+  /* ---- Brand palette (raw) -------------------------------------------- */
+  --brand-white: #FFFFFF;
+  --brand-black: #000000;
+  --brand-blue: #0047FF;
+
+  /* ---- Foundation ------------------------------------------------------ */
+  --color-bg: #FFFFFF;
+  --color-primary: #000000;
+  --color-text: #000000;
+  --color-muted: #666666;
+  --color-text-dim: #888888;
+
+  /* ---- Surfaces (subtle neutrals only) -------------------------------- */
+  --color-surface: #F7F7F7;
+  --color-surface-2: #FFFFFF;
+  --color-surface-3: #F7F7F7;
+  --color-surface-alt: #FAFAFA;
+  --color-surface-inset: #F7F7F7;
+
+  /* ---- Signature accent ----------------------------------------------- */
+  --color-accent: #0047FF;
+  --color-accent-hover: #003FE6;
+  --color-accent-active: #0037CC;
+  /* On white the pure signature blue is 6.3:1, so it is used as-is. */
+  --color-accent-text: #0047FF;
+  /* Content placed on top of an accent fill. */
+  --color-accent-on: #FFFFFF;
+
+  /* ---- Content on dark surfaces (footer, black buttons) --------------- */
+  --color-inverse: #FFFFFF;
+  --color-inverse-muted: #A3A3A3;
+
+  /* ---- Borders --------------------------------------------------------- */
+  --color-border: #E5E5E5;
+  --color-border-strong: #000000;
+  --color-border-light: #E5E5E5;
+  --color-hairline: rgba(255, 255, 255, 0.16);
+
+  /* ---- Alpha helpers — neutral ink over a light background ------------- */
+  --color-line: rgba(0, 0, 0, 0.1);
+  --color-line-soft: rgba(0, 0, 0, 0.06);
+  --color-line-strong: rgba(0, 0, 0, 0.17);
+  --color-scrim: rgba(0, 0, 0, 0.32);
+  --color-grid-line: rgba(0, 0, 0, 0.045);
+  --color-ink-soft: rgba(0, 0, 0, 0.04);
+  --color-ink: rgba(0, 0, 0, 0.06);
+
+  /* ---- Alpha helpers — signature blue ---------------------------------- */
+  --color-accent-tint: rgba(0, 71, 255, 0.07);
+  --color-accent-tint-soft: rgba(0, 71, 255, 0.05);
+  --color-accent-line: rgba(0, 71, 255, 0.3);
+  --color-accent-focus: rgba(0, 71, 255, 0.16);
+  --color-accent-wash: rgba(0, 71, 255, 0.05);
+  --color-accent-glow-soft: rgba(0, 71, 255, 0.07);
+  --color-accent-glow-strong: rgba(0, 71, 255, 0.14);
+
+  /* ---- Shadows (neutral; blue glows are reserved for brand marks) ------ */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 12px 34px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.1);
+
+  /* ---- Functional states (not brand colours) --------------------------- */
+  --color-danger: #D92D20;
+  --color-danger-text: #D92D20;
+  --color-danger-line: rgba(217, 45, 32, 0.6);
+  --color-success: #0047FF;
 
   --font-heading: "Sora", Arial, sans-serif;
   --font-body: "Inter", Arial, sans-serif;
