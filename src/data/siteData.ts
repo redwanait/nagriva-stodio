@@ -18,6 +18,16 @@ import conversationImage from "../assets/processimage/messages/Conversation.png"
 import directionImage from "../assets/processimage/messages/Direction.png";
 import buildImage from "../assets/processimage/messages/Build.png";
 import launchImage from "../assets/processimage/messages/Launch.png";
+import processCharacter from "../assets/process-caracters/1.png";
+import processSummaryDesktop from "../assets/process-caracters/ForPC.png";
+import processStep01 from "../assets/process steps images /conversation.jpg";
+import processStep02 from "../assets/process steps images /Agreement.jpg";
+import processStep03 from "../assets/process steps images /Contract.jpg";
+import processStep04 from "../assets/process steps images /Payment.jpg";
+import processStep05 from "../assets/process steps images /First Result.jpg";
+import processStep06 from "../assets/process steps images /Feedback.jpg";
+import processStep07 from "../assets/process steps images /Refinement.jpg";
+import processStep08 from "../assets/process steps images /Final Delivery.jpg";
 
 import imgAdKeyProd from "../assets/portfolioimages/imgAdKeyProd.webp";
 import imgNorthy from "../assets/portfolioimages/imgNorthy.webp";
@@ -607,39 +617,187 @@ export const processSteps = [
   },
 ];
 
+// The process page hero — a two-column introduction to working with Nagriva.
+export const processHero = {
+  eyebrow: "Our process",
+  headline: "From the first conversation to the",
+  headlineAccent: "final result.",
+  description:
+    "A clear and collaborative process that keeps your project moving from the first idea to the finished experience.",
+  primaryAction: { label: "Start with Nagriva", href: "/start" },
+  secondaryAction: { label: "View our work", href: "/portfolio" },
+  character: {
+    image: processCharacter,
+    alt: "Nagriva process character illustration",
+    width: 500,
+    height: 500,
+  },
+};
+
+// High-level summary of the client journey — three stages wrapped around the
+// arrow graphic. The detailed sequence lives in processWorkflow below.
+export const processSummary = {
+  eyebrow: "Our approach",
+  heading: "Three stages.",
+  headingAccent: "One clear direction.",
+  description:
+    "From understanding the project to building the solution and delivering the final result.",
+  graphic: {
+    desktop: { src: processSummaryDesktop, width: 2078, height: 757 },
+    alt: "The Nagriva path connecting the Discover, Build and Deliver stages",
+  },
+  stages: [
+    {
+      number: "01",
+      title: "Discover",
+      description:
+        "We understand your needs, goals, and project before anything gets built.",
+      scope: "First Contact · Agreement · Contract · Payment",
+    },
+    {
+      number: "02",
+      title: "Build",
+      description:
+        "We turn the agreed direction into a real digital experience, refine it through feedback, and bring it to life.",
+      scope: "First Result · Feedback · Refinement",
+    },
+    {
+      number: "03",
+      title: "Deliver",
+      description:
+        "We deliver the final result and stay available for any adjustments or support.",
+      scope: "Final Delivery",
+    },
+  ],
+};
+
+// The practical, inside-a-project workflow. Deliberately distinct from the
+// high-level Discover / Build / Deliver stages in processSummary above.
+export const processHowWeWork = {
+  eyebrow: "How we work",
+  heading: "A clear process, from alignment to launch.",
+  description:
+    "A simple, collaborative workflow designed to keep every project clear, focused, and moving forward.",
+  steps: [
+    {
+      number: "01",
+      title: "Align",
+      description:
+        "We get on the same page about your goals, needs, scope, and expectations before the work begins.",
+    },
+    {
+      number: "02",
+      title: "Create",
+      description:
+        "We turn the agreed direction into the actual digital experience and keep you informed as it takes shape.",
+    },
+    {
+      number: "03",
+      title: "Refine",
+      description:
+        "We review the result, collect your feedback, and refine the details until everything feels right.",
+    },
+    {
+      number: "04",
+      title: "Launch",
+      description:
+        "We prepare the final result, deliver everything properly, and make sure you're ready to move forward.",
+    },
+  ],
+  cta: {
+    note: "Built around clarity. Designed around you.",
+    action: { label: "Start with Nagriva", href: "/start" },
+  },
+};
+
+// The complete client journey — eight connected steps, from first contact to final delivery.
 export const processWorkflow = [
   {
     number: "01",
-    label: "Discover",
-    title: "Discover",
+    label: "Discovery",
+    title: "First Contact",
     description:
-      "Understand the business, goals, audience, and requirements before anything is designed. Every project starts with clarity.",
+      "We connect when we find the client, or when the client finds us. The goal is to understand who they are, what they need, and whether Nagriva is the right fit.",
+    image: processStep01,
   },
   {
     number: "02",
-    label: "Design & Build",
-    title: "Design & Build",
+    label: "Scope",
+    title: "Agreement",
     description:
-      "Turn the direction into a clear visual system and a functional digital experience, refined detail by detail.",
+      "We discuss the project and agree on the service, scope, deliverables, timeline, and price.",
+    image: processStep02,
   },
   {
     number: "03",
-    label: "Launch & Grow",
-    title: "Launch & Grow",
+    label: "Formalize",
+    title: "Contract",
     description:
-      "Polish, test, and launch a finished experience that is ready to perform and evolve with the business.",
+      "Once everything is clear, we send the contract and formalize the project.",
+    image: processStep03,
+  },
+  {
+    number: "04",
+    label: "Kickoff",
+    title: "Payment",
+    description:
+      "The client confirms the payment by sending the payment receipt. Once payment is confirmed, the project officially starts.",
+    image: processStep04,
+  },
+  {
+    number: "05",
+    label: "First delivery",
+    title: "First Result",
+    description:
+      "We work on the project and deliver the first version/result for the client to review.",
+    image: processStep05,
+  },
+  {
+    number: "06",
+    label: "Review",
+    title: "Feedback",
+    description:
+      "The client reviews the first result and shares feedback, corrections, or requested changes.",
+    image: processStep06,
+  },
+  {
+    number: "07",
+    label: "Polish",
+    title: "Refinement",
+    description:
+      "We apply the agreed corrections, refine the details, and improve the project until everything is ready.",
+    image: processStep07,
+  },
+  {
+    number: "08",
+    label: "Handover",
+    title: "Final Delivery",
+    description:
+      "We deliver the final result. Even after delivery, if the client needs an adjustment or support, we're available to help.",
+    image: processStep08,
   },
 ];
 
-export const processApproach = {
-  eyebrow: " Our approach",
-  statement: "Clear process.",
-  statementAccent: "Better digital work.",
-  paragraphs: [
-    "We believe great digital work comes from a simple process: understand the problem first, stay focused on the scope, and make deliberate decisions at every step. Nothing is designed or built by accident.",
-    "Communication stays direct and honest. There are no unnecessary complexities, no inflated roadmaps — just a clear path from the first conversation to a finished experience you can be proud of.",
-    "Every project is a direct collaboration. You stay close to the work, and we keep the details moving toward a result that feels intentional and performs like it.",
-  ],
+// Header copy for the scroll-driven sticky card stack. The eight cards
+// themselves reuse processWorkflow above, so the content lives in one place.
+export const processJourneyStack = {
+  eyebrow: "The journey",
+  heading: "From first conversation to",
+  headingAccent: "final delivery.",
+  description:
+    "A clear look at what happens from the moment we start working together to the moment your project is ready.",
+  // Inline alt text per step, keyed by step number, so every image carries
+  // meaningful text rather than a generic label.
+  altText: {
+    "01": "First contact conversation with a client",
+    "02": "Project agreement",
+    "03": "Service contract",
+    "04": "Payment confirmation",
+    "05": "First project result",
+    "06": "Client feedback",
+    "07": "Project refinement",
+    "08": "Final project delivery",
+  } as Record<string, string>,
 };
 
 // Local image assets for each journey stage, wired up when available.

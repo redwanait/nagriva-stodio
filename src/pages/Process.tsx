@@ -1,15 +1,17 @@
 import { useEffect, useRef } from "react";
+import Avatar from "../components/Avatar";
 import FinalCta from "../components/FinalCta";
-import { processWorkflow, processApproach, processJourney } from "../data/siteData";
+import ProcessJourney from "../components/ProcessJourney";
+import {
+  processHero,
+  processSummary,
+  processHowWeWork,
+  aboutData,
+} from "../data/siteData";
 import { useSeo } from "../hooks/useSeo";
 import { seoConfigs } from "../data/seo";
 
 const SEO = seoConfigs.process;
-import step01 from "../assets/processimage/steps/step01.webp";
-import step02 from "../assets/processimage/steps/step02.webp";
-import step03 from "../assets/processimage/steps/step03.webp";
-
-const processImages = [step01, step02, step03];
 
 function useReveal() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -44,75 +46,141 @@ function useReveal() {
   return rootRef;
 }
 
-function Approach() {
+function Hero() {
+  const { character } = processHero;
+
   return (
-    <section className="process-approach" aria-labelledby="process-approach-title" data-process-reveal>
-      <div className="process-approach__statement">
-        <p className="eyebrow process-approach__eyebrow">
-          <span className="eyebrow__dot" aria-hidden="true" />{processApproach.eyebrow}
-        </p>
-        <h2 id="process-approach-title">
-          {processApproach.statement} <span>{processApproach.statementAccent}</span>
-        </h2>
-      </div>
-      <div className="process-approach__copy">
-        {processApproach.paragraphs.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
-        ))}
+    <section className="process-hero" aria-labelledby="process-hero-title">
+      <div className="process-hero__container">
+        <div className="process-hero__content">
+          <p className="eyebrow process-hero__eyebrow">
+            <span className="eyebrow__dot" aria-hidden="true" />{processHero.eyebrow}
+          </p>
+          <h1 id="process-hero-title">
+            {processHero.headline} <span>{processHero.headlineAccent}</span>
+          </h1>
+          <p className="process-hero__description">{processHero.description}</p>
+          <div className="process-hero__actions">
+            <a className="button button--primary" href={processHero.primaryAction.href}>
+              {processHero.primaryAction.label}
+            </a>
+            <a className="button button--secondary" href={processHero.secondaryAction.href}>
+              {processHero.secondaryAction.label}
+            </a>
+          </div>
+        </div>
+        <div
+          className="process-hero__media"
+          onContextMenu={(event) => event.preventDefault()}
+          onDragStart={(event) => event.preventDefault()}
+        >
+          <span className="process-hero__glow" aria-hidden="true" />
+          <img
+            className="process-hero__character"
+            src={character.image}
+            alt={character.alt}
+            width={character.width}
+            height={character.height}
+            decoding="async"
+            fetchPriority="high"
+            draggable={false}
+          />
+        </div>
       </div>
     </section>
   );
 }
 
-function Journey() {
+function ProcessSummary() {
+  const { graphic, stages } = processSummary;
+
   return (
-    <section className="process-journey" aria-labelledby="process-journey-title">
-      <div className="process-journey__header" data-process-reveal>
-        <p className="eyebrow process-journey__eyebrow">
-          <span className="eyebrow__dot" aria-hidden="true" />Working together
+    <section className="process-summary" aria-labelledby="process-summary-title">
+      <div className="process-summary__intro" data-process-reveal>
+        <p className="eyebrow process-summary__eyebrow">
+          <span className="eyebrow__dot" aria-hidden="true" />{processSummary.eyebrow}
         </p>
-        <h2 id="process-journey-title">
-          What working with Nagriva <span>actually looks like.</span>
+        <h2 id="process-summary-title">
+          {processSummary.heading} <span>{processSummary.headingAccent}</span>
         </h2>
-        <p className="process-journey__intro">
-          From the first message to the final launch, every project follows a clear and
-          collaborative process.
-        </p>
+        <p className="process-summary__description">{processSummary.description}</p>
       </div>
 
-      <div className="process-journey__track" data-process-reveal>
-        {processJourney.map((stage) => (
-          <article className="process-journey-card" key={stage.number}>
-            <div className="process-journey-card__media">
-              {stage.image ? (
-                <img
-                  className="process-journey-card__image"
-                  src={stage.image}
-                  alt={`${stage.label} screenshot placeholder`}
-                />
-              ) : (
-                <div className="process-journey-card__placeholder" aria-hidden="true">
-                  <span className="process-journey-card__placeholder-mark">+</span>
-                  <span className="process-journey-card__placeholder-label">
-                    {stage.label} screenshot
-                  </span>
-                </div>
-              )}
-            </div>
-            <div className="process-journey-card__body">
-              <div className="process-journey-card__meta">
-                <span className="process-journey-card__number">{stage.number}</span>
-                <span className="process-journey-card__label">{stage.label}</span>
-              </div>
-              <h3>{stage.title}</h3>
-              <p>{stage.description}</p>
-            </div>
-          </article>
+      <figure className="process-summary__graphic" data-process-reveal>
+        <img
+          src={graphic.desktop.src}
+          alt={graphic.alt}
+          width={graphic.desktop.width}
+          height={graphic.desktop.height}
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+
+      <ol className="process-summary__stages">
+        {stages.map((stage) => (
+          <li className="process-summary__stage" key={stage.number} data-process-reveal>
+            <h3 className="process-summary__stage-title">
+              <span className="process-summary__number">{stage.number}</span>
+              {stage.title}
+            </h3>
+            <p className="process-summary__copy">{stage.description}</p>
+            <p className="process-summary__scope">{stage.scope}</p>
+          </li>
         ))}
+      </ol>
+    </section>
+  );
+}
+
+function HowWeWork() {
+  const { steps, cta } = processHowWeWork;
+  const clients = aboutData.clients.slice(0, 5);
+
+  return (
+    <section className="process-guide" aria-labelledby="process-guide-title">
+      <div className="process-guide__panel">
+        <header className="process-guide__header" data-process-reveal>
+          <p className="eyebrow process-guide__eyebrow">
+            <span className="eyebrow__dot" aria-hidden="true" />{processHowWeWork.eyebrow}
+          </p>
+          <h2 id="process-guide-title">{processHowWeWork.heading}</h2>
+          <p className="process-guide__description">{processHowWeWork.description}</p>
+          <hr className="process-guide__divider" />
+        </header>
+
+        <ol className="process-guide__cards">
+          {steps.map((step) => (
+            <li className="process-guide__card" key={step.number} data-process-reveal>
+              <span className="process-guide__number">{step.number}</span>
+              <h3 className="process-guide__title">{step.title}</h3>
+              <p className="process-guide__copy">{step.description}</p>
+            </li>
+          ))}
+        </ol>
+
+        <div className="process-guide__cta" data-process-reveal>
+          <div className="process-guide__proof">
+            <ul className="process-guide__avatars">
+              {clients.map((client) => (
+                <li key={client.name}>
+                  <Avatar name={client.name} url={client.image} size="small" />
+                </li>
+              ))}
+            </ul>
+            <p className="process-guide__note">{cta.note}</p>
+          </div>
+          <a className="button button--primary process-guide__button" href={cta.action.href}>
+            {cta.action.label}
+
+          </a>
+        </div>
       </div>
     </section>
   );
 }
+
+
 
 function Process() {
   useSeo(SEO);
@@ -120,70 +188,10 @@ function Process() {
 
   return (
     <main className="process-page" id="process" ref={rootRef}>
-      <section className="process-hero" aria-labelledby="process-hero-title">
-        <div className="process-hero__container">
-          <div className="process-hero__content">
-            <p className="eyebrow process-hero__eyebrow">
-              <span className="eyebrow__dot" aria-hidden="true" />How we work
-            </p>
-            <h1 id="process-hero-title">
-              From idea to a finished <span>digital experience.</span>
-            </h1>
-            <p className="process-hero__description">
-              Every project starts with clarity. We define what matters, build with purpose, and
-              refine every detail until the final experience feels right.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="process-workflow" aria-labelledby="process-workflow-title">
-        <div className="process-workflow__header" data-process-reveal>
-          <div>
-            <p className="eyebrow process-workflow__eyebrow">The process</p>
-            <h2 id="process-workflow-title">Three focused stages.</h2>
-          </div>
-          <p className="process-workflow__intro">
-            Discovery through launch — a clear, connected path from first conversation to a
-            finished result.
-          </p>
-        </div>
-
-        <div className="process-workflow__grid">
-          {processWorkflow.map((step, index) => (
-            <article
-              className="process-flow"
-              key={step.number}
-              data-process-reveal
-            >
-              <div className="process-flow__visual-wrap">
-                <img
-                  className="process-flow__image"
-                  src={processImages[index]}
-                  alt={`${step.title} visual`}
-                />
-              </div>
-              <div className="process-flow__body">
-                <div className="process-flow__meta">
-                  <span className="process-flow__number">{step.number}</span>
-                  <span className="process-flow__label">{step.label}</span>
-                </div>
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <div className="process-workflow__connector" aria-hidden="true">
-        <span className="process-workflow__connector-line" />
-        <span className="process-workflow__connector-dot" />
-        <span className="process-workflow__connector-line" />
-      </div>
-
-      <Journey />
-      <Approach />
+      <Hero />
+      <ProcessSummary />
+      <HowWeWork />
+      <ProcessJourney />
       <FinalCta />
     </main>
   );
