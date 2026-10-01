@@ -17,7 +17,6 @@ export const startHero = {
   headlineAccentAr: "الحديث عنه.",
   description: "Four quick details and we'll take it from there. No long brief needed.",
   reassurance: [
-    "We reply to every request.",
     "No obligation, no pressure.",
     "Free first conversation.",
   ],
