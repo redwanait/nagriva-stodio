@@ -77,6 +77,9 @@
 
   --font-heading: "Sora", Arial, sans-serif;
   --font-body: "Inter", Arial, sans-serif;
+  /* Arabic script: Sora/Inter carry no Arabic glyphs, so the hero headline
+     pairs Tajawal with the same system fallbacks used elsewhere. */
+  --font-arabic: "Tajawal", "Cairo", "Geeza Pro", "Segoe UI", system-ui, sans-serif;
 
   --radius-sm: 10px;
   --radius-card: 16px;
