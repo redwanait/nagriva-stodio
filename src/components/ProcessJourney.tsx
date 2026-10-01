@@ -1,5 +1,6 @@
 import { useEffect, useRef, type CSSProperties, type RefObject } from "react";
 import { processJourneyStack, processWorkflow } from "../data/siteData";
+import { useProtectedImage } from "../hooks/useProtectedImage";
 
 /*
  * Scroll-driven sticky card stack.
@@ -104,6 +105,7 @@ function useStackProgress(
 function ProcessJourney() {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
+  const protectedImage = useProtectedImage();
 
   useStackProgress(containerRef, viewportRef);
 
@@ -111,7 +113,7 @@ function ProcessJourney() {
     processJourneyStack;
 
   return (
-    <section className="process-stack" aria-labelledby="process-stack-title">
+    <section className="process-stack" aria-labelledby="process-stack-title" {...protectedImage}>
       <header className="process-stack__header" data-process-reveal>
         <p className="eyebrow process-stack__eyebrow">
           <span className="eyebrow__dot" aria-hidden="true" />

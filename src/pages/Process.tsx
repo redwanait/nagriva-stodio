@@ -9,6 +9,7 @@ import {
   aboutData,
 } from "../data/siteData";
 import { useSeo } from "../hooks/useSeo";
+import { useProtectedImage } from "../hooks/useProtectedImage";
 import { seoConfigs } from "../data/seo";
 
 const SEO = seoConfigs.process;
@@ -48,6 +49,7 @@ function useReveal() {
 
 function Hero() {
   const { character } = processHero;
+  const protectedImage = useProtectedImage();
 
   return (
     <section className="process-hero" aria-labelledby="process-hero-title">
@@ -71,8 +73,7 @@ function Hero() {
         </div>
         <div
           className="process-hero__media"
-          onContextMenu={(event) => event.preventDefault()}
-          onDragStart={(event) => event.preventDefault()}
+          {...protectedImage}
         >
           <span className="process-hero__glow" aria-hidden="true" />
           <img
@@ -93,6 +94,7 @@ function Hero() {
 
 function ProcessSummary() {
   const { graphic, stages } = processSummary;
+  const protectedImage = useProtectedImage();
 
   return (
     <section className="process-summary" aria-labelledby="process-summary-title">
@@ -106,7 +108,7 @@ function ProcessSummary() {
         <p className="process-summary__description">{processSummary.description}</p>
       </div>
 
-      <figure className="process-summary__graphic" data-process-reveal>
+      <figure className="process-summary__graphic" data-process-reveal {...protectedImage}>
         <img
           src={graphic.desktop.src}
           alt={graphic.alt}
@@ -114,6 +116,7 @@ function ProcessSummary() {
           height={graphic.desktop.height}
           loading="lazy"
           decoding="async"
+          draggable={false}
         />
       </figure>
 
@@ -136,6 +139,7 @@ function ProcessSummary() {
 function HowWeWork() {
   const { steps, cta } = processHowWeWork;
   const clients = aboutData.clients.slice(0, 5);
+  const protectedImage = useProtectedImage();
 
   return (
     <section className="process-guide" aria-labelledby="process-guide-title">
@@ -161,7 +165,7 @@ function HowWeWork() {
 
         <div className="process-guide__cta" data-process-reveal>
           <div className="process-guide__proof">
-            <ul className="process-guide__avatars">
+            <ul className="process-guide__avatars" {...protectedImage}>
               {clients.map((client) => (
                 <li key={client.name}>
                   <Avatar name={client.name} url={client.image} size="small" />
