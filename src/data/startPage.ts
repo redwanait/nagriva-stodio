@@ -16,10 +16,7 @@ export const startHero = {
   headlineBaseAr: "لِنَبْنِ شيئاً يستحق ",
   headlineAccentAr: "الحديث عنه.",
   description: "Four quick details and we'll take it from there. No long brief needed.",
-  reassurance: [
-    "No obligation, no pressure.",
-    "Free first conversation.",
-  ],
+  reassurance: [],
   contactNote: "Prefer to talk first?",
   contactWhatsapp: "Message us on WhatsApp",
 };
