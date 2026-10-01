@@ -638,10 +638,10 @@ export const processHero = {
 // arrow graphic. The detailed sequence lives in processWorkflow below.
 export const processSummary = {
   eyebrow: "Our approach",
-  heading: "Three stages.",
-  headingAccent: "One clear direction.",
+  heading: "Nagriva is simply clarity.",
+  headingAccent: "",
   description:
-    "From understanding the project to building the solution and delivering the final result.",
+    "We start with an idea and end up with an amazing result.",
   graphic: {
     desktop: { src: processSummaryDesktop, width: 2078, height: 757 },
     alt: "The Nagriva path connecting the Discover, Build and Deliver stages",
@@ -781,11 +781,11 @@ export const processWorkflow = [
 // Header copy for the scroll-driven sticky card stack. The eight cards
 // themselves reuse processWorkflow above, so the content lives in one place.
 export const processJourneyStack = {
-  eyebrow: "The journey",
-  heading: "From first conversation to",
-  headingAccent: "final delivery.",
+  eyebrow: "The pictures",
+  heading: "The photos that bring us together",
+  headingAccent: "",
   description:
-    "A clear look at what happens from the moment we start working together to the moment your project is ready.",
+    "We have selected a collection of photos that illustrate our way of working.",
   // Inline alt text per step, keyed by step number, so every image carries
   // meaningful text rather than a generic label.
   altText: {
