@@ -98,7 +98,23 @@ function AboutHero() {
           <h1 id="about-hero-title">
             {title} <span>{titleAccent}</span>
           </h1>
-          <p className="about-hero__description">{description}</p>
+          <p className="about-hero__description">
+            {description.map((segment) =>
+              typeof segment === "string" ? (
+                segment
+              ) : (
+                <a
+                  className="about-hero__description-link"
+                  href={segment.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  key={segment.href}
+                >
+                  {segment.label}
+                </a>
+              ),
+            )}
+          </p>
         </div>
 
         <div

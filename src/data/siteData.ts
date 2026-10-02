@@ -401,10 +401,9 @@ export const aboutPage = {
     founderRole: "Founder, Team assistance",
   },
   whatNagrivaDoes: {
-    eyebrow: "Technology",
-    title: "What Nagriva does",
+    title: "What Nagriva does ?",
     paragraph:
-      "Nagriva is an independent digital studio. We design and build websites, online stores and brand identities for businesses that want to look credible online and perform just as well — one team, one process, from the first conversation to the final launch.",
+      "Nagriva is used to give businesses a stronger presence online — whether that means launching a new website, selling online, or building a brand people can recognise and trust. We bring design, development, and strategy together to create digital experiences that look good, work well, and make it easier for people to take the next step. ",
     cta: { label: "Learn more", href: "/start" },
     image: {
       src: whatImage,
@@ -414,13 +413,15 @@ export const aboutPage = {
     },
   },
   /*
-   * 03 — one video, one heading, one paragraph. No lists, cards or buttons:
-   * the section exists to show the work and say plainly what it is for.
+   * 03 — one video, one heading, one paragraph and the same bare "Learn more"
+   * link as the section above. No lists or cards: the section exists to show the
+   * work and say plainly what it is for.
    */
   whatNagrivaIsUsedFor: {
     title: "What Nagriva is used for",
     paragraph:
       "Nagriva is what a business reaches for when its online presence has to earn its keep. We build professional websites, online stores and brand identities — work that looks considered, loads fast and makes the next step obvious. One studio takes it from the first conversation to launch, and stays close enough afterwards to keep improving it.",
+    cta: { label: "Learn more", href: "/services" },
     video: {
       src: usedForVideo,
       label: "A Nagriva website being designed and built on screen.",
@@ -439,42 +440,42 @@ export const aboutPage = {
       {
         year: 2019,
         description:
-          "Nagriva begins with a simple idea: build digital experiences that help businesses look credible online.",
+          "That same year was just as exciting, as I graduated in the field of programming.",
       },
       {
         year: 2020,
         description:
-          "Early experiments in web design, development and digital identity shaped the foundation of Nagriva.",
+          "I started thinking about launching a project in the field I love: programming.",
       },
       {
         year: 2021,
         description:
-          "Nagriva evolved its approach, focusing more on clarity, usability and purposeful digital experiences.",
+          "This year, I created over 77 websites for my family and friends; I haven't entered the market yet.",
       },
       {
         year: 2022,
         description:
-          "The studio expanded its capabilities across websites, e-commerce experiences and brand identity.",
+          "I actually started by creating a website and launching it on the market under the name redouane123.xyz.",
       },
       {
         year: 2023,
         description:
-          "Nagriva refined its process around strategy, design, development and delivering work with real purpose.",
+          "From that moment on, I started gaining clients, began working, and Nagriva started to grow.",
       },
       {
         year: 2024,
         description:
-          "More structured systems and a stronger visual direction helped Nagriva become a more focused digital studio.",
+          "I started doing Nagriva on my own, and later hired a team to help me with the work.",
       },
       {
         year: 2025,
         description:
-          "Nagriva entered a new phase, building a clearer brand, stronger digital products and a more defined creative process.",
+          "I have finally achieved my dream of establishing a Nagriva agency in Morocco, my home country.",
       },
       {
         year: 2026,
         description:
-          "Refining the vision, strengthening the system and preparing for what comes next. It will end soon.",
+          "Until the year ends, and we'll have a chat, inshallh 😄",
       },
     ],
   },
@@ -546,10 +547,22 @@ export const aboutPage = {
 export const aboutData = {
   hero: {
     eyebrow: "About Nagriva",
-    title: "Digital work built with",
-    titleAccent: "clarity and intention.",
-    description:
-      "Nagriva is an independent digital studio designing and building focused websites, e-commerce experiences, and brand identity — for businesses that want to look credible online and perform like it.",
+    title: "Digital experiences,",
+    titleAccent: " built with purpose.",
+    /*
+     * The description is a list of segments, not one string: a plain string is
+     * rendered as text, an object with an `href` becomes an external link. That
+     * keeps the sentence readable and editable here while letting the hero link
+     * the founder's name to his profile.
+     */
+    description: [
+      "Nagriva is a digital studio from Morocco, founded by ",
+      {
+        label: "Redouane Ait EL-HADJ",
+        href: "https://www.linkedin.com/in/redouane-ait-el-hadj-167910315/",
+      },
+      ", building thoughtful digital experiences for growing businesses.",
+    ],
   },
   /*
    * About hero — statistics.

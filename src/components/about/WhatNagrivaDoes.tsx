@@ -1,4 +1,6 @@
 import { useEffect, useRef } from "react";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { aboutPage } from "../../data/siteData";
 
@@ -6,11 +8,11 @@ import { aboutPage } from "../../data/siteData";
  * 02 — What Nagriva does.
  *
  * The section that follows the hero statistics: copy on the left, the studio's
- * own work on the right, and a single call to action. It deliberately reuses
- * the page's existing pieces — the `eyebrow` label with its blue dot, the
- * primary `button`, the 16px card radius and the same type scale as every other
- * About heading — so it reads as the next chapter of the same page rather than a
- * new layout language.
+ * own work on the right, and a single call to action. It deliberately reuses the
+ * page's existing pieces — the same type scale as every other About heading, the
+ * 16px card radius and the signature blue — so it reads as the next chapter of the
+ * same page rather than a new layout language. The action is a bare accent link,
+ * not a filled button: nothing on this page competes with the hero.
  *
  * The reveal follows the pattern already used by the final CTA and the Process
  * page: an IntersectionObserver adds one class, CSS transitions the children in
@@ -20,7 +22,7 @@ import { aboutPage } from "../../data/siteData";
  */
 
 function WhatNagrivaDoes() {
-  const { eyebrow, title, paragraph, cta, image } = aboutPage.whatNagrivaDoes;
+  const { title, paragraph, cta, image } = aboutPage.whatNagrivaDoes;
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -56,10 +58,6 @@ function WhatNagrivaDoes() {
     >
       <div className="about-what-nagriva-does__container">
         <div className="about-what-nagriva-does__content">
-          <p className="eyebrow about-what-nagriva-does__eyebrow" data-what-reveal>
-            <span className="eyebrow__dot" aria-hidden="true" />
-            {eyebrow}
-          </p>
           <h2 id="about-what-nagriva-does-title" data-what-reveal>
             {title}
           </h2>
@@ -67,8 +65,9 @@ function WhatNagrivaDoes() {
             {paragraph}
           </p>
           <div className="about-what-nagriva-does__actions" data-what-reveal>
-            <a className="button button--primary" href={cta.href}>
+            <a className="about-cta-link" href={cta.href}>
               {cta.label}
+              <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
             </a>
           </div>
         </div>
