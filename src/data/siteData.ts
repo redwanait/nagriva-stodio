@@ -9,6 +9,8 @@ import illustratorLogo from "../assets/aboutimage/barnds/illustrator.png";
 import photoshopLogo from "../assets/aboutimage/barnds/photoshop.png";
 import vsCodeLogo from "../assets/aboutimage/barnds/Visual Studio Code.png";
 import webflowLogo from "../assets/aboutimage/barnds/Webflow.png";
+import whatImage from "../assets/aboutimage/what-image.png";
+import usedForVideo from "../assets/aboutimage/default.mp4";
 import hichamClient from "../assets/aboutimage/clients/hicham-ait-ali.jpeg";
 import saidClient from "../assets/aboutimage/clients/سعيد الخاضيري.jpeg";
 import azizClient from "../assets/aboutimage/clients/عزيز لكميري.jpeg";
@@ -398,35 +400,81 @@ export const aboutPage = {
     founderName: "Redouane Ait EL-Hadj",
     founderRole: "Founder, Team assistance",
   },
-  whatIs: {
-    title: "What is Nagriva?",
+  whatNagrivaDoes: {
+    eyebrow: "Technology",
+    title: "What Nagriva does",
     paragraph:
-      "Nagriva is a digital studio based in Morocco. We design and build websites, online stores, and brand identities for businesses that want to look credible and perform online. One team, one process — from the first conversation to the final launch. We keep things simple, direct, and focused on what actually matters: work that speaks for itself.",
-    buttons: [
-      { label: "Learn more ", href: "/start" },
-      { label: "Hand in Hand", href: "/start", variant: "secondary" as const },
-    ],
+      "Nagriva is an independent digital studio. We design and build websites, online stores and brand identities for businesses that want to look credible online and perform just as well — one team, one process, from the first conversation to the final launch.",
+    cta: { label: "Learn more", href: "/start" },
+    image: {
+      src: whatImage,
+      alt: "A Nagriva website project laid out on desktop and mobile.",
+      width: 790,
+      height: 768,
+    },
   },
-  whyNagriva: {
-    title: "Why Nagriva?",
-    principles: [
+  /*
+   * 03 — one video, one heading, one paragraph. No lists, cards or buttons:
+   * the section exists to show the work and say plainly what it is for.
+   */
+  whatNagrivaIsUsedFor: {
+    title: "What Nagriva is used for",
+    paragraph:
+      "Nagriva is what a business reaches for when its online presence has to earn its keep. We build professional websites, online stores and brand identities — work that looks considered, loads fast and makes the next step obvious. One studio takes it from the first conversation to launch, and stays close enough afterwards to keep improving it.",
+    video: {
+      src: usedForVideo,
+      label: "A Nagriva website being designed and built on screen.",
+      width: 1112,
+      height: 1080,
+    },
+  },
+  /*
+   * 04 — History and evolution: one card per year, scrolled horizontally with
+   * the two arrow controls. The wording stays factual — what changed in the way
+   * the studio worked, with no invented clients, revenue or metrics.
+   */
+  history: {
+    title: "History and evolution",
+    entries: [
       {
-        number: "01",
-        title: "No unnecessary complexity",
+        year: 2019,
         description:
-          "We start with what the project actually needs. No unnecessary features or complexity just to make a website look bigger.",
+          "Nagriva begins with a simple idea: build digital experiences that help businesses look credible online.",
       },
       {
-        number: "02",
-        title: "Designed to be understood",
+        year: 2020,
         description:
-          "Every detail has a purpose — structure, content, navigation, and interaction. The goal is to make the project clear and easy to understand.",
+          "Early experiments in web design, development and digital identity shaped the foundation of Nagriva.",
       },
       {
-        number: "03",
-        title: "Built around your business",
+        year: 2021,
         description:
-          "We don't force the same solution onto every project. The website is built around the business, its audience, and its goals.",
+          "Nagriva evolved its approach, focusing more on clarity, usability and purposeful digital experiences.",
+      },
+      {
+        year: 2022,
+        description:
+          "The studio expanded its capabilities across websites, e-commerce experiences and brand identity.",
+      },
+      {
+        year: 2023,
+        description:
+          "Nagriva refined its process around strategy, design, development and delivering work with real purpose.",
+      },
+      {
+        year: 2024,
+        description:
+          "More structured systems and a stronger visual direction helped Nagriva become a more focused digital studio.",
+      },
+      {
+        year: 2025,
+        description:
+          "Nagriva entered a new phase, building a clearer brand, stronger digital products and a more defined creative process.",
+      },
+      {
+        year: 2026,
+        description:
+          "Refining the vision, strengthening the system and preparing for what comes next. It will end soon.",
       },
     ],
   },
@@ -503,6 +551,23 @@ export const aboutData = {
     description:
       "Nagriva is an independent digital studio designing and building focused websites, e-commerce experiences, and brand identity — for businesses that want to look credible online and perform like it.",
   },
+  /*
+   * About hero — statistics.
+   *
+   * Founded is a year, the rest are counts, so the values stay plain numbers:
+   * no separators, no suffixes. They animate once on scroll via
+   * `CountUpNumber`, and a reduced-motion visitor simply reads the final value.
+   *
+   * Reviews are not modelled here: the hero embeds the real Trustpilot Review
+   * Collector (see `components/about/TrustpilotReviewCollector.tsx`), so the
+   * rating and review count always come from Trustpilot itself.
+   */
+  heroStats: [
+    { label: "Founded", value: 2019 },
+    { label: "Customers Worldwide", value: 23 },
+    { label: "Websites Created", value: 65 },
+    { label: "Happy Clients", value: 65 },
+  ] as ReadonlyArray<{ label: string; value: number }>,
   intro: {
     eyebrow: "Why Nagriva",
     title: "A small studio.",
