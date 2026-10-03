@@ -11,6 +11,8 @@ import {
 import { useSeo } from "../hooks/useSeo";
 import { useProtectedImage } from "../hooks/useProtectedImage";
 import { seoConfigs } from "../data/seo";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const SEO = seoConfigs.process;
 
@@ -65,6 +67,7 @@ function Hero() {
           <div className="process-hero__actions">
             <a className="button button--primary" href={processHero.primaryAction.href}>
               {processHero.primaryAction.label}
+              <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
             </a>
             <a className="button button--secondary" href={processHero.secondaryAction.href}>
               {processHero.secondaryAction.label}
@@ -176,7 +179,7 @@ function HowWeWork() {
           </div>
           <a className="button button--primary process-guide__button" href={cta.action.href}>
             {cta.action.label}
-
+            <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
           </a>
         </div>
       </div>

@@ -21,8 +21,8 @@ import conversationImage from "../assets/processimage/messages/Conversation.png"
 import directionImage from "../assets/processimage/messages/Direction.png";
 import buildImage from "../assets/processimage/messages/Build.png";
 import launchImage from "../assets/processimage/messages/Launch.png";
-import processCharacter from "../assets/process-caracters/1.png";
-import processSummaryDesktop from "../assets/process-caracters/ForPC.png";
+import processCharacter from "../assets/process-caracters/1.webp";
+import processSummaryDesktop from "../assets/process-caracters/ForPC.webp";
 import processStep01 from "../assets/process steps images /conversation.jpg";
 import processStep02 from "../assets/process steps images /Agreement.jpg";
 import processStep03 from "../assets/process steps images /Contract.jpg";
