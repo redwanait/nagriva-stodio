@@ -49,7 +49,6 @@ function Portfolio() {
         <div className="portfolio-hero__container">
           <div className="portfolio-hero__content">
             <p className="eyebrow portfolio-hero__eyebrow">
-              <span className="eyebrow__dot" aria-hidden="true" />
               SELECTED WORK
             </p>
             <h1 id="portfolio-hero-title">

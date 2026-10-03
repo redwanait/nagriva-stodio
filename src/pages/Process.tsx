@@ -56,7 +56,7 @@ function Hero() {
       <div className="process-hero__container">
         <div className="process-hero__content">
           <p className="eyebrow process-hero__eyebrow">
-            <span className="eyebrow__dot" aria-hidden="true" />{processHero.eyebrow}
+            {processHero.eyebrow}
           </p>
           <h1 id="process-hero-title">
             {processHero.headline} <span>{processHero.headlineAccent}</span>
@@ -100,7 +100,7 @@ function ProcessSummary() {
     <section className="process-summary" aria-labelledby="process-summary-title">
       <div className="process-summary__intro" data-process-reveal>
         <p className="eyebrow process-summary__eyebrow">
-          <span className="eyebrow__dot" aria-hidden="true" />{processSummary.eyebrow}
+          {processSummary.eyebrow}
         </p>
         <h2 id="process-summary-title">
           {processSummary.heading} <span>{processSummary.headingAccent}</span>
@@ -146,7 +146,7 @@ function HowWeWork() {
       <div className="process-guide__panel">
         <header className="process-guide__header" data-process-reveal>
           <p className="eyebrow process-guide__eyebrow">
-            <span className="eyebrow__dot" aria-hidden="true" />{processHowWeWork.eyebrow}
+            {processHowWeWork.eyebrow}
           </p>
           <h2 id="process-guide-title">{processHowWeWork.heading}</h2>
           <p className="process-guide__description">{processHowWeWork.description}</p>

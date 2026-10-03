@@ -178,7 +178,6 @@ function Blog() {
         <div className="blog-hero__container">
           <div className="blog-hero__content">
             <p className="eyebrow blog-hero__eyebrow">
-              <span className="eyebrow__dot" />
               Nagriva Blog
             </p>
             <h1 id="blog-hero-title">

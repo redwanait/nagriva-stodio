@@ -9,13 +9,14 @@ import illustratorLogo from "../assets/aboutimage/barnds/illustrator.png";
 import photoshopLogo from "../assets/aboutimage/barnds/photoshop.png";
 import vsCodeLogo from "../assets/aboutimage/barnds/Visual Studio Code.png";
 import webflowLogo from "../assets/aboutimage/barnds/Webflow.png";
-import whatImage from "../assets/aboutimage/what-image.png";
-import usedForVideo from "../assets/aboutimage/default.mp4";
-import hichamClient from "../assets/aboutimage/clients/hicham-ait-ali.jpeg";
-import saidClient from "../assets/aboutimage/clients/سعيد الخاضيري.jpeg";
-import azizClient from "../assets/aboutimage/clients/عزيز لكميري.jpeg";
-import mohamedClient from "../assets/aboutimage/clients/محمد ميان.jpeg";
-import naimaClient from "../assets/aboutimage/clients/نعيمة الحيان.jpeg";
+import whatImage from "../assets/aboutimage/what-image.webp";
+import usedForVideoWebm from "../assets/aboutimage/default.webm";
+import usedForVideoMp4 from "../assets/aboutimage/default.mp4";
+import hichamClient from "../assets/aboutimage/clients/hicham-ait-ali.webp";
+import saidClient from "../assets/aboutimage/clients/سعيد الخاضيري.webp";
+import azizClient from "../assets/aboutimage/clients/عزيز لكميري.webp";
+import mohamedClient from "../assets/aboutimage/clients/محمد ميان.webp";
+import naimaClient from "../assets/aboutimage/clients/نعيمة الحيان.webp";
 import conversationImage from "../assets/processimage/messages/Conversation.png";
 import directionImage from "../assets/processimage/messages/Direction.png";
 import buildImage from "../assets/processimage/messages/Build.png";
@@ -404,7 +405,7 @@ export const aboutPage = {
     title: "What Nagriva does ?",
     paragraph:
       "Nagriva is used to give businesses a stronger presence online — whether that means launching a new website, selling online, or building a brand people can recognise and trust. We bring design, development, and strategy together to create digital experiences that look good, work well, and make it easier for people to take the next step. ",
-    cta: { label: "Learn more", href: "/start" },
+    cta: { label: "Learn more", href: "/portfolio" },
     image: {
       src: whatImage,
       alt: "A Nagriva website project laid out on desktop and mobile.",
@@ -418,12 +419,18 @@ export const aboutPage = {
    * work and say plainly what it is for.
    */
   whatNagrivaIsUsedFor: {
-    title: "What Nagriva is used for",
+    title: "What Nagriva is used for ?",
     paragraph:
       "Nagriva is what a business reaches for when its online presence has to earn its keep. We build professional websites, online stores and brand identities — work that looks considered, loads fast and makes the next step obvious. One studio takes it from the first conversation to launch, and stays close enough afterwards to keep improving it.",
     cta: { label: "Learn more", href: "/services" },
     video: {
-      src: usedForVideo,
+      /*
+       * VP9 WebM first, H.264 MP4 as the fallback for any browser without it.
+       * The two encodes are the same five seconds of footage at the same size,
+       * so the visitor sees the same clip either way.
+       */
+      src: usedForVideoWebm,
+      fallbackSrc: usedForVideoMp4,
       label: "A Nagriva website being designed and built on screen.",
       width: 1112,
       height: 1080,
@@ -571,9 +578,9 @@ export const aboutData = {
    * no separators, no suffixes. They animate once on scroll via
    * `CountUpNumber`, and a reduced-motion visitor simply reads the final value.
    *
-   * Reviews are not modelled here: the hero embeds the real Trustpilot Review
-   * Collector (see `components/about/TrustpilotReviewCollector.tsx`), so the
-   * rating and review count always come from Trustpilot itself.
+   * Reviews are not modelled here: the hero carries a single link to the Google
+   * review page (see `components/about/GoogleReviewBadge.tsx`), so no rating or
+   * review count is ever hard-coded here.
    */
   heroStats: [
     { label: "Founded", value: 2019 },

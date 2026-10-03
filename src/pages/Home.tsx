@@ -262,7 +262,7 @@ function Home() {
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero__container">
             <div className="hero__content">
-              <p className="eyebrow hero__eyebrow"> <span className="eyebrow__dot" />Sophisticated digital work, made human.</p>
+              <p className="eyebrow hero__eyebrow">Sophisticated digital work, made human.</p>
               <div
                 className={`hero__headline${isVoiceVisible ? " hero__headline--voice-visible" : ""}`}
                 onPointerEnter={handleVoiceAreaPointerEnter}

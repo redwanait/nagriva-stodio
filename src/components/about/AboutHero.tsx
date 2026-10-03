@@ -1,19 +1,19 @@
 import { useState, type PointerEvent } from "react";
 
-import image1 from "../../assets/aboutimageshero/image1.png";
-import image1Hover from "../../assets/aboutimageshero/image1-1.png";
-import image2 from "../../assets/aboutimageshero/image2.png";
-import image2Hover from "../../assets/aboutimageshero/image2-2.png";
-import image3 from "../../assets/aboutimageshero/image3.png";
-import image3Hover from "../../assets/aboutimageshero/image3-3.png";
-import image4 from "../../assets/aboutimageshero/image4.png";
-import image4Hover from "../../assets/aboutimageshero/image4-4.png";
-import image5 from "../../assets/aboutimageshero/image5.png";
-import image5Hover from "../../assets/aboutimageshero/image5-5.png";
+import image1 from "../../assets/aboutimageshero/image1.webp";
+import image1Hover from "../../assets/aboutimageshero/image1-1.webp";
+import image2 from "../../assets/aboutimageshero/image2.webp";
+import image2Hover from "../../assets/aboutimageshero/image2-2.webp";
+import image3 from "../../assets/aboutimageshero/image3.webp";
+import image3Hover from "../../assets/aboutimageshero/image3-3.webp";
+import image4 from "../../assets/aboutimageshero/image4.webp";
+import image4Hover from "../../assets/aboutimageshero/image4-4.webp";
+import image5 from "../../assets/aboutimageshero/image5.webp";
+import image5Hover from "../../assets/aboutimageshero/image5-5.webp";
 
 import { aboutData } from "../../data/siteData";
 import CountUpNumber from "./CountUpNumber";
-import TrustpilotReviewCollector from "./TrustpilotReviewCollector";
+import GoogleReviewBadge from "./GoogleReviewBadge";
 
 /*
  * About hero — centred headline over a fanned composition of five image cards.
@@ -92,7 +92,6 @@ function AboutHero() {
       <div className="about-hero__container">
         <div className="about-hero__content">
           <p className="eyebrow about-hero__eyebrow">
-            <span className="eyebrow__dot" aria-hidden="true" />
             {eyebrow}
           </p>
           <h1 id="about-hero-title">
@@ -159,7 +158,7 @@ function AboutHero() {
           ))}
         </div>
 
-        <TrustpilotReviewCollector />
+        <GoogleReviewBadge />
         <Stats />
       </div>
     </section>

@@ -14,7 +14,6 @@ function Services() {
         <div className="services-hero__container">
           <div className="services-hero__content">
             <p className="eyebrow services-hero__eyebrow">
-              <span className="eyebrow__dot" aria-hidden="true" />
               Services
             </p>
             <h1 id="services-hero-title">

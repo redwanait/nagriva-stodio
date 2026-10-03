@@ -3,6 +3,7 @@ import { faArrowRight, faPause, faPlay } from "@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { aboutPage } from "../../data/siteData";
+import { useProtectedImage } from "../../hooks/useProtectedImage";
 
 /*
  * 03 — What Nagriva is used for.
@@ -12,9 +13,10 @@ import { aboutPage } from "../../data/siteData";
  * nothing else. The same page measure, type scale and 16px radius as the sections
  * around it, so it reads as the next chapter of the same page.
  *
- * The video is decorative looping footage, so it autoplays muted, inline and
+ * The video is decorative looping footage, so it plays muted, inline and
  * without controls, keeps its own 1112x1080 proportions (no `object-fit`, so
- * nothing is cropped) and is only decoded while it is actually on screen.
+ * nothing is cropped) and is only decoded — and only downloaded — while it is
+ * actually on screen.
  *
  * A single overlay button owns play and pause for visitors who do not want the
  * motion. Two pieces of state make that work: `playing` mirrors the element
@@ -29,9 +31,10 @@ import { aboutPage } from "../../data/siteData";
 
 function WhatNagrivaIsUsedFor() {
   const { title, paragraph, cta, video } = aboutPage.whatNagrivaIsUsedFor;
-const sectionRef = useRef<HTMLElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(true);
+  const protectedImage = useProtectedImage();
   // Whether playback was stopped on purpose, as opposed to by the scroll
   // observer parking an off-screen video.
   const pausedByUser = useRef(false);
@@ -93,25 +96,33 @@ const sectionRef = useRef<HTMLElement>(null);
       ref={sectionRef}
     >
       <div className="about-used-for__container">
-        <figure className="about-used-for__media" data-used-reveal>
+        <figure className="about-used-for__media" data-used-reveal {...protectedImage}>
+          {/*
+           * WebM first, MP4 behind it for browsers without VP9 — the same five
+           * seconds either way. `preload="none"` plus no `autoPlay` attribute is
+           * what actually saves the bytes: the observer above starts the download
+           * with `play()` only once the section is on screen, so the clip never
+           * competes with the hero on first load.
+           */}
           <video
             className="about-used-for__video"
             ref={videoRef}
-            src={video.src}
             width={video.width}
             height={video.height}
-            autoPlay
             muted
             loop
             playsInline
-            preload="auto"
+            preload="none"
             disablePictureInPicture
             controlsList="nodownload noplaybackrate nofullscreen"
             tabIndex={-1}
             aria-label={video.label}
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
-          />
+          >
+            <source src={video.src} type="video/webm" />
+            <source src={video.fallbackSrc} type="video/mp4" />
+          </video>
           <button
             className="about-used-for__toggle"
             type="button"

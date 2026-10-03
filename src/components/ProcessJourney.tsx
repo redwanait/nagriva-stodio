@@ -116,7 +116,6 @@ function ProcessJourney() {
     <section className="process-stack" aria-labelledby="process-stack-title" {...protectedImage}>
       <header className="process-stack__header" data-process-reveal>
         <p className="eyebrow process-stack__eyebrow">
-          <span className="eyebrow__dot" aria-hidden="true" />
           {eyebrow}
         </p>
         <h2 id="process-stack-title">

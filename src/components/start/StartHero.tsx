@@ -11,7 +11,6 @@ function StartHero() {
       <div className="start-hero__container">
         <div className="start-hero__content">
           <p className="eyebrow start-hero__eyebrow">
-            <span className="eyebrow__dot" aria-hidden="true" />
             {startHero.eyebrow}
           </p>
           <h1 id={headlineId} className="start-hero__headline-text" dir="ltr" lang="en">
