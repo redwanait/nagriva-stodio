@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCheck,
-  faCopy,
-  faPause,
-  faVolumeHigh,
+  faStar,
+  faStarHalf,
 } from "@fortawesome/free-solid-svg-icons";
 
-import headlineAudio from "../assets/sound/sound01.wav";
 import nagrivaIntroVideo from "../assets/videos/nagriva-final.webm";
 
 import {
@@ -19,6 +18,7 @@ import ProjectCard from "../components/ProjectCard";
 import FeedbackSection from "../components/FeedbackSection";
 import FaqCtaSection from "../components/FaqCtaSection";
 import ClientLogos from "../components/ClientLogos";
+import RappelCard from "../components/RappelCard";
 import { useSeo } from "../hooks/useSeo";
 import { seoConfigs } from "../data/seo";
 
@@ -27,8 +27,7 @@ const SEO = seoConfigs.home;
 const CAROUSEL_INTERVAL = 5000;
 const CAROUSEL_TRANSITION_MS = 700;
 
-const CONTACT_EMAIL = "contact@nagriva.ma";
-const EMAIL_COPIED_FEEDBACK_MS = 2400;
+
 
 type CarouselRotation =
   | { status: "idle"; current: number }
@@ -40,15 +39,6 @@ function Home() {
     status: "idle",
     current: 0,
   });
-  const [isVoiceVisible, setIsVoiceVisible] = useState(false);
-  const [isHeadlineAudioPlaying, setIsHeadlineAudioPlaying] = useState(false);
-  const [isEmailCopied, setIsEmailCopied] = useState(false);
-  const emailCopiedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const headlineAudioRef = useRef<HTMLAudioElement | null>(null);
-  const voiceVisibilityTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const isVoiceVisibleRef = useRef(false);
-  const isPointerInsideVoiceAreaRef = useRef(false);
-  const isVoiceFocusedRef = useRef(false);
 
   const [shouldReduceMotion, setShouldReduceMotion] = useState(
     typeof window !== "undefined" &&
@@ -91,140 +81,6 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    const audio = new Audio(headlineAudio);
-    audio.preload = "none";
-    headlineAudioRef.current = audio;
-
-    const resetAudioState = () => setIsHeadlineAudioPlaying(false);
-    audio.addEventListener("ended", resetAudioState);
-    audio.addEventListener("error", resetAudioState);
-
-    return () => {
-      audio.pause();
-      audio.removeEventListener("ended", resetAudioState);
-      audio.removeEventListener("error", resetAudioState);
-      audio.removeAttribute("src");
-      audio.load();
-      headlineAudioRef.current = null;
-    };
-  }, []);
-
-  const toggleHeadlineAudio = () => {
-    const audio = headlineAudioRef.current;
-    if (!audio) return;
-
-    if (!audio.paused) {
-      audio.pause();
-      setIsHeadlineAudioPlaying(false);
-      return;
-    }
-
-    audio.currentTime = 0;
-    void audio.play()
-      .then(() => setIsHeadlineAudioPlaying(true))
-      .catch(() => setIsHeadlineAudioPlaying(false));
-  };
-
-  const flashEmailCopied = () => {
-    setIsEmailCopied(true);
-    if (emailCopiedTimerRef.current !== null) {
-      clearTimeout(emailCopiedTimerRef.current);
-    }
-    emailCopiedTimerRef.current = setTimeout(() => {
-      setIsEmailCopied(false);
-      emailCopiedTimerRef.current = null;
-    }, EMAIL_COPIED_FEEDBACK_MS);
-  };
-
-  const copyContactEmail = async () => {
-    try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(CONTACT_EMAIL);
-        flashEmailCopied();
-        return;
-      }
-    } catch {
-      // fall through to the legacy path below
-    }
-
-    // Fallback for browsers/contexts where the async clipboard API is blocked.
-    const helper = document.createElement("textarea");
-    helper.value = CONTACT_EMAIL;
-    helper.setAttribute("readonly", "");
-    helper.style.position = "fixed";
-    helper.style.top = "-1000px";
-    helper.style.opacity = "0";
-    document.body.appendChild(helper);
-    helper.select();
-
-    try {
-      if (document.execCommand("copy")) {
-        flashEmailCopied();
-      }
-    } catch {
-      // Clipboard unavailable; leave the button in its idle state.
-    } finally {
-      document.body.removeChild(helper);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (emailCopiedTimerRef.current !== null) {
-        clearTimeout(emailCopiedTimerRef.current);
-      }
-    };
-  }, []);
-
-  const clearVoiceVisibilityTimeout = () => {
-    if (voiceVisibilityTimeoutRef.current !== null) {
-      clearTimeout(voiceVisibilityTimeoutRef.current);
-      voiceVisibilityTimeoutRef.current = null;
-    }
-  };
-
-  const hideVoiceIfOutsideArea = () => {
-    if (!isPointerInsideVoiceAreaRef.current && !isVoiceFocusedRef.current) {
-      isVoiceVisibleRef.current = false;
-      setIsVoiceVisible(false);
-    }
-  };
-
-  const showVoice = () => {
-    if (isVoiceVisibleRef.current) return;
-
-    clearVoiceVisibilityTimeout();
-    isVoiceVisibleRef.current = true;
-    setIsVoiceVisible(true);
-    voiceVisibilityTimeoutRef.current = setTimeout(() => {
-      voiceVisibilityTimeoutRef.current = null;
-      hideVoiceIfOutsideArea();
-    }, 7000);
-  };
-
-  const handleVoiceAreaPointerEnter = () => {
-    isPointerInsideVoiceAreaRef.current = true;
-    showVoice();
-  };
-
-  const handleVoiceAreaPointerLeave = () => {
-    isPointerInsideVoiceAreaRef.current = false;
-    if (voiceVisibilityTimeoutRef.current === null) hideVoiceIfOutsideArea();
-  };
-
-  const handleVoiceAreaFocus = () => {
-    isVoiceFocusedRef.current = true;
-    showVoice();
-  };
-
-  const handleVoiceAreaBlur = () => {
-    isVoiceFocusedRef.current = false;
-    if (voiceVisibilityTimeoutRef.current === null) hideVoiceIfOutsideArea();
-  };
-
-  useEffect(() => () => clearVoiceVisibilityTimeout(), []);
-
-  useEffect(() => {
     const timer = setInterval(() => {
       if (document.hidden) return;
       const currentRotation = rotationRef.current;
@@ -259,66 +115,63 @@ function Home() {
   return (
     <>
       <main id="home">
-        <section className="hero" aria-labelledby="hero-title">
+        <section className="hero hero--two-col" aria-labelledby="hero-title">
           <div className="hero__container">
-            <div className="hero__content">
-              <p className="eyebrow hero__eyebrow">Sophisticated digital work, made human.</p>
-              <div
-                className={`hero__headline${isVoiceVisible ? " hero__headline--voice-visible" : ""}`}
-                onPointerEnter={handleVoiceAreaPointerEnter}
-                onPointerLeave={handleVoiceAreaPointerLeave}
-                onFocus={handleVoiceAreaFocus}
-                onBlur={handleVoiceAreaBlur}
-              >
-<button
-  className="hero__headline-audio"
-  type="button"
-  aria-label={isHeadlineAudioPlaying ? "Pause headline audio" : "Play headline audio"}
-  aria-pressed={isHeadlineAudioPlaying}
-  onClick={toggleHeadlineAudio}
->
-  <FontAwesomeIcon
-    icon={isHeadlineAudioPlaying ? faPause : faVolumeHigh}
-    aria-hidden="true"
-  />
-</button>
-                <h1 id="hero-title">Professional enough<br /><span>to trust.</span><br />Human enough <span>to talk to.</span></h1>
+            <div className="hero__content hero__content--left">
+              <p className="eyebrow hero__eyebrow">SOPHISTICATED DIGITAL WORK, MADE HUMAN.</p>
+              <div className="hero__headline">
+                <h1 id="hero-title">
+                  <span className="hero__title-word hero__title-word--underline">Professionalism</span> starts here.
+                </h1>
               </div>
-              <p className="hero__description">Nagriva designs and builds fast, responsive websites for businesses that want to look credible and perform better online.</p>
-              <div className="hero__actions">
-                <a className="button button--primary" href="/start">Start your project</a>
-                <a className="button button--secondary" href="https://wa.me/+212616523110">Talk to Redoaune </a>
+              <p className="hero__description hero__description--justified">
+                Nagriva designs and builds fast, responsive websites for businesses that want to look credible and perform better online.
+              </p>
+              <div className="hero__actions hero__actions--left">
+                <a className="button button--primary" href="/start">
+                  Start with Nagriva
+                  <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
+                </a>
+                <a className="button button--primary-2" href="https://wa.me/+212728427278" >
+                  Let's use WhatsApp
+                  <FontAwesomeIcon className="button--primary-2-icon" icon={faWhatsapp} aria-hidden="true" />
+                </a>
+
               </div>
-              <div className="hero__contact">
-                <span className="hero__contact-label" id="hero-contact-label">
-                  Prefer email?
-                </span>
-                <button
-                  className={`hero__email${isEmailCopied ? " hero__email--copied" : ""}`}
-                  type="button"
-                  onClick={() => {
-                    void copyContactEmail();
-                  }}
-                  aria-describedby="hero-contact-label"
-                >
-                  <span className="hero__email-value">{CONTACT_EMAIL}</span>
-                  <span className="hero__email-icon" aria-hidden="true">
-                    <FontAwesomeIcon icon={isEmailCopied ? faCheck : faCopy} />
-                  </span>
-                </button>
-                <span
-                  className="hero__email-status"
-                  role="status"
-                  aria-live="polite"
-                >
-                  {isEmailCopied ? "Email copied to clipboard" : ""}
-                </span>
+              <div className="hero__stats">
+                <div className="hero__stat">
+                  <span className="hero__stat-value">* 75%</span>
+                  <span className="hero__stat-label">Satisfaction rate</span>
+                </div>
+                <div className="hero__stat">
+                  <span className="hero__stat-value">* 98%</span>
+                  <span className="hero__stat-label">Happy customers</span>
+                </div>
               </div>
-              <div className="trust-row" aria-label="What we deliver">
-                <span><i />Professional but approachable.</span>
-                <span><i />Creative but intentional.</span>
-                <span><i />Digital but human.</span>
+              <div className="hero__reviews">
+                <div className="hero__stars">
+                  <FontAwesomeIcon icon={faStar} />
+                  <FontAwesomeIcon icon={faStar} />
+                  <FontAwesomeIcon icon={faStar} />
+                  <FontAwesomeIcon icon={faStar} />
+                  <FontAwesomeIcon icon={faStarHalf} />
+                </div>
+                <div className="hero__review-info">
+                  <span className="hero__review-text">Google Reviews · 378</span>
+                  <a
+                    className="hero__review-link"
+                    href="https://g.page/r/CesvnU7f7DDJECE/review"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Leave a review 
+                  </a>
+                </div>
               </div>
+            </div>
+            <div className="hero__visual hero__visual--right">
+              <div className="hero__visual-glow" aria-hidden="true" />
+              <RappelCard />
             </div>
           </div>
         </section>
