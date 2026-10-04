@@ -24,7 +24,7 @@ import { seoConfigs } from "../data/seo";
 
 const SEO = seoConfigs.home;
 
-const CAROUSEL_INTERVAL = 5000;
+const CAROUSEL_INTERVAL = 2000;
 const CAROUSEL_TRANSITION_MS = 700;
 
 
@@ -118,7 +118,7 @@ function Home() {
         <section className="hero hero--two-col" aria-labelledby="hero-title">
           <div className="hero__container">
             <div className="hero__content hero__content--left">
-              <p className="eyebrow hero__eyebrow">SOPHISTICATED DIGITAL WORK, MADE HUMAN.</p>
+              <p className="eyebrow hero__eyebrow">Nagriva — Website Design & Development Studio</p>
               <div className="hero__headline">
                 <h1 id="hero-title">
                   <span className="hero__title-word hero__title-word--underline">Professionalism</span> starts here.
