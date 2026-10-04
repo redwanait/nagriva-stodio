@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import StartWithNagrivaButton from "./StartWithNagrivaButton";
 function FinalCta() {
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -37,9 +38,7 @@ function FinalCta() {
             purposeful digital experience.
           </p>
           <div className="final-cta__actions">
-            <a className="final-cta__button final-cta__button--primary" href="/start">
-              Start with Nagriva
-            </a>
+            <StartWithNagrivaButton className="sw-button--lg final-cta__button final-cta__button--primary" />
             <a className="final-cta__button final-cta__button--secondary" href="https://wa.me/+212616523110">
               Talk to Redoaune
             </a>

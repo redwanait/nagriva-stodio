@@ -1,9 +1,10 @@
 import { useRef, useState } from "react";
 import { navLinks } from "../data/siteData";
 import logo from "../assets/logos/logo.webp";
-import { faArrowRight, faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MobileMenu from "./MobileMenu";
+import StartWithNagrivaButton from "./StartWithNagrivaButton";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,10 +26,7 @@ function Navbar() {
           ))}
         </nav>
 
-        <a className="navbar__cta" href="/start">
-          Start with Nagriva
-          <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
-        </a>
+        <StartWithNagrivaButton className="navbar__cta" />
         <button
           ref={menuButtonRef}
           className="navbar__menu-toggle"

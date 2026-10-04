@@ -11,8 +11,7 @@ import {
 import { useSeo } from "../hooks/useSeo";
 import { useProtectedImage } from "../hooks/useProtectedImage";
 import { seoConfigs } from "../data/seo";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import StartWithNagrivaButton from "../components/StartWithNagrivaButton";
 
 const SEO = seoConfigs.process;
 
@@ -65,10 +64,11 @@ function Hero() {
           </h1>
           <p className="process-hero__description">{processHero.description}</p>
           <div className="process-hero__actions">
-            <a className="button button--primary" href={processHero.primaryAction.href}>
-              {processHero.primaryAction.label}
-              <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
-            </a>
+            <StartWithNagrivaButton
+              className="button button--primary"
+              href={processHero.primaryAction.href}
+              label={processHero.primaryAction.label}
+            />
             <a className="button button--secondary" href={processHero.secondaryAction.href}>
               {processHero.secondaryAction.label}
             </a>
@@ -177,10 +177,11 @@ function HowWeWork() {
             </ul>
             <p className="process-guide__note">{cta.note}</p>
           </div>
-          <a className="button button--primary process-guide__button" href={cta.action.href}>
-            {cta.action.label}
-            <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
-          </a>
+          <StartWithNagrivaButton
+            className="button button--primary process-guide__button"
+            href={cta.action.href}
+            label={cta.action.label}
+          />
         </div>
       </div>
     </section>

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,6 +18,7 @@ import FeedbackSection from "../components/FeedbackSection";
 import FaqCtaSection from "../components/FaqCtaSection";
 import ClientLogos from "../components/ClientLogos";
 import RappelCard from "../components/RappelCard";
+import StartWithNagrivaButton from "../components/StartWithNagrivaButton";
 import { useSeo } from "../hooks/useSeo";
 import { seoConfigs } from "../data/seo";
 
@@ -128,10 +128,7 @@ function Home() {
                 Nagriva designs and builds fast, responsive websites for businesses that want to look credible and perform better online.
               </p>
               <div className="hero__actions hero__actions--left">
-                <a className="button button--primary" href="/start">
-                  Start with Nagriva
-                  <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
-                </a>
+                <StartWithNagrivaButton className="button button--primary" />
                 <a className="button button--primary-2" href="https://wa.me/+212728427278" >
                   Let's use WhatsApp
                   <FontAwesomeIcon className="button--primary-2-icon" icon={faWhatsapp} aria-hidden="true" />
@@ -197,7 +194,6 @@ function Home() {
               </article>
             ))}
           </div>
-          <a className="services-cta" href="/start">Start with Nagriva</a>
         </section>
 
         <section className="portfolio-section" id="portfolio" aria-labelledby="portfolio-title">
@@ -304,7 +300,6 @@ function Home() {
               <p>
                 A clear process that takes your project from idea to launch without the usual confusion.
               </p>
-              <a className="process-section__cta" href="/start">Start with Nagriva</a>
             </div>
           </div>
 

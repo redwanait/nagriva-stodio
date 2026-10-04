@@ -1,3 +1,5 @@
+import StartWithNagrivaButton from "./StartWithNagrivaButton";
+
 type ProjectCardProps = {
   project: {
     title: string;
@@ -45,9 +47,10 @@ function ProjectCard({ project, loading = "lazy", hideActions = false }: Project
         {!hideActions && (showStartAction || showPreviewAction) && (
           <div className="portfolio-card__actions">
             {showStartAction && (
-              <a className="portfolio-card__action portfolio-card__action--primary" href={project.linkOne}>
-                Start with Nagriva <span aria-hidden="true"></span>
-              </a>
+              <StartWithNagrivaButton
+                className="portfolio-card__action portfolio-card__action--primary"
+                href={project.linkOne}
+              />
             )}
             {showPreviewAction && (
               <a

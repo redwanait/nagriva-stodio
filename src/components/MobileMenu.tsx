@@ -1,8 +1,9 @@
 import { useEffect, useRef, type RefObject } from "react";
 import logo from "../assets/logos/logo.webp";
 import { navLinks, socialLinks } from "../data/siteData";
-import { faArrowRight, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import StartWithNagrivaButton from "./StartWithNagrivaButton";
 
 type MobileMenuProps = {
   open: boolean;
@@ -111,10 +112,7 @@ function MobileMenu({ open, onClose, returnFocusRef }: MobileMenuProps) {
 
         <div className="mobile-menu__footer">
           <p className="mobile-menu__availability">Available for select projects.</p>
-          <a className="mobile-menu__cta" href="/start" onClick={handleClose}>
-            Start with Nagriva
-            <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
-          </a>
+          <StartWithNagrivaButton className="sw-button--lg mobile-menu__cta" onClick={handleClose} />
           <div className="mobile-menu__socials" aria-label="Social links">
             {socialLinks.map((social) => (
               <a

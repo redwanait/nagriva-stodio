@@ -2,7 +2,6 @@
 import logo from "../assets/logos/logo.webp";
 import { socialLinks } from "../data/siteData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const exploreLinks = [
   { label: "Home", href: "/" },
@@ -101,21 +100,6 @@ function Footer() {
         .footer-redesign__link:hover {
           color: var(--color-accent-text);
         }
-        .footer-redesign__project-link {
-          display: inline-flex;
-          align-items: center;
-          gap: .55rem;
-          color: var(--color-accent-text);
-          font-family: var(--font-heading);
-          font-weight: 600;
-        }
-        .footer-redesign__project-link svg {
-          font-size: .65rem;
-          transition: transform 160ms ease;
-        }
-        .footer-redesign__project-link:hover svg {
-          transform: translateX(3px);
-        }
         .footer-redesign__contact {
           margin-top: .35rem;
           line-height: 1.55;
@@ -194,9 +178,6 @@ function Footer() {
               </nav>
               <div className="footer-redesign__column">
                 <span className="footer-redesign__label">Start/Help</span>
-                <a className="footer-redesign__link footer-redesign__project-link" href="/start">
-                  Start with Nagriva <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
-                </a>
                 <a className="footer-redesign__link" href="mailto:contact@nagriva.ma">Hand in hand </a>
                 <a className="footer-redesign__link footer-redesign__contact" href="mailto:contact@nagriva.ma">
                   contact@nagriva.ma
