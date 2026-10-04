@@ -559,14 +559,32 @@ h1 { margin: 0; max-width: 600px; font-size: clamp(3.2rem, 4.6vw, 5.5rem); line-
 @media (max-width: 720px) { .mobile-menu { display: flex; visibility: visible; }.navbar { grid-template-columns: 1fr auto; gap: var(--space-sm); padding-left: var(--space-md); }.navbar__logo { height: 40px; }.navbar__links { display: none; }.navbar__cta { display: none; }.navbar__menu-toggle { display: grid; }.hero { min-height: auto; padding-top: 0; padding-bottom: 0; }.hero__container { min-height: 0; display: flex; flex-direction: column; align-items: stretch; gap: 1.5rem; padding-top: 7rem; padding-bottom: 2rem; }.hero--two-col .hero__container { padding-bottom: 3rem; width: calc(100% - 32px); } .hero__content { max-width: none; }.hero__content--left { order: 1; } .hero__description { font-size: .85rem; }.hero__actions { flex-wrap: wrap; gap: 1.1rem; }.hero__actions--left { flex-direction: column; align-items: stretch; justify-content: center; } .hero__actions--left .button { width: 100%; } .hero__content h1 { font-size: clamp(1.75rem, 8.5vw, 3.4rem); line-height: 1.06; }.hero__stats { margin-top: 1.5rem; flex-wrap: wrap; gap: clamp(1.25rem, 6vw, 2rem); } .hero__stat { min-width: 0; } .hero__stat-value { font-size: clamp(1.4rem, 7vw, 1.875rem); } .hero__reviews { margin-top: 1.5rem; flex-wrap: wrap; } .hero__review-info { min-width: 0; } .hero__visual--right { order: 2; }
   .rappel-card {
     width: 100%;
-    padding: clamp(1.5rem, 6vw, 1.85rem);
+    padding: clamp(1.25rem, 5vw, 1.6rem);
     border-radius: 16px;
   }
+  .rappel-card__badge {
+    margin-bottom: 0.9rem;
+  }
   .rappel-card__title {
-    font-size: clamp(1.6rem, 8vw, 2rem);
+    margin-bottom: 0.55rem;
+    font-size: clamp(1.5rem, 7vw, 1.85rem);
   }
   .rappel-card__description {
+    margin-bottom: 1.2rem;
     max-width: none;
+  }
+  .rappel-card__field {
+    margin-bottom: 0.85rem;
+  }
+  .rappel-card__input {
+    min-height: 46px;
+  }
+  .rappel-card__button {
+    min-height: 48px;
+    margin-top: 0.35rem;
+  }
+  .rappel-card__privacy {
+    margin-top: 0.9rem;
   } .preview { width: calc(100% - 32px); }.preview__body { display: block; }.preview__sidebar { display: none; }.preview__dashboard { padding: 24px 16px; }.dashboard__stats, .dashboard__lower { grid-template-columns: 1fr; }.services-section { width: calc(100% - 32px); margin: 6rem auto; }.section-heading { flex-direction: column; gap: 0; }.service-grid { grid-template-columns: 1fr; }.service-card--featured { grid-column: auto; }.service-card { min-height: 220px; }.service-card__content { margin-top: 2.5rem; }.footer__main { grid-template-columns: 1fr 1fr; gap: 3rem 1.5rem; padding-bottom: 3.5rem; }.footer__main > div:first-child { grid-column: 1 / -1; }.footer__bottom { gap: 1rem; flex-direction: column; } }
 @media (max-width: 360px) { .mobile-menu__drawer { flex-basis: 84vw; } }
 @media (min-width: 361px) and (max-width: 720px) { .mobile-menu__drawer { flex-basis: 74vw; } }
