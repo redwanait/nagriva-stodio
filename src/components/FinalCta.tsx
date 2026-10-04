@@ -41,7 +41,7 @@ function FinalCta() {
           </p>
           <div className="final-cta__actions">
             <StartWithNagrivaButton className="sw-button--lg final-cta__button final-cta__button--primary" />
-            <a className="final-cta__button final-cta__button--secondary" href="https://wa.me/+212616523110">
+            <a className="final-cta__button final-cta__button--secondary" href="https://wa.me/+212728427278">
               Message us on WhatsApp
               <FontAwesomeIcon className="button--primary-2-icon" icon={faWhatsapp} aria-hidden="true" />
             </a>
