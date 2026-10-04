@@ -130,7 +130,7 @@ function Home() {
               <div className="hero__actions hero__actions--left">
                 <StartWithNagrivaButton className="button button--primary" />
                 <a className="button button--primary-2" href="https://wa.me/+212728427278" >
-                  Let's use WhatsApp
+                  Message us on WhatsApp
                   <FontAwesomeIcon className="button--primary-2-icon" icon={faWhatsapp} aria-hidden="true" />
                 </a>
 

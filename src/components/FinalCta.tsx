@@ -1,4 +1,6 @@
 import { useEffect, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import StartWithNagrivaButton from "./StartWithNagrivaButton";
 function FinalCta() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -40,7 +42,8 @@ function FinalCta() {
           <div className="final-cta__actions">
             <StartWithNagrivaButton className="sw-button--lg final-cta__button final-cta__button--primary" />
             <a className="final-cta__button final-cta__button--secondary" href="https://wa.me/+212616523110">
-              Talk to Redoaune
+              Message us on WhatsApp
+              <FontAwesomeIcon className="button--primary-2-icon" icon={faWhatsapp} aria-hidden="true" />
             </a>
           </div>
         </div>
