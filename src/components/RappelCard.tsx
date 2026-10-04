@@ -17,12 +17,12 @@ function RappelCard() {
   const [submitted, setSubmitted] = useState(false);
 
   const nameError =
-    nameTouched && name.trim() === "" ? "Veuillez renseigner votre nom." : "";
+    nameTouched && name.trim() === "" ? "Please enter your name." : "";
   const phoneError =
     phoneTouched && phone.trim() === ""
-      ? "Veuillez renseigner votre numéro."
+      ? "Please enter your number."
       : phoneTouched && !isValidPhone(phone)
-        ? "Veuillez saisir un numéro valide."
+        ? "Please enter a valid number."
         : "";
 
   const canSubmit =
@@ -49,7 +49,7 @@ function RappelCard() {
       setSubmitError(
         e instanceof Error
           ? e.message
-          : "Impossible d'envoyer votre demande. Merci de réessayer.",
+          : "Unable to send your request. Please try again.",
       );
     } finally {
       setSubmitting(false);
@@ -60,36 +60,35 @@ function RappelCard() {
     <div className="rappel-card">
       <div className="rappel-card__badge">
         <span className="rappel-card__dot" aria-hidden="true" />
-        RAPPEL GRATUIT
+        Free call
       </div>
 
       {submitted ? (
         <div className="rappel-card__done" role="status" aria-live="polite">
-          <span className="rappel-card__done-mark" aria-hidden="true">✓</span>
           <h2 className="rappel-card__title">
-            Merci{name.trim() ? `, ${name.trim()}` : ""} !
+            Thanks {name.trim() ? ` ${name.trim()}` : ""} 
           </h2>
           <p className="rappel-card__description">
-            Votre demande est bien reçue. Un conseiller Nagriva vous rappelle très vite.
+            We have received your request. A Nagriva advisor will call you back shortly.
           </p>
         </div>
       ) : (
         <>
-          <h2 className="rappel-card__title">On vous rappelle</h2>
+          <h2 className="rappel-card__title">We will call you back.</h2>
           <p className="rappel-card__description">
-            Laissez vos coordonnées, un conseiller Nagriva vous répond rapidement.
+            Leave your contact details, and a Nagriva advisor will get back to you quickly.
           </p>
 
           <form className="rappel-card__form" onSubmit={handleSubmit} noValidate>
             <div className="rappel-card__field">
               <label className="rappel-card__label" htmlFor="rappel-name">
-                VOTRE NOM
+                YOUR NAME
               </label>
               <input
                 id="rappel-name"
                 type="text"
                 className="rappel-card__input"
-                placeholder="John D."
+                placeholder="Redouane."
                 autoComplete="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -108,7 +107,7 @@ function RappelCard() {
 
             <div className="rappel-card__field">
               <label className="rappel-card__label" htmlFor="rappel-phone">
-                TÉLÉPHONE / WHATSAPP
+                PHONE / WHATSAPP
               </label>
               <input
                 id="rappel-phone"
@@ -133,8 +132,7 @@ function RappelCard() {
             </div>
 
             <button className="rappel-card__button" type="submit" disabled={!canSubmit}>
-              {submitting ? "Envoi…" : "Être rappelé"}
-              {!submitting && <span aria-hidden="true">→</span>}
+              {submitting ? "Sending…" : "Request a call"}
             </button>
 
             {submitError && (
@@ -146,7 +144,7 @@ function RappelCard() {
         </>
       )}
 
-      <p className="rappel-card__privacy">VOS DONNÉES RESTENT CONFIDENTIELLES</p>
+      <p className="rappel-card__privacy">Your data remains confidential.</p>
     </div>
   );
 }
