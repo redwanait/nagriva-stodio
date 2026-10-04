@@ -9,24 +9,17 @@ import co8 from "../assets/companies/co8.png";
 import co9 from "../assets/companies/co9.png";
 import co10 from "../assets/companies/co10.png";
 import co11 from "../assets/companies/co11.png";
-import co12 from "../assets/companies/co12.webp";
-import co13 from "../assets/companies/co13.webp";
 import co14 from "../assets/companies/co14.png";
 import co15 from "../assets/companies/co15.png";
 import co16 from "../assets/companies/co16.png";
-import co17 from "../assets/companies/co17.png";
 import co18 from "../assets/companies/co18.webp";
 import co19 from "../assets/companies/co19.png";
 import co20 from "../assets/companies/co20.webp";
 import co21 from "../assets/companies/co21.png";
-import co22 from "../assets/companies/co22.png";
 import co23 from "../assets/companies/co23.png";
-import co24 from "../assets/companies/co24.webp";
 import co25 from "../assets/companies/co25.png";
 import co26 from "../assets/companies/co26.png";
 import co27 from "../assets/companies/co27.svg";
-import co28 from "../assets/companies/co28.png";
-import co29 from "../assets/companies/co29.png";
 
 const logos = [
   { src: co1, alt: "Client logo" },
@@ -40,24 +33,17 @@ const logos = [
   { src: co9, alt: "Client logo" },
   { src: co10, alt: "Client logo" },
   { src: co11, alt: "Client logo" },
-  { src: co12, alt: "Client logo" },
-  { src: co13, alt: "Client logo" },
   { src: co14, alt: "Client logo" },
   { src: co15, alt: "Client logo" },
   { src: co16, alt: "Client logo" },
-  { src: co17, alt: "Client logo" },
   { src: co18, alt: "Client logo" },
   { src: co19, alt: "Client logo" },
   { src: co20, alt: "Client logo" },
   { src: co21, alt: "Client logo" },
-  { src: co22, alt: "Client logo" },
   { src: co23, alt: "Client logo" },
-  { src: co24, alt: "Client logo" },
   { src: co25, alt: "Client logo" },
   { src: co26, alt: "Client logo" },
   { src: co27, alt: "Client logo" },
-  { src: co28, alt: "Client logo" },
-  { src: co29, alt: "Client logo" },
 ];
 
 function LogoTrack() {
