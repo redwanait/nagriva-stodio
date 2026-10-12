@@ -125,9 +125,43 @@ main { overflow: hidden; }
 .hero__headline { position: relative; }
 h1 { margin: 0; max-width: 600px; font-size: clamp(3.2rem, 4.6vw, 5.5rem); line-height: 1.02; letter-spacing: -0.02em; font-weight: 600; } h1 strong { color: var(--color-text); font-weight: 600; } h1 span, h2 em { color: var(--color-text); font-style: normal; font-size: 37px;} .hero__content h1 { max-width: 900px; font-size: clamp(3.5rem, 6vw, 4.75rem); line-height: 1.01; letter-spacing: -0.03em; } .hero__content h1 span { font-size: inherit; }
 
+.hero__headline-rotator {
+  display: inline-grid;
+  vertical-align: baseline;
+  overflow: hidden;
+  padding: 0.16em 0;
+  margin: -0.16em 0;
+}
+
 .hero__title-word {
   position: relative;
   display: inline-block;
+  grid-area: 1 / 1;
+  justify-self: start;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(0.6em);
+  animation: hero-title-word-cycle 15s cubic-bezier(0.33, 0, 0.2, 1) infinite both;
+  will-change: transform, opacity;
+}
+
+@keyframes hero-title-word-cycle {
+  0% { opacity: 1; transform: translateY(0); }
+  16% { opacity: 1; transform: translateY(0); }
+  20% { opacity: 0; transform: translateY(-0.6em); }
+  20.01% { opacity: 0; transform: translateY(0.6em); }
+  96% { opacity: 0; transform: translateY(0.6em); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__headline-rotator .hero__title-word {
+    animation: none;
+    opacity: 0;
+    transform: none;
+  }
+
+  .hero__headline-rotator .hero__title-word:first-child { opacity: 1; }
 }
 
 .hero__title-word--underline::after {
@@ -198,6 +232,57 @@ h1 { margin: 0; max-width: 600px; font-size: clamp(3.2rem, 4.6vw, 5.5rem); line-
   opacity: 1; 
   box-shadow: 0 0 32px rgba(0,0,0,.15); 
   transform: translateY(-1px);
+}
+
+/* Shared animated WhatsApp icon: a soft green ripple expands from behind the
+   glyph while the icon itself breathes (scale 1 → 1.12 → 1). Both run on the
+   icon's wrapper, so the button, text and layout stay completely still. */
+.whatsapp-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+.whatsapp-icon > svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  transform-origin: center;
+  animation: whatsapp-icon-breathe 3s ease-in-out infinite;
+  will-change: transform;
+}
+.whatsapp-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid rgba(196, 255, 219, 0.95);
+  background: rgba(196, 255, 219, 0.16);
+  box-shadow: 0 0 10px rgba(134, 239, 172, 0.75);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.35);
+  animation: whatsapp-icon-ripple 3s ease-out infinite;
+  will-change: transform, opacity;
+}
+@keyframes whatsapp-icon-breathe {
+  0%, 100% { transform: scale(1); }
+  14% { transform: scale(1.12); }
+  30% { transform: scale(1); }
+}
+@keyframes whatsapp-icon-ripple {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.35); }
+  12% { opacity: 0.9; }
+  45% { opacity: 0; transform: translate(-50%, -50%) scale(3.1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(3.1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-icon > svg { animation: none; transform: none; }
+  .whatsapp-icon::after { animation: none; opacity: 0; }
 }
 
 .button--primary:hover {  

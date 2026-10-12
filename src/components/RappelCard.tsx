@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 
 import { submitCallBooking } from "../lib/callBookingService";
 
@@ -6,6 +6,19 @@ function isValidPhone(value: string): boolean {
   const digits = value.replace(/[\s+\-()]/g, "");
   return /^\+?\d{8,15}$/.test(digits);
 }
+
+const NAME_BASE = "Redouane";
+const NAME_SUFFIX = " Ait EL-Hadj";
+const NAME_PLACEHOLDER = "Redouane.";
+const PHONE_PLACEHOLDER = "+212 6XX XXX XXX";
+const PHONE_ACTUAL = "+212 628427278";
+
+const NAME_START_PAUSE = 1100;
+const NAME_HOLD = 3000;
+const PHONE_HOLD = 2200;
+const CYCLE_GAP = 700;
+const TYPE_MS = 95;
+const DELETE_MS = 55;
 
 function RappelCard() {
   const [name, setName] = useState("");
@@ -15,6 +28,133 @@ function RappelCard() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+
+  const [shouldReduceMotion, setShouldReduceMotion] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+  const [namePreview, setNamePreview] = useState<string | null>(
+    shouldReduceMotion ? null : NAME_BASE,
+  );
+  const [phonePreview, setPhonePreview] = useState<string | null>(
+    shouldReduceMotion ? null : PHONE_PLACEHOLDER,
+  );
+
+  const nameInteractedRef = useRef(false);
+  const phoneInteractedRef = useRef(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const handler = (event: MediaQueryListEvent) =>
+      setShouldReduceMotion(event.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+
+  useEffect(() => {
+    if (shouldReduceMotion || submitted) return;
+
+    let cancelled = false;
+    let timer: ReturnType<typeof setTimeout> | null = null;
+
+    const sleep = (ms: number) =>
+      new Promise<void>((resolve) => {
+        timer = setTimeout(resolve, ms);
+      });
+
+    const typeName = async () => {
+      for (let i = 1; i <= NAME_SUFFIX.length; i += 1) {
+        if (cancelled || nameInteractedRef.current) return;
+        setNamePreview(NAME_BASE + NAME_SUFFIX.slice(0, i));
+        await sleep(TYPE_MS);
+      }
+    };
+
+    const eraseName = async () => {
+      for (let i = NAME_SUFFIX.length - 1; i >= 0; i -= 1) {
+        if (cancelled || nameInteractedRef.current) return;
+        setNamePreview(NAME_BASE + NAME_SUFFIX.slice(0, i));
+        await sleep(DELETE_MS);
+      }
+    };
+
+    const morphPhone = async (from: string, to: string) => {
+      let prefix = 0;
+      while (
+        prefix < from.length &&
+        prefix < to.length &&
+        from[prefix] === to[prefix]
+      ) {
+        prefix += 1;
+      }
+      for (let i = from.length; i > prefix; i -= 1) {
+        if (cancelled || phoneInteractedRef.current) return;
+        setPhonePreview(from.slice(0, i - 1));
+        await sleep(DELETE_MS);
+      }
+      for (let i = prefix + 1; i <= to.length; i += 1) {
+        if (cancelled || phoneInteractedRef.current) return;
+        setPhonePreview(to.slice(0, i));
+        await sleep(TYPE_MS);
+      }
+    };
+
+    const run = async () => {
+      while (!cancelled) {
+        if (!nameInteractedRef.current) {
+          setNamePreview(NAME_BASE);
+          await sleep(NAME_START_PAUSE);
+          if (cancelled) return;
+          await typeName();
+          if (cancelled) return;
+          if (nameInteractedRef.current) {
+            setNamePreview(null);
+          } else {
+            await sleep(NAME_HOLD);
+            if (cancelled) return;
+            await eraseName();
+            if (cancelled) return;
+            setNamePreview(NAME_BASE);
+          }
+        }
+
+        if (!phoneInteractedRef.current) {
+          await sleep(CYCLE_GAP);
+          if (cancelled) return;
+          await morphPhone(PHONE_PLACEHOLDER, PHONE_ACTUAL);
+          if (cancelled) return;
+          if (!phoneInteractedRef.current) {
+            await sleep(PHONE_HOLD);
+            if (cancelled) return;
+            await morphPhone(PHONE_ACTUAL, PHONE_PLACEHOLDER);
+            if (cancelled) return;
+          }
+        }
+
+        if (nameInteractedRef.current && phoneInteractedRef.current) return;
+      }
+    };
+
+    run();
+
+    return () => {
+      cancelled = true;
+      if (timer !== null) clearTimeout(timer);
+    };
+  }, [shouldReduceMotion, submitted]);
+
+  const stopNameAnimation = () => {
+    if (nameInteractedRef.current) return;
+    nameInteractedRef.current = true;
+    setNamePreview(null);
+  };
+
+  const stopPhoneAnimation = () => {
+    if (phoneInteractedRef.current) return;
+    phoneInteractedRef.current = true;
+    setPhonePreview(null);
+  };
 
   const nameError =
     nameTouched && name.trim() === "" ? "Please enter your name." : "";
@@ -27,6 +167,14 @@ function RappelCard() {
 
   const canSubmit =
     !submitting && name.trim() !== "" && isValidPhone(phone);
+
+  const showPreview = !shouldReduceMotion && !submitted;
+  const namePlaceholder = showPreview
+    ? namePreview ?? NAME_PLACEHOLDER
+    : NAME_PLACEHOLDER;
+  const phonePlaceholder = showPreview
+    ? phonePreview ?? PHONE_PLACEHOLDER
+    : PHONE_PLACEHOLDER;
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -88,10 +236,14 @@ function RappelCard() {
                 id="rappel-name"
                 type="text"
                 className="rappel-card__input"
-                placeholder="Redouane."
+                placeholder={namePlaceholder}
                 autoComplete="name"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {
+                  stopNameAnimation();
+                  setName(e.target.value);
+                }}
+                onFocus={stopNameAnimation}
                 onBlur={() => setNameTouched(true)}
                 aria-required="true"
                 aria-invalid={nameError ? true : undefined}
@@ -113,11 +265,15 @@ function RappelCard() {
                 id="rappel-phone"
                 type="tel"
                 className="rappel-card__input"
-                placeholder="+212 6XX XXX XXX"
+                placeholder={phonePlaceholder}
                 autoComplete="tel"
                 inputMode="tel"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={(e) => {
+                  stopPhoneAnimation();
+                  setPhone(e.target.value);
+                }}
+                onFocus={stopPhoneAnimation}
                 onBlur={() => setPhoneTouched(true)}
                 aria-required="true"
                 aria-invalid={phoneError ? true : undefined}

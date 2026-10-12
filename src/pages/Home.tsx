@@ -27,6 +27,15 @@ const SEO = seoConfigs.home;
 const CAROUSEL_INTERVAL = 2000;
 const CAROUSEL_TRANSITION_MS = 700;
 
+const HERO_KEYWORDS = [
+  "Professionalism",
+  "Creativity",
+  "Performance",
+  "Innovation",
+  "Growth",
+];
+const HERO_KEYWORD_INTERVAL_S = 3;
+
 
 
 type CarouselRotation =
@@ -121,7 +130,28 @@ function Home() {
               <p className="eyebrow hero__eyebrow">Nagriva — Website Design & Development Studio</p>
               <div className="hero__headline">
                 <h1 id="hero-title">
-                  <span className="hero__title-word hero__title-word--underline">Professionalism</span> starts here.
+                  <span className="visually-hidden">
+                    Professionalism starts here.
+                  </span>
+                  <span aria-hidden="true">
+                    <span className="hero__headline-rotator">
+                      {HERO_KEYWORDS.map((keyword, index) => (
+                        <span
+                          key={keyword}
+                          className="hero__title-word hero__title-word--underline"
+                          style={{
+                            animationDelay: `${
+                              (index - HERO_KEYWORDS.length) *
+                              HERO_KEYWORD_INTERVAL_S
+                            }s`,
+                          }}
+                        >
+                          {keyword}
+                        </span>
+                      ))}
+                    </span>{" "}
+                    starts here.
+                  </span>
                 </h1>
               </div>
               <p className="hero__description hero__description--justified">
@@ -131,7 +161,9 @@ function Home() {
                 <StartWithNagrivaButton className="button button--primary" />
                 <a className="button button--primary-2" href="https://wa.me/+212728427278" >
                   Message us on WhatsApp
-                  <FontAwesomeIcon className="button--primary-2-icon" icon={faWhatsapp} aria-hidden="true" />
+                  <span className="whatsapp-icon">
+                    <FontAwesomeIcon className="button--primary-2-icon" icon={faWhatsapp} aria-hidden="true" />
+                  </span>
                 </a>
 
               </div>

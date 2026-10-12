@@ -127,7 +127,7 @@ function App() {
       {route !== "not-found" && <Navbar />}
       {page}
       {(route === "home" || BLOG_ROUTES.has(route)) && <FinalCta />}
-      {route !== "not-found" && <Footer />}
+      {route !== "not-found" && route !== "start" && <Footer />}
     </>
   );
 }

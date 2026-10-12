@@ -28,7 +28,9 @@ function StartHero() {
           <div className="start-hero__alt">
             <p className="start-hero__alt-note">{startHero.contactNote}</p>
             <a className="start-hero__alt-link" href={startWhatsappUrl}>
-              <FontAwesomeIcon className="start-hero__alt-icon" icon={faWhatsapp} aria-hidden="true" />
+              <span className="whatsapp-icon">
+                <FontAwesomeIcon className="start-hero__alt-icon" icon={faWhatsapp} aria-hidden="true" />
+              </span>
               <span>{startHero.contactWhatsapp}</span>
             </a>
           </div>
