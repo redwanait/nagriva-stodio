@@ -8,6 +8,11 @@ import {
   startValidation,
 } from "../data/startPage";
 import { submitStartInquiry } from "../lib/startInquiryService";
+import {
+  findPortfolioProject,
+  normalizeProjectId,
+  type PortfolioProjectMatch,
+} from "../lib/projectReference";
 import type { StartFieldErrors, StartFieldTouched, StartFormState } from "../components/start/types";
 
 declare global {
@@ -38,6 +43,7 @@ const EMPTY_FORM: StartFormState = {
   timeline: "",
   contactMethod: startContactOptions[0],
   description: "",
+  projectId: "",
   website: "",
 };
 
@@ -76,6 +82,10 @@ export type StartFlow = {
   markTouched: (fields: Array<keyof StartFormState>) => void;
   /** True once the four Step 01 essentials are all valid. */
   stepOneValid: boolean;
+  /** Portfolio project matching the entered Project ID, if any. Never blocks submit. */
+  projectMatch: PortfolioProjectMatch | null;
+  /** True when a Project ID was entered, blurred, and did not match. Never blocks submit. */
+  projectIdNotFound: boolean;
   /**
    * Both steps submit the same request. Step 01 is enough on its own; Step 02
    * only enriches the payload built from the shared form state.
@@ -184,6 +194,12 @@ export function useStartFlow(): StartFlow {
     [form],
   );
 
+  // Lookup is read-only against the existing portfolio data. An unknown ID is
+  // still sent with the request; only the inline hint depends on the match.
+  const projectMatch = useMemo(() => findPortfolioProject(form.projectId), [form.projectId]);
+  const projectIdNotFound =
+    touched.projectId === true && normalizeProjectId(form.projectId) !== "" && projectMatch === null;
+
   const persist = useCallback(async () => {
     setSubmitting(true);
     setSubmitError("");
@@ -197,6 +213,19 @@ export function useStartFlow(): StartFlow {
         ? form.description.trim()
         : "No project details provided — sent from the contact step only.";
 
+    // Sent only when a Project ID was entered, so the no-ID request is unchanged.
+    // An unknown ID is kept as entered (normalized); title and link come only from a match.
+    const projectReference = normalizeProjectId(form.projectId);
+    const projectFields =
+      projectReference !== ""
+        ? {
+            projectReference,
+            ...(projectMatch
+              ? { projectTitle: projectMatch.title, projectUrl: projectMatch.websiteUrl }
+              : {}),
+          }
+        : {};
+
     try {
       // Step 01 is the lead. Step 02 only adds qualification to that same
       // request, so both steps build one payload from the shared form state.
@@ -209,6 +238,7 @@ export function useStartFlow(): StartFlow {
         budget: form.budget,
         preferredContact: startContactMethodValue[form.contactMethod] ?? "Email",
         phone: form.phone.trim(),
+        ...projectFields,
       });
 
       const response = await fetch("/api/inquiry", {
@@ -225,6 +255,7 @@ export function useStartFlow(): StartFlow {
           phone: form.phone.trim(),
           website: form.website,
           turnstileToken,
+          ...projectFields,
         }),
       });
 
@@ -246,7 +277,7 @@ export function useStartFlow(): StartFlow {
     } finally {
       setSubmitting(false);
     }
-  }, [form, need, resetTurnstile, turnstileToken]);
+  }, [form, need, projectMatch, resetTurnstile, turnstileToken]);
 
   const submit = useCallback(async () => {
     markTouched(STEP_ONE_FIELDS);
@@ -273,6 +304,8 @@ export function useStartFlow(): StartFlow {
     update,
     markTouched,
     stepOneValid,
+    projectMatch,
+    projectIdNotFound,
     submit,
     mountTurnstile,
   };

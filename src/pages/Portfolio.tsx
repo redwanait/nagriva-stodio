@@ -10,8 +10,8 @@ const SEO = seoConfigs.portfolio;
 
 const MOBILE_BREAKPOINT = "(max-width: 720px)";
 const INITIAL_VISIBLE: Record<"mobile" | "desktop", number> = {
-  mobile: 6,
-  desktop: 9,
+  mobile: 4,
+  desktop: 6,
 };
 const BATCH_SIZE = 6;
 const EAGER_LOAD_COUNT = 6;

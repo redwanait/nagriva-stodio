@@ -8,6 +8,8 @@ export type StartFormState = {
   timeline: string;
   contactMethod: string;
   description: string;
+  /** Optional portfolio Project ID, e.g. NAG-PRJ-001. Never required to submit. */
+  projectId: string;
   /** Honeypot. A real visitor never sees or fills this field. */
   website: string;
 };

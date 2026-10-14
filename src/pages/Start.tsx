@@ -28,6 +28,8 @@ function Start() {
     update,
     markTouched,
     stepOneValid,
+    projectMatch,
+    projectIdNotFound,
     submit,
   } = useStartFlow();
 
@@ -104,8 +106,10 @@ function Start() {
                   email: form.email,
                   phone: form.phone,
                   need: form.need,
+                  projectId: form.projectId,
                 }}
                 errors={errors}
+                projectReference={{ match: projectMatch, notFound: projectIdNotFound }}
                 submitting={submitting}
                 onChange={update}
                 onBlur={(field) => markTouched([field])}

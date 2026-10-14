@@ -12,7 +12,14 @@ type InquiryBody = {
   phone?: unknown;
   website?: unknown;
   turnstileToken?: unknown;
+  projectReference?: unknown;
+  projectTitle?: unknown;
+  projectUrl?: unknown;
 };
+
+const MAX_PROJECT_REFERENCE_LENGTH = 32;
+const MAX_PROJECT_TITLE_LENGTH = 200;
+const MAX_PROJECT_URL_LENGTH = 500;
 
 const VALID_NEEDS = ["New Website", "Website Redesign", "E-commerce Website", "Landing Page"];
 const VALID_BUDGETS = [
@@ -94,6 +101,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const preferredContact = asString(body.preferredContact);
   const phone = asString(body.phone);
   const website = asString(body.website);
+  // Optional portfolio reference. An unknown but well-formed ID is accepted;
+  // only length and URL scheme are checked, so it never blocks a request.
+  const projectReference = asString(body.projectReference).toUpperCase();
+  const projectTitle = asString(body.projectTitle);
+  const projectUrl = asString(body.projectUrl);
 
   if (website) {
     return res.status(200).json({ ok: true });
@@ -126,6 +138,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     errors.phone = "A phone number is required for this contact method.";
   } else if (PHONE_REQUIRED_METHODS.includes(preferredContact) && !isValidPhone(phone)) {
     errors.phone = "A valid phone number is required.";
+  }
+  if (projectReference.length > MAX_PROJECT_REFERENCE_LENGTH) {
+    errors.projectReference = "Project ID is too long.";
+  }
+  if (projectTitle.length > MAX_PROJECT_TITLE_LENGTH) {
+    errors.projectTitle = "Project title is too long.";
+  }
+  if (projectUrl && (!/^https?:\/\//.test(projectUrl) || projectUrl.length > MAX_PROJECT_URL_LENGTH)) {
+    errors.projectUrl = "A valid project link is required.";
   }
 
   if (Object.keys(errors).length > 0) {
@@ -172,6 +193,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               budget,
               preferredContact,
               phone,
+              projectReference,
+              projectTitle,
+              projectUrl,
             }),
           })
         : null,
@@ -351,6 +375,9 @@ function ownerEmailHtml(input: {
   budget: string;
   preferredContact: string;
   phone: string;
+  projectReference: string;
+  projectTitle: string;
+  projectUrl: string;
 }): string {
   const hasPhoneRow = input.preferredContact !== "Email" && input.phone;
   const infoRows: string[] = [];
@@ -358,6 +385,9 @@ function ownerEmailHtml(input: {
   infoRows.push(`<tr><td class="email-divider" style="padding:12px 0;border-bottom:1px solid #e5e5e5;"><p class="email-info-label" style="margin:0;font-size:12px;color:#666666;">Email</p><p class="email-info-value" style="margin:4px 0 0;font-size:14px;font-weight:600;"><a href="mailto:${escapeHtml(input.email)}" style="color:#000000;text-decoration:none;">${escapeHtml(input.email)}</a></p></td></tr>`);
   if (input.company) infoRows.push(makeInfoRow("Company / Brand", input.company));
   infoRows.push(makeInfoRow("Project need", input.need));
+  if (input.projectReference) infoRows.push(makeInfoRow("Portfolio Project ID", input.projectReference));
+  if (input.projectTitle) infoRows.push(makeInfoRow("Referenced project", input.projectTitle));
+  if (input.projectUrl) infoRows.push(makeInfoRow("Referenced project website", input.projectUrl));
   if (input.budget) infoRows.push(makeInfoRow("Budget", input.budget));
   infoRows.push(makeInfoRow("Preferred contact", input.preferredContact, !hasPhoneRow));
   if (hasPhoneRow) infoRows.push(makeInfoRow("Phone / WhatsApp", input.phone, false));

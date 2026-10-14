@@ -9,6 +9,12 @@ export interface StartInquirySubmitPayload {
   budget: string;
   preferredContact: string;
   phone: string;
+  /** Portfolio Project ID the visitor entered. Optional. */
+  projectReference?: string;
+  /** Title of the matched portfolio project. Only set on a match. */
+  projectTitle?: string;
+  /** Website URL of the matched portfolio project. Only set on a match. */
+  projectUrl?: string;
 }
 
 function requireSupabase() {
@@ -26,6 +32,15 @@ function requireSupabase() {
  */
 export async function submitStartInquiry(payload: StartInquirySubmitPayload): Promise<void> {
   const client = requireSupabase();
+  // The project columns are only written when an ID was entered. A request
+  // without one sends exactly the same row as before.
+  const projectColumns = payload.projectReference
+    ? {
+        project_reference: payload.projectReference,
+        project_title: payload.projectTitle ?? null,
+        project_url: payload.projectUrl ?? null,
+      }
+    : {};
   const { error } = await client
     .from("inquiries")
     .insert({
@@ -38,6 +53,7 @@ export async function submitStartInquiry(payload: StartInquirySubmitPayload): Pr
       preferred_contact: payload.preferredContact,
       phone: payload.phone || null,
       status: "pending",
+      ...projectColumns,
     });
 
   if (error) {

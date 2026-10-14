@@ -115,6 +115,12 @@ export const startFieldLabels = {
   description: "About your project",
   descriptionPlaceholder: "A sentence or two is plenty.",
   descriptionHint: "Optional — a sentence or two is plenty.",
+  projectId: "Do you have a Project ID?",
+  projectIdPlaceholder: "e.g. NAG-PRJ-001",
+  projectIdHint: "If a project in our portfolio inspired you, enter its Project ID here.",
+  projectIdMatched: "Matched project:",
+  projectIdNotFound:
+    "We couldn't find a project with that ID. You can still submit your request, and we'll keep the ID with it.",
 };
 
 export const startValidation = {

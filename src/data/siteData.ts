@@ -50,6 +50,19 @@ import imgSmartPanel from "../assets/portfolioimages/imgSmartPanel.webp";
 import imgNordPremiumGardiennage from "../assets/portfolioimages/imgNordPremiumGardiennage.webp";
 import imgEdigitaal from "../assets/portfolioimages/imgEdigitaal.webp";
 import imgWakune from "../assets/portfolioimages/imgWakune.webp";
+import imgMarocTravelRide from "../assets/portfolioimages/imgMarocTravelRide.webp";
+import imgRiadLaPetiteMaison from "../assets/portfolioimages/imgRiadLaPetiteMaison.webp";
+import imgCabinetKaboury from "../assets/portfolioimages/imgCabinetKaboury.webp";
+import imgDealZoneMaroc from "../assets/portfolioimages/imgDealZoneMaroc.webp";
+import imgIstifaeAcademy from "../assets/portfolioimages/imgIstifaeAcademy.webp";
+import imgBloomNest from "../assets/portfolioimages/imgBloomNest.webp";
+import imgOptiCar from "../assets/portfolioimages/imgOptiCar.webp";
+import imgHotelWanola from "../assets/portfolioimages/imgHotelWanola.webp";
+import imgResizeMint from "../assets/portfolioimages/imgResizeMint.webp";
+import imgOnePlusMorocco from "../assets/portfolioimages/imgOnePlusMorocco.webp";
+import imgVantrueMorocco from "../assets/portfolioimages/imgVantrueMorocco.webp";
+import imgEzvizMorocco from "../assets/portfolioimages/imgEzvizMorocco.webp";
+import imgEnpackEmballage from "../assets/portfolioimages/imgEnpackEmballage.webp";
 import galleryBuild from "../assets/processimage/messages/Build.png";
 import galleryConversation from "../assets/processimage/messages/Conversation.png";
 import galleryDirection from "../assets/processimage/messages/Direction.png";
@@ -101,6 +114,7 @@ export const services = [
 
 export const portfolioProjects = [
 {
+  id: "NAG-PRJ-001",
   title: "Econer official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -117,6 +131,7 @@ export const portfolioProjects = [
   websiteUrl: "https://www.econer.ma/",
 },
 {
+  id: "NAG-PRJ-002",
 title: "AdKey Prod official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -133,6 +148,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://www.adkeyprod.ma/",
 },
 {
+  id: "NAG-PRJ-003",
   title: "Northy official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -149,6 +165,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://www.northy.ma/",
 },
 {
+  id: "NAG-PRJ-004",
   title: "Manafie official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -165,6 +182,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://www.manafie.ma/",
 },
 {
+  id: "NAG-PRJ-005",
   title: "Maroc24 official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -181,6 +199,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://www.maroc24.com/",
 },
 {
+  id: "NAG-PRJ-006",
   title: "Living Wisdom Now official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -197,6 +216,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://livingwisdomnow.com/",
 },
 {
+  id: "NAG-PRJ-007",
   title: "KeysLab official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -213,6 +233,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://keyslab.ma/",
 },
 {
+  id: "NAG-PRJ-008",
   title: "Only Digital official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -229,6 +250,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://onlydigital.ma/",
 },
 {
+  id: "NAG-PRJ-009",
   title: "Nate Cosmetics official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -245,6 +267,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://natecosmetics.ma/",
 },
 {
+  id: "NAG-PRJ-010",
   title: "Ma3ridkom official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -261,6 +284,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://ma3ridkom.com/",
 },
 {
+  id: "NAG-PRJ-011",
   title: "24hprint official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -277,6 +301,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://www.24hprint.ma/",
 },
 {
+  id: "NAG-PRJ-012",
   title: "Chido LED official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -293,6 +318,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://chidoled.com/",
 },
 {
+  id: "NAG-PRJ-013",
   title: "AIFDSPA official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -309,6 +335,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://www.aifdspa.com/",
 },
 {
+  id: "NAG-PRJ-014",
   title: "Gozibra official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -325,6 +352,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://gozibra.com/",
 },
 {
+  id: "NAG-PRJ-015",
   title: "SmartPanel official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -341,6 +369,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://smm.smartpanel.dev/",
 },
 {
+  id: "NAG-PRJ-016",
   title: "Nord Premium Gardiennage official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -357,6 +386,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://www.nordpremiumgardiennage.ma/",
 },
 {
+  id: "NAG-PRJ-017",
   title: "Edigitaal official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -373,6 +403,7 @@ title: "AdKey Prod official website",
   websiteUrl: "https://dev254.kodesolution.com/edigitaal/",
 },
 {
+  id: "NAG-PRJ-018",
   title: "Wakune official website",
   type: "Website Design · Client Work",
   filterCategories: ["Websites"],
@@ -387,6 +418,227 @@ title: "AdKey Prod official website",
     "A professional digital presence that clearly communicates Wakune's capabilities while making its services easy to discover and explore.",
   linkOne: "/start",
   websiteUrl: "https://www.wakune.com/",
+},
+{
+  id: "NAG-PRJ-019",
+  title: "Maroc Travel Ride official website",
+  type: "Website Design · Client Work",
+  filterCategories: ["Websites"],
+  categories: ["Websites Travel"],
+  visual: "Maroc Travel Ride",
+  image: imgMarocTravelRide,
+  clientName: "Partnership with Maroc Travel Ride",
+  clientInitial: "M",
+  description:
+    "A travel and private transport website for a Moroccan tour operator, designed to present tourist rides, transfers, and excursions through a clear and welcoming experience.",
+  result:
+    "A straightforward travel platform that makes discovering services and transport options easy to browse.",
+  linkOne: "/start",
+  websiteUrl: "https://maroctravelride.com/",
+},
+{
+  id: "NAG-PRJ-020",
+  title: "Riad La Petite Maison official website",
+  type: "Website Design · Client Work",
+  filterCategories: ["Websites"],
+  categories: ["Websites Hospitality"],
+  visual: "Riad La Petite Maison",
+  image: imgRiadLaPetiteMaison,
+  clientName: "Partnership with Riad La Petite Maison",
+  clientInitial: "R",
+  description:
+    "An elegant guesthouse website for a Moroccan riad, designed to showcase its rooms, atmosphere, and hospitality through a warm visual presentation.",
+  result:
+    "A welcoming digital presence that introduces the riad and makes it simple for guests to explore and enquire.",
+  linkOne: "/start",
+  websiteUrl: "https://riadlapetitemaison.com/fr",
+},
+{
+  id: "NAG-PRJ-021",
+  title: "Cabinet Maître Nabil Kaboury official website",
+  type: "Website Design · Client Work",
+  filterCategories: ["Websites"],
+  categories: ["Websites Legal"],
+  visual: "Cabinet Kaboury",
+  image: imgCabinetKaboury,
+  clientName: "Partnership with Cabinet Maître Nabil Kaboury",
+  clientInitial: "K",
+  description:
+    "A professional law firm website for Cabinet Maître Nabil Kaboury in Rabat, designed to present its legal services and expertise with clarity and credibility.",
+  result:
+    "A trustworthy online presence that makes the firm's practice areas and contact details easy to find.",
+  linkOne: "/start",
+  websiteUrl: "https://avocat-rabatkaboury.com/ar",
+},
+{
+  id: "NAG-PRJ-022",
+  title: "DealZone Maroc official website",
+  type: "Website Design · Client Work",
+  filterCategories: ["Websites"],
+  categories: ["Websites E-commerce"],
+  visual: "DealZone Maroc",
+  image: imgDealZoneMaroc,
+  clientName: "Partnership with DealZone Maroc",
+  clientInitial: "D",
+  description:
+    "An online deals and shopping platform for the Moroccan market, designed to present offers and products through a clear and accessible browsing experience.",
+  result:
+    "A convenient storefront that makes discovering deals and browsing products simple.",
+  linkOne: "/start",
+  websiteUrl: "https://www.dealzonenmaroc.com/fr",
+},
+{
+  id: "NAG-PRJ-023",
+  title: "Istifae Academy official website",
+  type: "Website Design · Client Work",
+  filterCategories: ["Websites"],
+  categories: ["Websites Education"],
+  visual: "Istifae Academy",
+  image: imgIstifaeAcademy,
+  clientName: "Partnership with Istifae Academy",
+  clientInitial: "I",
+  description:
+    "An educational platform for an online academy, designed to present courses and training programs through a structured and accessible learning experience.",
+  result:
+    "A clear educational presence that makes programs and enrolment easy to explore.",
+  linkOne: "/start",
+  websiteUrl: "https://www.istifae-academy.com/",
+},
+{
+  id: "NAG-PRJ-024",
+  title: "BloomNest official website",
+  type: "Website Design · Client Work",
+  filterCategories: ["Websites"],
+  categories: ["Websites Corporate"],
+  visual: "BloomNest",
+  image: imgBloomNest,
+  clientName: "Partnership with BloomNest",
+  clientInitial: "B",
+  description:
+    "A services website for a Moroccan gardening and floral decoration business, designed to present its landscaping and decoration services along with quote requests.",
+  result:
+    "A polished presence that presents BloomNest's services and makes requesting a quote straightforward.",
+  linkOne: "/start",
+  websiteUrl: "https://bloomnest.site/",
+},
+{
+  id: "NAG-PRJ-025",
+  title: "OptiCar official website",
+  type: "Website Design · Client Work",
+  filterCategories: ["Websites"],
+  categories: ["Websites SaaS"],
+  visual: "OptiCar",
+  image: imgOptiCar,
+  clientName: "Partnership with OptiCar",
+  clientInitial: "O",
+  description:
+    "A software platform for car rental agencies in Morocco, designed to present its fleet, contracts, and billing features through a clear product experience.",
+  result:
+    "A structured product site that explains OptiCar's features, pricing, and benefits to rental agencies.",
+  linkOne: "/start",
+  websiteUrl: "https://www.opticar.ma/fr",
+},
+{
+  id: "NAG-PRJ-026",
+  title: "Hôtel Wanola official website",
+  type: "Website Design · Client Work",
+  filterCategories: ["Websites"],
+  categories: ["Websites Hospitality"],
+  visual: "Hotel Wanola",
+  image: imgHotelWanola,
+  clientName: "Partnership with Hôtel Wanola",
+  clientInitial: "W",
+  description:
+    "A hospitality website for a Moroccan hotel, designed to showcase rooms, amenities, and the guest experience through an inviting visual presentation.",
+  result:
+    "An inviting online presence that introduces the hotel and makes it easy for guests to explore and book.",
+  linkOne: "/start",
+  websiteUrl: "https://www.wanolahotel.com/en",
+},
+{
+  id: "NAG-PRJ-027",
+  title: "ResizeMint official website",
+  type: "Website Design · Client Work",
+  filterCategories: ["Websites"],
+  categories: ["Websites SaaS"],
+  visual: "ResizeMint",
+  image: imgResizeMint,
+  clientName: "Partnership with ResizeMint",
+  clientInitial: "R",
+  description:
+    "A browser-based image tools website offering compression, resizing, and format conversion, designed to present its tools through a clear and lightweight experience.",
+  result:
+    "A clean product site that makes ResizeMint's set of browser-based image tools easy to discover and use.",
+  linkOne: "/start",
+  websiteUrl: "https://resizemint.com/",
+},
+{
+  id: "NAG-PRJ-028",
+  title: "OnePlus Morocco official website",
+  type: "Website Design · Client Work",
+  filterCategories: ["Websites"],
+  categories: ["Websites E-commerce"],
+  visual: "OnePlus Morocco",
+  image: imgOnePlusMorocco,
+  clientName: "Partnership with OnePlus Morocco",
+  clientInitial: "O",
+  description:
+    "An e-commerce website for OnePlus products in Morocco, designed to present smartphones and accessories through a clear product-focused experience.",
+  result:
+    "A product storefront that makes browsing the range and product information straightforward.",
+  linkOne: "/start",
+  websiteUrl: "https://oneplus.ma/",
+},
+{
+  id: "NAG-PRJ-029",
+  title: "Vantrue Morocco official website",
+  type: "Website Design · Client Work",
+  filterCategories: ["Websites"],
+  categories: ["Websites E-commerce"],
+  visual: "Vantrue Morocco",
+  image: imgVantrueMorocco,
+  clientName: "Partnership with Vantrue Morocco",
+  clientInitial: "V",
+  description:
+    "An e-commerce website for Vantrue dash cams and car electronics in Morocco, designed to present the product range through a clear, specification-focused experience.",
+  result:
+    "A product storefront that makes exploring Vantrue's devices and features simple.",
+  linkOne: "/start",
+  websiteUrl: "https://vantrue.ma/",
+},
+{
+  id: "NAG-PRJ-030",
+  title: "Ezviz Morocco official website",
+  type: "Website Design · Client Work",
+  filterCategories: ["Websites"],
+  categories: ["Websites E-commerce"],
+  visual: "Ezviz Morocco",
+  image: imgEzvizMorocco,
+  clientName: "Partnership with Ezviz Morocco",
+  clientInitial: "E",
+  description:
+    "An e-commerce website for EZVIZ smart home security products in Morocco, designed to present cameras and smart devices through a clear product experience.",
+  result:
+    "A product storefront that makes browsing EZVIZ's cameras and smart home devices easy.",
+  linkOne: "/start",
+  websiteUrl: "https://ezviz.ma/",
+},
+{
+  id: "NAG-PRJ-031",
+  title: "Enpack Emballage official website",
+  type: "Website Design · Client Work",
+  filterCategories: ["Websites"],
+  categories: ["Websites E-commerce"],
+  visual: "Enpack Emballage",
+  image: imgEnpackEmballage,
+  clientName: "Partnership with Enpack Emballage",
+  clientInitial: "E",
+  description:
+    "An e-commerce website for a Moroccan packaging supplier, designed to present food-service and professional packaging products through a clear shopping experience.",
+  result:
+    "A complete online catalog that makes browsing and ordering packaging products simple.",
+  linkOne: "/start",
+  websiteUrl: "https://enpack.ma/",
 },
 
 ];
