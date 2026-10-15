@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
 import {
   startSuccess,
@@ -109,8 +110,11 @@ function StartSuccess({ name }: StartSuccessProps) {
         </div>
 
         <div className="start-success__actions">
-          <a className="start-button start-button--primary start-button--whatsapp" href={startWhatsappUrl}>
+          <a className="start-button start-button--whatsapp" href={startWhatsappUrl}>
             {startSuccess.whatsappLabel}
+            <span className="whatsapp-icon">
+              <FontAwesomeIcon className="button--primary-2-icon" icon={faWhatsapp} aria-hidden="true" />
+            </span>
           </a>
           <a className="start-button start-button--secondary" href="/">
             {startSuccess.homeLabel}

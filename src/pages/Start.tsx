@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { useSeo } from "../hooks/useSeo";
 import { useStartFlow } from "../hooks/useStartFlow";
@@ -46,6 +46,17 @@ function Start() {
     if (step === "contact" || submitted) return;
     panelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [step, submitted]);
+
+  // The success view fills one viewport: while it is active the global navbar is
+  // hidden and page scrolling is locked. The body class is added before paint so
+  // the navbar never flashes, and it is only ever added from this route — the
+  // form flow and every other page keep their normal navbar and scrolling.
+  useLayoutEffect(() => {
+    if (!submitted) return;
+    const { body } = document;
+    body.classList.add("start-success-active");
+    return () => body.classList.remove("start-success-active");
+  }, [submitted]);
 
   // Step 02 is optional, but it still needs the four essentials: they are what
   // the request is keyed on, so a half-filled contact step is sent back to the
