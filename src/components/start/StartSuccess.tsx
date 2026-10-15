@@ -109,7 +109,7 @@ function StartSuccess({ name }: StartSuccessProps) {
         </div>
 
         <div className="start-success__actions">
-          <a className="start-button start-button--primary" href={startWhatsappUrl}>
+          <a className="start-button start-button--primary start-button--whatsapp" href={startWhatsappUrl}>
             {startSuccess.whatsappLabel}
           </a>
           <a className="start-button start-button--secondary" href="/">

@@ -1779,7 +1779,7 @@ main.process-page { overflow: visible; }
 /* Primary and secondary share width, height, radius and icon alignment, so the
    pair reads as one component. Only the fill and border differ. */
 .start-actions { display: flex; flex-direction: column; align-items: stretch; gap: .5rem; margin-top: clamp(1.25rem, 2.6vw, 1.6rem); }
-.start-actions__stack { align-items: center; }
+.start-actions__stack { align-items: center}
 .start-actions__note { align-self: center; margin: .15rem 0 0; color: var(--color-text-dim); font: 500 .58rem var(--font-heading); letter-spacing: .12em; text-transform: uppercase; }
 .start-actions__hint { margin: .35rem 0 0; color: var(--color-danger-text); font-size: .76rem; text-align: center; }
 .start-actions__back { align-self: center; }
@@ -1794,6 +1794,11 @@ main.process-page { overflow: visible; }
 .start-button--primary:hover:not(:disabled) .start-button__icon { transform: translateX(3px); }
 .start-button--primary:active:not(:disabled) { transform: translateY(0); box-shadow: 0 0 16px rgba(0,0,0,.09); }
 
+/* WhatsApp CTA keeps the primary shape and sheen but uses the brand green. */
+.start-button--whatsapp { background: #25D366; color: #fff; box-shadow: 0 0 24px rgba(37,211,102,.28); }
+.start-button--whatsapp:hover:not(:disabled) { background: #1FBE5B; box-shadow: 0 0 32px rgba(37,211,102,.36), inset 0 1px 0 rgba(255,255,255,.18); transform: translateY(-2px); }
+.start-button--whatsapp:active:not(:disabled) { transform: translateY(0); box-shadow: 0 0 16px rgba(37,211,102,.28); }
+
 /* Restrained sheen: one soft reflection on hover, plus a very occasional idle
    pass so the main action keeps drawing the eye. The sheen lives on ::after and
    the button clips it, so the button itself never changes colour. */
@@ -1807,7 +1812,10 @@ main.process-page { overflow: visible; }
 .start-button--optional:hover:not(:disabled) { border-color: var(--color-accent); background: var(--color-accent-wash); color: var(--color-accent-text); }
 .start-button--optional:hover:not(:disabled) .start-button__icon { transform: translateX(3px); }
 .start-button--optional:active:not(:disabled) { background: var(--color-accent-tint); }
-.start-button--ghost { width: auto; min-height: 44px; padding: 0 1.1rem; color: var(--color-muted); }
+.start-button--secondary { border-color: var(--color-line-strong); border-radius: var(--radius-button); background: transparent; color: var(--color-text); }
+.start-button--secondary:hover:not(:disabled) { border-color: var(--color-accent); color: var(--color-accent-text); }
+.start-button--secondary:active:not(:disabled) { border-color: var(--color-accent); }
+.start-button--ghost { width: auto; min-height: 44px; padding: 0 1.1rem; color: var(--color-muted);}
 .start-button--ghost:hover:not(:disabled) { color: var(--color-accent-text); }
 .start-button--ghost:hover:not(:disabled) .start-button__icon { transform: translateX(-3px); }
 
@@ -1824,7 +1832,6 @@ main.process-page { overflow: visible; }
 .start-success__message { min-height: 1.6rem; margin: 1.1rem 0 0; color: var(--color-text-dim); font-size: .78rem; line-height: 1.6; }
 .start-success__message p { margin: 0; }
 .start-success__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; margin-top: 1.75rem; }
-.start-success__actions .start-button { width: auto; }
 @keyframes start-success-in { from { opacity: 0; transform: translateY(16px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
 /* Success view — the form, hero and section copy are removed, so the card is
@@ -1893,7 +1900,6 @@ main.process-page { overflow: visible; }
   .start-panel__step, .start-success__panel, .start-select__list { animation: none; }
   .start-button, .start-button__icon, .start-select__chevron, .start-progress__index, .start-input, .start-select__trigger, .start-hero__alt-link, .start-control__icon { transition: none; }
   .start-button--primary::after { animation: none; opacity: 0; }
-  .start-celebration { display: none; }
 }
 
 /* Feedback section */

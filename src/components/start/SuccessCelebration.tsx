@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState, type CSSProperties } from "react";
 // decorative layer only: pointer events are disabled in CSS, and the whole tree
 // is removed by the parent after CELEBRATION_MS so nothing is left behind.
 
-const CELEBRATION_MS = 3000;
+const CELEBRATION_MS = 4600;
 
 type CelebrationShape = "ribbon" | "twist" | "streamer" | "star" | "circle" | "spark";
 
@@ -105,7 +105,7 @@ function buildPieces(): CelebrationPiece[] {
     const { color, highlight } = shades();
     const { width, height } = measure(shape);
     const rotateStart = between(-35, 35);
-    const spin = between(220, 620) * (Math.random() < 0.5 ? -1 : 1);
+    const spin = between(320, 900) * (Math.random() < 0.5 ? -1 : 1);
 
     return {
       id: index,
@@ -116,9 +116,9 @@ function buildPieces(): CelebrationPiece[] {
       height,
       color,
       highlight,
-      fallDuration: between(1.7, 2.5),
-      fallDelay: between(0, 0.4),
-      swayDuration: between(1.1, 2.2),
+      fallDuration: between(2.4, 3.4),
+      fallDelay: between(0, 0.8),
+      swayDuration: between(1.6, 2.9),
       drift: between(-70, 70),
       rotateStart,
       rotateEnd: rotateStart + spin,
