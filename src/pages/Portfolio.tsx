@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import FinalCta from "../components/FinalCta";
 import ProjectCard from "../components/ProjectCard";
 import ProjectFinderModal from "../components/ProjectFinderModal";
@@ -18,6 +18,13 @@ const EAGER_LOAD_COUNT = 6;
 
 /** The finder is offered at most once per portfolio browsing session. */
 const FINDER_SESSION_KEY = "nagriva.portfolio.finderShown";
+
+/**
+ * TEMPORARY (review only). While true, the finder opens on every visit instead of
+ * once per browsing session, so the modal can be reviewed repeatedly.
+ * Set this back to `false` to restore the normal once-per-session behaviour.
+ */
+const ALWAYS_SHOW_FINDER = true;
 
 function hasSeenFinderThisSession(): boolean {
   try {
@@ -65,22 +72,24 @@ function Portfolio() {
     return undefined;
   }, []);
 
+  // Opens the finder at most once per browsing session. Every trigger path goes
+  // through here, so the modal can never be opened twice.
+  const offerFinder = useCallback(() => {
+    if (finderShownRef.current) return;
+    if (!ALWAYS_SHOW_FINDER && hasSeenFinderThisSession()) return;
+    finderShownRef.current = true;
+    markFinderSeenThisSession();
+    setFinderOpen(true);
+  }, []);
+
   const handleViewMore = (event: MouseEvent<HTMLButtonElement>) => {
     const nextCount = Math.min(visibleCount + BATCH_SIZE, total);
     // detail is 0 when the click came from the keyboard (or assistive technology).
     // Mouse and touch clicks keep the browser's default focus behaviour.
     pendingFocusIndexRef.current = event.detail === 0 ? visibleCount : null;
     setVisibleCount(nextCount);
-
-    // The click that reveals the final batch also opens the finder, once per
-    // browsing session. Opening it here, from the same update that removes the
-    // button, is deterministic: it does not depend on an effect observing the
-    // `hasMore` transition afterwards.
-    if (nextCount >= total && !finderShownRef.current && !hasSeenFinderThisSession()) {
-      finderShownRef.current = true;
-      markFinderSeenThisSession();
-      setFinderOpen(true);
-    }
+    // Open from the same click that reveals the final batch, so it feels immediate.
+    if (nextCount >= total) offerFinder();
   };
 
   // After the final reveal, keyboard users are moved to the first newly revealed
@@ -88,6 +97,7 @@ function Portfolio() {
   // returns there when the dialog closes.
   useEffect(() => {
     if (hasMore) return;
+
     const index = pendingFocusIndexRef.current;
     pendingFocusIndexRef.current = null;
     if (index === null) return;

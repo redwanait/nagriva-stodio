@@ -234,13 +234,12 @@ function ProjectFinderModal({ onClose, returnFocusRef }: ProjectFinderModalProps
                 )}
 
                 <button
-                  className="sw-button finder-modal__cta"
+                  className="finder-modal__cta"
                   type="submit"
                   disabled={submitting}
                 >
-                  <span className="sw-button__ring" aria-hidden="true" />
-                  <span className="sw-button__label">{submitting ? "Sending…" : "Find My Project"}</span>
-                  <FontAwesomeIcon className="sw-button__icon" icon={faArrowRight} aria-hidden="true" />
+                  <span className="finder-modal__cta-label">{submitting ? "Sending…" : "Find My Project"}</span>
+                  <FontAwesomeIcon className="finder-modal__cta-icon" icon={faArrowRight} aria-hidden="true" />
                 </button>
 
                 <p className="finder-modal__reassurance">
@@ -255,9 +254,8 @@ function ProjectFinderModal({ onClose, returnFocusRef }: ProjectFinderModalProps
               </span>
               <h3>You&apos;re all set.</h3>
               <p>We&apos;ve received your request. Our team will review it and get back to you shortly.</p>
-              <button className="sw-button finder-modal__cta" type="button" onClick={requestClose}>
-                <span className="sw-button__ring" aria-hidden="true" />
-                <span className="sw-button__label">Done</span>
+              <button className="finder-modal__cta" type="button" onClick={requestClose}>
+                <span className="finder-modal__cta-label">Done</span>
               </button>
             </div>
           )}

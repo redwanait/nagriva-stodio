@@ -1186,8 +1186,12 @@ h1 { margin: 0; max-width: 600px; font-size: clamp(3.2rem, 4.6vw, 5.5rem); line-
 .finder-modal__input[aria-invalid="true"], .finder-modal__textarea[aria-invalid="true"] { border-color: var(--color-danger-line); }
 .finder-modal__error { margin: 0; color: var(--color-danger-text); font-size: .74rem; line-height: 1.45; }
 .finder-modal__error--global { margin-top: .1rem; }
-.finder-modal .finder-modal__cta { width: 100%; min-height: 54px; margin-top: .3rem; font-size: .8rem; cursor: pointer; }
-.finder-modal .finder-modal__cta:disabled { opacity: .62; cursor: not-allowed; box-shadow: 0 0 24px rgba(0,0,0,.12); transform: none; }
+.finder-modal__cta { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; width: 100%; min-height: 54px; margin-top: .3rem; padding: 0 1.25rem; border: 0; border-radius: var(--radius-button); background: var(--color-primary); color: var(--color-accent-on); font: 700 .8rem var(--font-heading); letter-spacing: .01em; white-space: nowrap; cursor: pointer; box-shadow: 0 0 22px rgba(0,0,0,.10); transition: background-color 200ms ease, box-shadow 200ms ease, transform 200ms ease; }
+.finder-modal__cta:hover:not(:disabled) { background: #1b1b1b; box-shadow: 0 8px 22px rgba(0,0,0,.16); transform: translateY(-1px); }
+.finder-modal__cta:active:not(:disabled) { transform: translateY(0); }
+.finder-modal__cta:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+.finder-modal__cta:disabled { opacity: .6; cursor: not-allowed; box-shadow: 0 0 22px rgba(0,0,0,.10); transform: none; }
+.finder-modal__cta-icon { font-size: .7rem; }
 .finder-modal__reassurance { margin: 0; color: var(--color-muted); font-size: .72rem; line-height: 1.55; text-align: center; }
 .finder-modal__success { display: flex; flex-direction: column; align-items: center; text-align: center; padding: .5rem 0 .25rem; }
 .finder-modal__success-mark { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--color-accent-tint); color: var(--color-accent-text); font-size: 1.15rem; }
@@ -1199,7 +1203,7 @@ h1 { margin: 0; max-width: 600px; font-size: clamp(3.2rem, 4.6vw, 5.5rem); line-
 @keyframes finder-modal-out { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(6px) scale(.99); } }
 @keyframes finder-accent-in { from { opacity: 0; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
 @media (min-width: 641px) { .finder-modal__title-seg { display: block; } }
-@media (max-width: 720px) { .finder-modal-backdrop { padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom)); }.finder-modal { width: 100%; max-height: 92vh; max-height: min(92svh, 100%); border-radius: 18px; }.finder-modal__scroll { padding: 1.7rem 1.15rem calc(1.5rem + env(safe-area-inset-bottom)); }.finder-modal__hero { padding-right: 2.2rem; }.finder-modal__title { font-size: clamp(1.5rem, 7vw, 1.95rem); }.finder-modal .finder-modal__cta { font-size: .78rem; } }
+@media (max-width: 720px) { .finder-modal-backdrop { padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom)); }.finder-modal { width: 100%; max-height: 92vh; max-height: min(92svh, 100%); border-radius: 18px; }.finder-modal__scroll { padding: 1.7rem 1.15rem calc(1.5rem + env(safe-area-inset-bottom)); }.finder-modal__hero { padding-right: 2.2rem; }.finder-modal__title { font-size: clamp(1.5rem, 7vw, 1.95rem); }.finder-modal__cta { font-size: .78rem; } }
 @media (prefers-reduced-motion: reduce) { .finder-modal-backdrop, .finder-modal-backdrop--closing, .finder-modal, .finder-modal--closing, .finder-modal__accent { animation: none; } }
 
 /* =========================================================
@@ -1823,6 +1827,44 @@ main.process-page { overflow: visible; }
 .start-success__actions .start-button { width: auto; }
 @keyframes start-success-in { from { opacity: 0; transform: translateY(16px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
+/* Success view — the form, hero and section copy are removed, so the card is
+   centred in the space that remains under the navbar. */
+.start-page--success { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: calc(100vh - 5rem); min-height: calc(100svh - 5rem); padding: clamp(1.5rem, 5vh, 3rem) 1rem; }
+.start-page--success .start-success { position: relative; z-index: 6; margin-bottom: 0; }
+
+/* Celebration -------------------------------------------------------------- */
+/* Decorative full-viewport layer. It sits below the navbar (z:20) and the
+   success card (z:6) and never captures pointer events. */
+.start-celebration { position: fixed; inset: 0; z-index: 5; overflow: hidden; pointer-events: none; }
+.start-celebration__piece { position: absolute; top: 0; display: block; transform: translate3d(0, -16vh, 0); opacity: 0; animation-name: start-celebration-fall; animation-timing-function: cubic-bezier(.33,.12,.48,.86); animation-fill-mode: both; animation-iteration-count: 1; will-change: transform, opacity; }
+.start-celebration__shape { display: block; width: 100%; height: 100%; transform-origin: 50% 50%; animation-name: start-celebration-sway; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-fill-mode: both; will-change: transform; }
+.start-celebration__shape svg { display: block; width: 100%; height: 100%; }
+.start-celebration__dot { display: block; width: 100%; height: 100%; border-radius: 50%; }
+.start-celebration__shape--twist { animation-name: start-celebration-twist; }
+.start-celebration__shape--streamer { animation-name: start-celebration-streamer; }
+
+@keyframes start-celebration-fall {
+  0% { transform: translate3d(0, -16vh, 0) rotate(var(--rot-start, 0deg)); opacity: 0; }
+  8% { opacity: var(--piece-opacity, 1); }
+  90% { opacity: var(--piece-opacity, 1); }
+  100% { transform: translate3d(var(--drift, 0px), 114vh, 0) rotate(var(--rot-end, 220deg)); opacity: 0; }
+}
+@keyframes start-celebration-sway {
+  0% { transform: translateX(calc(var(--sway, 8px) * -1)) rotate(-8deg); }
+  50% { transform: translateX(var(--sway, 8px)) rotate(8deg) scale(1.04); }
+  100% { transform: translateX(calc(var(--sway, 8px) * -1)) rotate(-8deg); }
+}
+@keyframes start-celebration-twist {
+  0% { transform: translateX(calc(var(--sway, 6px) * -1)) rotate(-10deg) scaleX(1); }
+  50% { transform: translateX(var(--sway, 6px)) rotate(10deg) scaleX(.3); }
+  100% { transform: translateX(calc(var(--sway, 6px) * -1)) rotate(-10deg) scaleX(1); }
+}
+@keyframes start-celebration-streamer {
+  0% { transform: translateX(calc(var(--sway, 8px) * -1)) rotate(-14deg) skewY(-6deg); }
+  50% { transform: translateX(var(--sway, 8px)) rotate(14deg) skewY(6deg); }
+  100% { transform: translateX(calc(var(--sway, 8px) * -1)) rotate(-14deg) skewY(-6deg); }
+}
+
 @media (min-width: 561px) {
   .start-fields--pair { grid-template-columns: 1fr 1fr; }
 }
@@ -1851,6 +1893,7 @@ main.process-page { overflow: visible; }
   .start-panel__step, .start-success__panel, .start-select__list { animation: none; }
   .start-button, .start-button__icon, .start-select__chevron, .start-progress__index, .start-input, .start-select__trigger, .start-hero__alt-link, .start-control__icon { transition: none; }
   .start-button--primary::after { animation: none; opacity: 0; }
+  .start-celebration { display: none; }
 }
 
 /* Feedback section */

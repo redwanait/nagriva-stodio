@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useSeo } from "../hooks/useSeo";
 import { useStartFlow } from "../hooks/useStartFlow";
@@ -8,6 +8,7 @@ import ProjectDetailsStep from "../components/start/ProjectDetailsStep";
 import StartHero from "../components/start/StartHero";
 import StartProgress, { type StartStep } from "../components/start/StartProgress";
 import StartSuccess from "../components/start/StartSuccess";
+import SuccessCelebration from "../components/start/SuccessCelebration";
 
 const SEO = seoConfigs.start;
 
@@ -16,7 +17,10 @@ function Start() {
 
   const [step, setStep] = useState<StartStep>("contact");
   const [submitted, setSubmitted] = useState(false);
+  const [celebrating, setCelebrating] = useState(false);
   const panelRef = useRef<HTMLFormElement>(null);
+
+  const endCelebration = useCallback(() => setCelebrating(false), []);
 
   const {
     form,
@@ -61,93 +65,101 @@ function Start() {
       return;
     }
     const ok = await submit();
-    if (ok) setSubmitted(true);
+    if (ok) {
+      setSubmitted(true);
+      setCelebrating(true);
+    }
   };
 
   return (
-    <main className="start-page" id="start">
-      <StartHero />
-
+    <main className={`start-page${submitted ? " start-page--success" : ""}`} id="start">
       {submitted ? (
-        <StartSuccess name={form.fullName} />
+        <>
+          {celebrating && <SuccessCelebration onComplete={endCelebration} />}
+          <StartSuccess name={form.fullName} />
+        </>
       ) : (
-        <section className="start-shell" aria-label="Project request form">
-          <form
-            className="start-panel"
-            ref={panelRef}
-            noValidate
-            onSubmit={(event) => {
-              event.preventDefault();
-              // Honeypot: a filled hidden field means a bot, so the request is
-              // dropped without an error message.
-              if (form.website !== "") return;
-              void handleSubmit();
-            }}
-          >
-            <StartProgress step={step} />
+        <>
+          <StartHero />
 
-            <div className="visually-hidden" aria-hidden="true">
-              <label htmlFor="start-website">Website</label>
-              <input
-                id="start-website"
-                type="text"
-                name="website"
-                value={form.website}
-                onChange={(event) => update({ website: event.target.value })}
-                tabIndex={-1}
-                autoComplete="off"
-              />
-            </div>
+          <section className="start-shell" aria-label="Project request form">
+            <form
+              className="start-panel"
+              ref={panelRef}
+              noValidate
+              onSubmit={(event) => {
+                event.preventDefault();
+                // Honeypot: a filled hidden field means a bot, so the request is
+                // dropped without an error message.
+                if (form.website !== "") return;
+                void handleSubmit();
+              }}
+            >
+              <StartProgress step={step} />
 
-            {step === "contact" ? (
-              <ContactStep
-                values={{
-                  fullName: form.fullName,
-                  email: form.email,
-                  phone: form.phone,
-                  need: form.need,
-                  projectId: form.projectId,
-                }}
-                errors={errors}
-                projectReference={{ match: projectMatch, notFound: projectIdNotFound }}
-                submitting={submitting}
-                onChange={update}
-                onBlur={(field) => markTouched([field])}
-                onAddDetails={goToDetails}
-              />
-            ) : (
-              <ProjectDetailsStep
-                values={{
-                  budget: form.budget,
-                  timeline: form.timeline,
-                  contactMethod: form.contactMethod,
-                  company: form.company,
-                  description: form.description,
-                }}
-                contactSummary={{
-                  name: form.fullName,
-                  email: form.email,
-                  phone: form.phone,
-                }}
-                submitting={submitting}
-                onChange={update}
-                onBack={() => setStep("contact")}
-              />
-            )}
+              <div className="visually-hidden" aria-hidden="true">
+                <label htmlFor="start-website">Website</label>
+                <input
+                  id="start-website"
+                  type="text"
+                  name="website"
+                  value={form.website}
+                  onChange={(event) => update({ website: event.target.value })}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
 
-            <div className="start-turnstile" ref={turnstileContainerRef} />
-            {pendingVerification && (
-              <p className="start-verify-note" role="status">
-                One quick check from Cloudflare, then your request is on its way.
-              </p>
-            )}
-            {submitError && (
-              <p className="start-error start-error--global" role="alert">
-                {submitError}
-              </p>
-            )}
-          </form>
-        </section>
+              {step === "contact" ? (
+                <ContactStep
+                  values={{
+                    fullName: form.fullName,
+                    email: form.email,
+                    phone: form.phone,
+                    need: form.need,
+                    projectId: form.projectId,
+                  }}
+                  errors={errors}
+                  projectReference={{ match: projectMatch, notFound: projectIdNotFound }}
+                  submitting={submitting}
+                  onChange={update}
+                  onBlur={(field) => markTouched([field])}
+                  onAddDetails={goToDetails}
+                />
+              ) : (
+                <ProjectDetailsStep
+                  values={{
+                    budget: form.budget,
+                    timeline: form.timeline,
+                    contactMethod: form.contactMethod,
+                    company: form.company,
+                    description: form.description,
+                  }}
+                  contactSummary={{
+                    name: form.fullName,
+                    email: form.email,
+                    phone: form.phone,
+                  }}
+                  submitting={submitting}
+                  onChange={update}
+                  onBack={() => setStep("contact")}
+                />
+              )}
+
+              <div className="start-turnstile" ref={turnstileContainerRef} />
+              {pendingVerification && (
+                <p className="start-verify-note" role="status">
+                  One quick check from Cloudflare, then your request is on its way.
+                </p>
+              )}
+              {submitError && (
+                <p className="start-error start-error--global" role="alert">
+                  {submitError}
+                </p>
+              )}
+            </form>
+          </section>
+        </>
       )}
     </main>
   );
