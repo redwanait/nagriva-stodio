@@ -92,6 +92,7 @@ function ProjectCard({ project, loading = "lazy", hideActions = false }: Project
               <StartWithNagrivaButton
                 className="portfolio-card__action portfolio-card__action--primary"
                 href={project.linkOne}
+                ariaLabel={`Start with Nagriva for ${project.title}`}
               />
             )}
             <div className="portfolio-card__secondary-actions">
@@ -101,6 +102,7 @@ function ProjectCard({ project, loading = "lazy", hideActions = false }: Project
                   href={project.websiteUrl}
                   target="_blank"
                   rel="noreferrer"
+                  aria-label={`View this website for ${project.title}`}
                 >
                   View this website <span aria-hidden="true"></span>
                 </a>
@@ -109,6 +111,7 @@ function ProjectCard({ project, loading = "lazy", hideActions = false }: Project
                 type="button"
                 className="portfolio-card__action portfolio-card__action--secondary portfolio-card__copy"
                 data-copy-state={copyState}
+                aria-label={`Copy Project ID for ${project.title}`}
                 onClick={handleCopyId}
               >
                 <i className="portfolio-card__copy-icon" aria-hidden="true">

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import FinalCta from "../components/FinalCta";
 import ProjectCard from "../components/ProjectCard";
-import ProjectFinder from "../components/ProjectFinder";
+import ProjectFinderModal from "../components/ProjectFinderModal";
 import { portfolioProjects } from "../data/siteData";
 import { useSeo } from "../hooks/useSeo";
 import { seoConfigs } from "../data/seo";
@@ -16,6 +16,25 @@ const INITIAL_VISIBLE: Record<"mobile" | "desktop", number> = {
 const BATCH_SIZE = 6;
 const EAGER_LOAD_COUNT = 6;
 
+/** The finder is offered at most once per portfolio browsing session. */
+const FINDER_SESSION_KEY = "nagriva.portfolio.finderShown";
+
+function hasSeenFinderThisSession(): boolean {
+  try {
+    return window.sessionStorage.getItem(FINDER_SESSION_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function markFinderSeenThisSession(): void {
+  try {
+    window.sessionStorage.setItem(FINDER_SESSION_KEY, "1");
+  } catch {
+    // Storage disabled (private mode): the in-memory ref still prevents re-opening.
+  }
+}
+
 function Portfolio() {
   useSeo(SEO);
   const [visibleCount, setVisibleCount] = useState(() =>
@@ -25,6 +44,13 @@ function Portfolio() {
   );
   const total = portfolioProjects.length;
   const hasMore = visibleCount < total;
+  const [finderOpen, setFinderOpen] = useState(false);
+  const gridRef = useRef<HTMLDivElement>(null);
+  // Index of the first project revealed by a keyboard activation of "View more".
+  const pendingFocusIndexRef = useRef<number | null>(null);
+  // The first project revealed by the final click, focused again when the modal closes.
+  const revealFocusTargetRef = useRef<HTMLElement | null>(null);
+  const finderShownRef = useRef(false);
 
   useEffect(() => {
     const mq = window.matchMedia(MOBILE_BREAKPOINT);
@@ -39,9 +65,41 @@ function Portfolio() {
     return undefined;
   }, []);
 
-  const handleViewMore = () => {
-    setVisibleCount((current) => current + BATCH_SIZE);
+  const handleViewMore = (event: MouseEvent<HTMLButtonElement>) => {
+    const nextCount = Math.min(visibleCount + BATCH_SIZE, total);
+    // detail is 0 when the click came from the keyboard (or assistive technology).
+    // Mouse and touch clicks keep the browser's default focus behaviour.
+    pendingFocusIndexRef.current = event.detail === 0 ? visibleCount : null;
+    setVisibleCount(nextCount);
+
+    // The click that reveals the final batch also opens the finder, once per
+    // browsing session. Opening it here, from the same update that removes the
+    // button, is deterministic: it does not depend on an effect observing the
+    // `hasMore` transition afterwards.
+    if (nextCount >= total && !finderShownRef.current && !hasSeenFinderThisSession()) {
+      finderShownRef.current = true;
+      markFinderSeenThisSession();
+      setFinderOpen(true);
+    }
   };
+
+  // After the final reveal, keyboard users are moved to the first newly revealed
+  // project. When the finder opened, that card is remembered instead, so focus
+  // returns there when the dialog closes.
+  useEffect(() => {
+    if (hasMore) return;
+    const index = pendingFocusIndexRef.current;
+    pendingFocusIndexRef.current = null;
+    if (index === null) return;
+    const card = gridRef.current?.children[index];
+    if (!(card instanceof HTMLElement)) return;
+    card.tabIndex = -1;
+    if (finderOpen) {
+      revealFocusTargetRef.current = card;
+    } else {
+      card.focus();
+    }
+  }, [hasMore, visibleCount, finderOpen]);
 
   return (
     <main className="portfolio-page" id="portfolio-page">
@@ -73,7 +131,7 @@ function Portfolio() {
             A focused look at work built to make businesses look serious online.
           </p>
         </div>
-        <div className="portfolio-grid portfolio-projects__grid">
+        <div className="portfolio-grid portfolio-projects__grid" ref={gridRef}>
           {portfolioProjects.slice(0, visibleCount).map((project, index) => (
             <ProjectCard
               key={project.title}
@@ -89,7 +147,12 @@ function Portfolio() {
         )}
       </section>
 
-      <ProjectFinder />
+      {finderOpen && (
+        <ProjectFinderModal
+          onClose={() => setFinderOpen(false)}
+          returnFocusRef={revealFocusTargetRef}
+        />
+      )}
 
       <FinalCta />
     </main>

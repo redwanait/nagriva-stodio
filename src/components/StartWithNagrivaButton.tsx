@@ -6,6 +6,8 @@ type StartWithNagrivaButtonProps = {
   className?: string;
   href?: string;
   label?: string;
+  /** Project-specific accessible name. Must begin with the visible label. */
+  ariaLabel?: string;
   onClick?: () => void;
 };
 
@@ -19,12 +21,14 @@ function StartWithNagrivaButton({
   className = "",
   href = "/start",
   label = "Start with Nagriva",
+  ariaLabel,
   onClick,
 }: StartWithNagrivaButtonProps) {
   return (
     <a
       className={`sw-button${className ? ` ${className}` : ""}`}
       href={href}
+      aria-label={ariaLabel}
       onClick={onClick}
     >
       <span className="sw-button__ring" aria-hidden="true" />

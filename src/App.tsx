@@ -41,8 +41,13 @@ const LEGACY_HASH_MAP: Record<string, string> = {
   "#start": "/start",
 };
 
+/** Treats "/portfolio/" like "/portfolio". The root "/" is left as it is. */
+function normalizePath(pathname: string): string {
+  return pathname.length > 1 && pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+}
+
 function getRoute(): Route {
-  const path = window.location.pathname;
+  const path = normalizePath(window.location.pathname);
   if (path === "/services") return "services";
   if (path === "/portfolio") return "portfolio";
   if (path === "/about") return "about";

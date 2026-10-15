@@ -127,7 +127,7 @@ function Home() {
         <section className="hero hero--two-col" aria-labelledby="hero-title">
           <div className="hero__container">
             <div className="hero__content hero__content--left">
-              <p className="eyebrow hero__eyebrow">Nagriva — Website Design & Development Studio</p>
+              <p className="eyebrow hero__eyebrow">Professional enough to trust. Human enough to talk to.</p>
               <div className="hero__headline">
                 <h1 id="hero-title">
                   <span className="visually-hidden">
@@ -186,7 +186,7 @@ function Home() {
                   <FontAwesomeIcon icon={faStarHalf} />
                 </div>
                 <div className="hero__review-info">
-                  <span className="hero__review-text">Google Reviews · 378</span>
+                  <span className="hero__review-text">Google Reviews </span>
                   <a
                     className="hero__review-link"
                     href="https://g.page/r/CesvnU7f7DDJECE/review"
