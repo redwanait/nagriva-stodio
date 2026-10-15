@@ -6,7 +6,8 @@ import {
   faStarHalf,
 } from "@fortawesome/free-solid-svg-icons";
 
-import nagrivaIntroVideo from "../assets/videos/nagriva-final.webm";
+const nagrivaIntroVideo = "/videos/Nagriva_Intro.mp4";
+const nagrivaIntroPoster = "/videos/Nagriva_Intro-poster.jpg";
 
 import {
   services,
@@ -19,6 +20,7 @@ import FaqCtaSection from "../components/FaqCtaSection";
 import ClientLogos from "../components/ClientLogos";
 import RappelCard from "../components/RappelCard";
 import StartWithNagrivaButton from "../components/StartWithNagrivaButton";
+import VideoModal from "../components/VideoModal";
 import { useSeo } from "../hooks/useSeo";
 import { seoConfigs } from "../data/seo";
 
@@ -53,6 +55,9 @@ function Home() {
     typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
+
+  const [introModalOpen, setIntroModalOpen] = useState(false);
+  const introThumbnailRef = useRef<HTMLButtonElement>(null);
 
   const groupsCount = Math.max(1, Math.ceil(portfolioProjects.length / 3));
 
@@ -303,22 +308,39 @@ function Home() {
 
           <div className="why-nagriva__media">
             <div className="why-nagriva__video-panel">
-              <div className="why-nagriva__video-glow" aria-hidden="true" />
-              <div className="why-nagriva__video-topbar">
-                <span>INTRO FILM</span>
-                <span>TEMPORARY PREVIEW</span>
-              </div>
-              <video
-                className="why-nagriva__video"
-                src={nagrivaIntroVideo}
-                controls
-                playsInline
-                preload="metadata"
-                aria-label="Nagriva animated logo intro film"
-              />
+              <button
+                ref={introThumbnailRef}
+                type="button"
+                className="why-nagriva__video-thumb"
+                onClick={() => setIntroModalOpen(true)}
+                aria-label="Play the Nagriva intro film"
+              >
+                <img
+                  className="why-nagriva__video-thumb-img"
+                  src={nagrivaIntroPoster}
+                  alt="Nagriva intro film — the Nagriva logo with the tagline 'Professional enough to trust. Human enough to talk to.'"
+                  loading="lazy"
+                />
+                <span className="why-nagriva__video-thumb-overlay" aria-hidden="true" />
+                <span className="why-nagriva__video-thumb-play" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    <path d="M8 5.5v13l11-6.5z" fill="currentColor" />
+                  </svg>
+                </span>
+              </button>
             </div>
           </div>
         </section>
+
+        {introModalOpen && (
+          <VideoModal
+            src={nagrivaIntroVideo}
+            poster={nagrivaIntroPoster}
+            ariaLabel="Nagriva intro film"
+            onClose={() => setIntroModalOpen(false)}
+            returnFocusRef={introThumbnailRef}
+          />
+        )}
 
         <FeedbackSection />
 
