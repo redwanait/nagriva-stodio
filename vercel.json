@@ -5,12 +5,16 @@
     { "source": "^/about(/)?$", "destination": "/about/index.html" },
     { "source": "^/process(/)?$", "destination": "/process/index.html" },
     { "source": "^/start(/)?$", "destination": "/start/index.html" },
-    { "source": "^/blog/category/([^/]+)(/)?$", "destination": "/index.html" },
-    { "source": "^/blog/tag/([^/]+)(/)?$", "destination": "/index.html" },
-    { "source": "^/blog/([^/]+)(/)?$", "destination": "/index.html" },
+    { "source": "/sitemap.xml", "destination": "/api/sitemap" },
+    { "source": "^/blog/category/([^/]+)(/)?$", "destination": "/api/blog?type=category&slug=$1" },
+    { "source": "^/blog/tag/([^/]+)(/)?$", "destination": "/api/blog?type=tag&slug=$1" },
+    { "source": "^/blog/([^/]+)(/)?$", "destination": "/api/blog?type=post&slug=$1" },
     { "source": "^/blog(/)?$", "destination": "/blog/index.html" },
     { "source": "^/privacy-policy(/)?$", "destination": "/privacy-policy/index.html" },
     { "source": "^/terms-of-service(/)?$", "destination": "/terms-of-service/index.html" },
     { "source": "/((?!assets/|api/|.*\\..*).*)", "destination": "/index.html" }
-  ]
+  ],
+  "functions": {
+    "api/blog.ts": { "includeFiles": "dist/index.html" }
+  }
 }

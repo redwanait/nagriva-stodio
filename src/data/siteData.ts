@@ -1,5 +1,5 @@
 import {faBullseye,faCartShopping,faCode,faWandMagicSparkles,} from "@fortawesome/free-solid-svg-icons";
-import {faFacebook,faGithub,faInstagram,faLinkedin} from "@fortawesome/free-brands-svg-icons";
+import {faFacebook,faInstagram,faLinkedin} from "@fortawesome/free-brands-svg-icons";
 import step01 from "../assets/steps/step-01.webp";
 import step02 from "../assets/steps/step-02.webp";
 import step03 from "../assets/steps/step-03.webp";
@@ -85,7 +85,6 @@ export const socialLinks = [
   { label: "Instagram", href: "https://www.instagram.com/nagriva.co/?__pwa=1", icon: faInstagram },
   { label: "facebook", href: "https://www.facebook.com/profile.php?id=61575750526639", icon: faFacebook },
   { label: "linkedin", href: "https://www.linkedin.com/in/redouane-ait-el-hadj-167910315/", icon: faLinkedin },
-  { label: "GitHub", href: "https://github.com/redwanait", icon: faGithub },
 ];
 
 export const services = [

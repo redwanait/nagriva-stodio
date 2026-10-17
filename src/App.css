@@ -2662,7 +2662,7 @@ body.start-success-active .navbar { display: none; }
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
-  min-height: 38px;
+  min-height: 44px;
   padding: 0 0.95rem;
   border: 1px solid rgba(0,0,0,.12);
   border-radius: 999px;
@@ -2825,8 +2825,8 @@ body.start-success-active .navbar { display: none; }
   flex: 0 0 auto;
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   border: 1px solid rgba(0,0,0,.14);
   border-radius: 50%;
   color: var(--color-muted);
@@ -3307,8 +3307,8 @@ body.start-success-active .navbar { display: none; }
 .social-share__link {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   border: 1px solid rgba(0,0,0,.14);
   border-radius: 50%;
   background: transparent;
@@ -3370,6 +3370,22 @@ body.start-success-active .navbar { display: none; }
 .blog-tag:hover {
   border-color: rgba(0,71,255,.4);
   color: var(--color-text);
+}
+
+/* Blog focus visibility */
+.blog-category:focus-visible,
+.blog-tag:focus-visible,
+.blog-meta__category:focus-visible,
+.blog-card__title a:focus-visible,
+.blog-featured__title a:focus-visible,
+.blog-card__link:focus-visible,
+.blog-featured__link:focus-visible,
+.blog-post__back:focus-visible,
+.breadcrumb__link:focus-visible,
+.social-share__link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* Category / Tag pages */

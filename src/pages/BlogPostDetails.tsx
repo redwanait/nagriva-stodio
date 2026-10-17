@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { useSeo } from "../hooks/useSeo";
+import { useSeo, setJsonLd } from "../hooks/useSeo";
 import { SITE_URL, type SeoMeta } from "../data/seo";
 import {
   fetchPublishedPostBySlug,
@@ -9,6 +9,8 @@ import {
   fetchRelatedPosts,
   getBlogCoverUrl,
 } from "../lib/blogService";
+import { buildArticleSeo, buildNotFoundSeo } from "../lib/blogSsr";
+import { sanitizeArticleHtml } from "../lib/sanitizeHtml";
 import type { BlogPostDetail, BlogPostPreview, BlogTag } from "../types/blog";
 import { ArticleCard, AuthorChip } from "../components/BlogShared";
 import Breadcrumb from "../components/Breadcrumb";
@@ -26,61 +28,22 @@ function formatDateLong(iso: string): string {
   }).format(date);
 }
 
-function buildSeo(post: BlogPostDetail): SeoMeta {
-  const url = `${SITE_URL}/blog/${post.slug}`;
-  const title = post.seo_title ?? post.title;
-  const description = post.seo_description ?? post.excerpt ?? post.title;
-  const image = post.cover_image_path ? getBlogCoverUrl(post.cover_image_path) ?? undefined : undefined;
+function baseSeo(slug: string): SeoMeta {
   return {
-    title: `${title} \u2014 Nagriva`,
-    description,
-    canonical: url,
+    title: "Article \u2014 Nagriva",
+    description: "A Nagriva blog article.",
+    canonical: `${SITE_URL}/blog/${slug}`,
     og: {
-      title,
-      description,
-      url,
-      type: "article",
-      image,
-      imageAlt: post.cover_image_alt ?? undefined,
+      title: "Article \u2014 Nagriva",
+      description: "A Nagriva blog article.",
+      url: `${SITE_URL}/blog/${slug}`,
     },
     twitter: {
-      title,
-      description,
-      card: image ? "summary_large_image" : "summary",
-      image,
-      imageAlt: post.cover_image_alt ?? undefined,
+      title: "Article \u2014 Nagriva",
+      description: "A Nagriva blog article.",
+      card: "summary",
     },
   };
-}
-
-function injectArticleJsonLd(post: BlogPostDetail, tags: BlogTag[]): void {
-  const url = `${SITE_URL}/blog/${post.slug}`;
-  const image = post.cover_image_path ? getBlogCoverUrl(post.cover_image_path) ?? undefined : undefined;
-
-  const schema: Record<string, unknown> = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.seo_description ?? post.excerpt ?? post.title,
-    datePublished: post.published_at,
-    dateModified: post.updated_at,
-    mainEntityOfPage: { "@type": "WebPage", "@id": url },
-    author: post.author
-      ? { "@type": "Person", name: post.author.name }
-      : { "@type": "Organization", name: "Nagriva" },
-  };
-
-  if (image) schema.image = image;
-  if (tags.length > 0) schema.keywords = tags.map((t) => t.name).join(", ");
-
-  let el = document.getElementById("seo-blogpost-jsonld") as HTMLScriptElement | null;
-  if (!el) {
-    el = document.createElement("script");
-    el.id = "seo-blogpost-jsonld";
-    el.type = "application/ld+json";
-    document.head.appendChild(el);
-  }
-  el.textContent = JSON.stringify(schema);
 }
 
 interface BlogPostDetailsProps {
@@ -124,19 +87,33 @@ function BlogPostDetails({ slug }: BlogPostDetailsProps) {
     };
   }, [slug]);
 
-  useSeo(post ? buildSeo(post) : baseSeo(slug));
+  const coverUrl = post ? getBlogCoverUrl(post.cover_image_path) : null;
+  const articleSeo = useMemo(
+    () => (post ? buildArticleSeo(post, tags, coverUrl) : null),
+    [post, tags, coverUrl],
+  );
+  const safeContent = useMemo(
+    () => (post ? sanitizeArticleHtml(post.content) : ""),
+    [post],
+  );
+
+  const seo: SeoMeta = post && articleSeo
+    ? articleSeo.meta
+    : loadState === "not-found"
+      ? buildNotFoundSeo("post")
+      : loadState === "error"
+        ? { ...baseSeo(slug), robots: "noindex, follow" }
+        : baseSeo(slug);
+
+  useSeo(seo);
 
   useEffect(() => {
-    if (post && tags.length > 0) {
-      injectArticleJsonLd(post, tags);
-    } else if (post) {
-      injectArticleJsonLd(post, []);
+    if (post && articleSeo) {
+      setJsonLd(articleSeo.jsonLd);
+    } else if (loadState === "not-found" || loadState === "error") {
+      document.getElementById("seo-jsonld")?.remove();
     }
-    return () => {
-      const el = document.getElementById("seo-blogpost-jsonld");
-      if (el) el.remove();
-    };
-  }, [post, tags]);
+  }, [post, articleSeo, loadState]);
 
   if (loadState === "loading") {
     return (
@@ -192,7 +169,6 @@ function BlogPostDetails({ slug }: BlogPostDetailsProps) {
     );
   }
 
-  const coverUrl = getBlogCoverUrl(post.cover_image_path);
   const author = post.author;
   const articleUrl = `${SITE_URL}/blog/${post.slug}`;
 
@@ -236,7 +212,15 @@ function BlogPostDetails({ slug }: BlogPostDetailsProps) {
 
           <div className="blog-post__media">
             {coverUrl ? (
-              <img className="blog-post__image" src={coverUrl} alt={post.cover_image_alt ?? ""} loading="eager" />
+              <img
+                className="blog-post__image"
+                src={coverUrl}
+                alt={post.cover_image_alt ?? ""}
+                width="1200"
+                height="675"
+                loading="eager"
+                fetchPriority="high"
+              />
             ) : (
               <div className="blog-post__image blog-post__fallback" aria-hidden="true" />
             )}
@@ -244,7 +228,7 @@ function BlogPostDetails({ slug }: BlogPostDetailsProps) {
 
           <div
             className="blog-post__content"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: safeContent }}
           />
 
           <SocialShare url={articleUrl} title={post.title} />
@@ -265,24 +249,6 @@ function BlogPostDetails({ slug }: BlogPostDetailsProps) {
       </div>
     </main>
   );
-}
-
-function baseSeo(slug: string): SeoMeta {
-  return {
-    title: "Article \u2014 Nagriva",
-    description: "A Nagriva blog article.",
-    canonical: `${SITE_URL}/blog/${slug}`,
-    og: {
-      title: "Article \u2014 Nagriva",
-      description: "A Nagriva blog article.",
-      url: `${SITE_URL}/blog/${slug}`,
-    },
-    twitter: {
-      title: "Article \u2014 Nagriva",
-      description: "A Nagriva blog article.",
-      card: "summary",
-    },
-  };
 }
 
 export default BlogPostDetails;

@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
-import { useSeo } from "../hooks/useSeo";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSeo, setJsonLd } from "../hooks/useSeo";
 import { SITE_URL, type SeoMeta } from "../data/seo";
 import {
   fetchTagBySlug,
   fetchPostsByTag,
 } from "../lib/blogService";
+import { buildArchiveSeo, buildNotFoundSeo } from "../lib/blogSsr";
 import type { BlogPostPreview, BlogTag } from "../types/blog";
 import { ArticleCard } from "../components/BlogShared";
 import Breadcrumb from "../components/Breadcrumb";
@@ -28,7 +29,6 @@ function TagPage({ slug }: { slug: string }) {
     let active = true;
 
     async function load() {
-      setLoadState("loading");
       try {
         const tagData = await fetchTagBySlug(slug);
 
@@ -44,7 +44,7 @@ function TagPage({ slug }: { slug: string }) {
         if (!active) return;
 
         setPosts(firstPosts);
-        setTotal(t);
+        setTotal(t ?? 0);
         setLoadState("ready");
       } catch {
         if (active) setLoadState("error");
@@ -58,8 +58,7 @@ function TagPage({ slug }: { slug: string }) {
   const loadPage = useCallback(
     async (tagId: string, pageNum: number) => {
       const offset = (pageNum - 1) * PAGE_SIZE;
-      const { posts: morePosts, total: t } = await fetchPostsByTag(tagId, PAGE_SIZE, offset);
-      setTotal(t);
+      const { posts: morePosts } = await fetchPostsByTag(tagId, PAGE_SIZE, offset, false);
       setPosts((prev) => [...prev, ...morePosts]);
     },
     [],
@@ -70,10 +69,39 @@ function TagPage({ slug }: { slug: string }) {
     const next = page + 1;
     setLoadingMore(true);
     setPage(next);
-    void loadPage(tag.id, next).finally(() => setLoadingMore(false));
+    loadPage(tag.id, next)
+      .catch(() => {})
+      .finally(() => setLoadingMore(false));
   }, [tag, page, loadPage]);
 
-  useSeo(buildTagSeo(tag, slug));
+  const archiveSeo = useMemo(
+    () => (tag ? buildArchiveSeo("tag", tag, posts) : null),
+    [tag, posts],
+  );
+
+  const seo: SeoMeta = tag && archiveSeo
+    ? archiveSeo.meta
+    : loadState === "not-found"
+      ? buildNotFoundSeo("tag")
+      : loadState === "error"
+        ? { ...buildNotFoundSeo("tag"), title: "Tag \u2014 Nagriva" }
+        : {
+            title: "Tag \u2014 Nagriva",
+            description: "A Nagriva blog tag.",
+            canonical: `${SITE_URL}/blog/tag/${slug}`,
+            og: { title: "Tag \u2014 Nagriva", description: "A Nagriva blog tag.", url: `${SITE_URL}/blog/tag/${slug}` },
+            twitter: { title: "Tag \u2014 Nagriva", description: "A Nagriva blog tag.", card: "summary" },
+          };
+
+  useSeo(seo);
+
+  useEffect(() => {
+    if (archiveSeo && loadState === "ready") {
+      setJsonLd(archiveSeo.jsonLd);
+    } else if (loadState === "not-found" || loadState === "error") {
+      document.getElementById("seo-jsonld")?.remove();
+    }
+  }, [archiveSeo, loadState]);
 
   if (loadState === "loading") {
     return (
@@ -157,19 +185,6 @@ function TagPage({ slug }: { slug: string }) {
       </div>
     </main>
   );
-}
-
-function buildTagSeo(tag: BlogTag | null, slug: string): SeoMeta {
-  const title = tag ? `#${tag.name} — Nagriva Blog` : "Tag — Nagriva";
-  const description = `Articles tagged with ${tag?.name ?? slug.replace(/-/g, " ")}.`;
-  const canonical = `${SITE_URL}/blog/tag/${slug}`;
-  return {
-    title,
-    description,
-    canonical,
-    og: { title, description, url: canonical },
-    twitter: { title, description, card: "summary" },
-  };
 }
 
 export default TagPage;

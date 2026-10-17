@@ -46,6 +46,15 @@ function normalizePath(pathname: string): string {
   return pathname.length > 1 && pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
 }
 
+/** Decode a URL segment without throwing on malformed percent-encoding. */
+function safeDecode(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
 function getRoute(): Route {
   const path = normalizePath(window.location.pathname);
   if (path === "/services") return "services";
@@ -66,19 +75,19 @@ function getRoute(): Route {
 function getBlogSlug(): string {
   const path = window.location.pathname;
   const match = /^\/blog\/([^/]+)\/?$/.exec(path);
-  return match ? decodeURIComponent(match[1]) : "";
+  return match ? safeDecode(match[1]) : "";
 }
 
 function getBlogCategorySlug(): string {
   const path = window.location.pathname;
   const match = /^\/blog\/category\/([^/]+)\/?$/.exec(path);
-  return match ? decodeURIComponent(match[1]) : "";
+  return match ? safeDecode(match[1]) : "";
 }
 
 function getBlogTagSlug(): string {
   const path = window.location.pathname;
   const match = /^\/blog\/tag\/([^/]+)\/?$/.exec(path);
-  return match ? decodeURIComponent(match[1]) : "";
+  return match ? safeDecode(match[1]) : "";
 }
 
 const BLOG_ROUTES: ReadonlySet<Route> = new Set([

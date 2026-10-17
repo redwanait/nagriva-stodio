@@ -27,6 +27,8 @@ export interface SeoMeta {
   canonical: string;
   og: OgMeta;
   twitter: TwitterMeta;
+  /** Optional robots directive (e.g. "noindex, follow" for soft-404s). */
+  robots?: string;
 }
 
 export interface HeadMeta {
@@ -229,6 +231,10 @@ export function buildMetaTags(meta: SeoMeta): HeadMeta[] {
     { id: "seo-twitter-image", tag: "meta", attrs: { name: "twitter:image", content: twitterImage } },
     { id: "seo-twitter-image-alt", tag: "meta", attrs: { name: "twitter:image:alt", content: twitterImageAlt } },
   );
+
+  if (meta.robots) {
+    list.push({ id: "seo-robots", tag: "meta", attrs: { name: "robots", content: meta.robots } });
+  }
 
   return list;
 }

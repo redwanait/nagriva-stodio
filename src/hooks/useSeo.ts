@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { buildMetaTags, ROUTES, seoConfigs, type SeoMeta } from "../data/seo";
-import { buildPageGraph, serializeGraph } from "../data/schema";
+import { buildPageGraph } from "../data/schema";
 
 const JSONLD_SCRIPT_ID = "seo-jsonld";
 
@@ -17,7 +17,8 @@ function getOrCreate(id: string, tag: string, attrs: Record<string, string>): HT
   return el;
 }
 
-function getOrCreateJsonLdScript(): HTMLScriptElement {
+/** Write a JSON-LD graph into the single shared `seo-jsonld` script tag. */
+export function setJsonLd(graph: unknown): void {
   let el = document.getElementById(JSONLD_SCRIPT_ID) as HTMLScriptElement | null;
   if (!el) {
     el = document.createElement("script");
@@ -25,7 +26,7 @@ function getOrCreateJsonLdScript(): HTMLScriptElement {
     el.type = "application/ld+json";
     document.head.appendChild(el);
   }
-  return el;
+  el.textContent = JSON.stringify(graph);
 }
 
 export function useSeo(meta: SeoMeta): void {
@@ -37,9 +38,14 @@ export function useSeo(meta: SeoMeta): void {
       getOrCreate(item.id, item.tag, item.attrs);
     }
 
+    // Remove a stale robots directive when the current view is indexable.
+    if (!meta.robots) {
+      document.getElementById("seo-robots")?.remove();
+    }
+
     const route = ROUTES.find((r) => seoConfigs[r.key].canonical === meta.canonical)?.key;
     if (route) {
-      getOrCreateJsonLdScript().textContent = serializeGraph(buildPageGraph(route));
+      setJsonLd(buildPageGraph(route));
     }
 
     return () => {

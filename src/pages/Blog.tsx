@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useSeo } from "../hooks/useSeo";
 import { seoConfigs } from "../data/seo";
 import {
-  fetchPublishedPostsPage,
+  fetchBlogPosts,
   fetchBlogCategories,
   getBlogCoverUrl,
 } from "../lib/blogService";
@@ -14,6 +14,7 @@ import { ArticleCard, AuthorChip, ArticleMeta } from "../components/BlogShared";
 
 const SEO = seoConfigs.blog;
 const PAGE_SIZE = 9;
+const SEARCH_DEBOUNCE_MS = 300;
 
 type LoadState = "loading" | "ready" | "error";
 
@@ -27,7 +28,15 @@ function FeaturedArticle({ post }: FeaturedArticleProps) {
     <article className="blog-featured">
       <a className="blog-featured__media" href={`/blog/${post.slug}`} tabIndex={-1} aria-hidden="true">
         {coverUrl ? (
-          <img className="blog-featured__image" src={coverUrl} alt={post.cover_image_alt ?? ""} loading="eager" />
+          <img
+            className="blog-featured__image"
+            src={coverUrl}
+            alt={post.cover_image_alt ?? ""}
+            width="1200"
+            height="675"
+            loading="eager"
+            fetchPriority="high"
+          />
         ) : (
           <span className="blog-featured__fallback" aria-hidden="true" />
         )}
@@ -86,7 +95,8 @@ function CardSkeleton() {
 function Blog() {
   useSeo(SEO);
 
-  const [loadState, setLoadState] = useState<LoadState>("loading");
+  const [status, setStatus] = useState<LoadState>("loading");
+  const [pending, setPending] = useState(false);
   const [total, setTotal] = useState(0);
   const [posts, setPosts] = useState<BlogPostPreview[]>([]);
   const [page, setPage] = useState(1);
@@ -94,52 +104,81 @@ function Blog() {
   const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const firstLoadRef = useRef(true);
+  const requestIdRef = useRef(0);
 
   const hasMore = posts.length < total;
 
-  const loadPage = useCallback(
-    async (pageNum: number, replace: boolean) => {
-      const offset = (pageNum - 1) * PAGE_SIZE;
-      const { posts: pagePosts, total: t } = await fetchPublishedPostsPage(PAGE_SIZE, offset);
-      setTotal(t);
-      setPosts((prev) => (replace ? pagePosts : [...prev, ...pagePosts]));
-    },
-    [],
-  );
-
-  const reload = useCallback(() => {
-    window.location.reload();
+  useEffect(() => {
+    let active = true;
+    fetchBlogCategories()
+      .then((cats) => {
+        if (active) setCategories(cats);
+      })
+      .catch(() => {});
+    return () => { active = false; };
   }, []);
 
   useEffect(() => {
-    let active = true;
+    const handle = setTimeout(() => setDebouncedQuery(query), SEARCH_DEBOUNCE_MS);
+    return () => clearTimeout(handle);
+  }, [query]);
 
-    fetchBlogCategories()
-      .then((cats) => {
-        if (!active) return null;
-        setCategories(cats);
-        return fetchPublishedPostsPage(PAGE_SIZE, 0);
-      })
-      .then((result) => {
-        if (!active || !result) return;
-        setTotal(result.total);
-        setPosts(result.posts);
-        setLoadState("ready");
+  useEffect(() => {
+    let active = true;
+    const requestId = ++requestIdRef.current;
+
+    if (firstLoadRef.current) {
+      setStatus("loading");
+    } else {
+      setPending(true);
+    }
+
+    fetchBlogPosts({
+      categoryId: activeCategory,
+      search: debouncedQuery,
+      limit: PAGE_SIZE,
+      offset: 0,
+    })
+      .then(({ posts: pagePosts, total: t }) => {
+        if (!active || requestId !== requestIdRef.current) return;
+        setPosts(pagePosts);
+        setTotal(t ?? 0);
+        setPage(1);
+        setStatus("ready");
       })
       .catch(() => {
-        if (active) setLoadState("error");
+        if (active && requestId === requestIdRef.current) setStatus("error");
+      })
+      .finally(() => {
+        if (active && requestId === requestIdRef.current) {
+          setPending(false);
+          firstLoadRef.current = false;
+        }
       });
 
     return () => { active = false; };
-  }, []);
+  }, [activeCategory, debouncedQuery]);
 
   const handleLoadMore = useCallback(() => {
     const next = page + 1;
     setLoadingMore(true);
-    setPage(next);
-    void loadPage(next, false).finally(() => setLoadingMore(false));
-  }, [page, loadPage]);
+    fetchBlogPosts({
+      categoryId: activeCategory,
+      search: debouncedQuery,
+      limit: PAGE_SIZE,
+      offset: (next - 1) * PAGE_SIZE,
+      withCount: false,
+    })
+      .then(({ posts: morePosts }) => {
+        setPosts((prev) => [...prev, ...morePosts]);
+        setPage(next);
+      })
+      .catch(() => {})
+      .finally(() => setLoadingMore(false));
+  }, [page, activeCategory, debouncedQuery]);
 
   const handleCategory = useCallback((id: string | null) => {
     setActiveCategory(id);
@@ -149,28 +188,14 @@ function Blog() {
   const handleClearAll = useCallback(() => {
     setActiveCategory(null);
     setQuery("");
+    setDebouncedQuery("");
     searchInputRef.current?.focus();
   }, []);
 
-  const filteredPosts = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return posts.filter((post) => {
-      const matchesCategory =
-        activeCategory === null ||
-        (post.category && post.category.id === activeCategory);
-      const matchesQuery =
-        q === "" ||
-        (post.title && post.title.toLowerCase().includes(q));
-      return matchesCategory && matchesQuery;
-    });
-  }, [posts, activeCategory, query]);
-
-  const featured = posts[0];
-
-  const isFiltering = activeCategory !== null || query.trim() !== "";
-
-  const showNoPosts =
-    loadState === "ready" && !isFiltering && posts.length === 0;
+  const isFiltering = activeCategory !== null || debouncedQuery.trim() !== "";
+  const featured = !isFiltering ? posts[0] : undefined;
+  const gridPosts = featured ? posts.filter((post) => post.id !== featured.id) : posts;
+  const showNoPosts = status === "ready" && !isFiltering && posts.length === 0;
 
   return (
     <main className="blog-page">
@@ -191,7 +216,7 @@ function Blog() {
       </section>
 
       <div className="blog-layout">
-        {loadState === "loading" && (
+        {status === "loading" && (
           <section aria-label="Loading articles">
             <FeaturedSkeleton />
             <div className="blog-grid blog-grid--skeleton" aria-hidden="true">
@@ -202,19 +227,19 @@ function Blog() {
           </section>
         )}
 
-        {loadState === "error" && (
+        {status === "error" && (
           <section className="blog-state" role="alert">
             <div className="blog-state__panel">
               <p className="blog-state__title">We couldn&apos;t load articles.</p>
               <p className="blog-state__message">Something went wrong on our side. Please try again in a moment.</p>
-              <button className="blog-state__button" type="button" onClick={reload}>
+              <button className="blog-state__button" type="button" onClick={() => window.location.reload()}>
                 Try again
               </button>
             </div>
           </section>
         )}
 
-        {showNoPosts && (
+        {status === "ready" && showNoPosts && (
           <section className="blog-state">
             <div className="blog-state__panel">
               <p className="blog-state__title">No articles yet.</p>
@@ -223,7 +248,7 @@ function Blog() {
           </section>
         )}
 
-        {loadState === "ready" && posts.length > 0 && !isFiltering && (
+        {status === "ready" && featured && !pending && (
           <section className="blog-featured-section" aria-labelledby="blog-featured-heading">
             <h2 id="blog-featured-heading" className="visually-hidden">
               Featured article
@@ -232,7 +257,7 @@ function Blog() {
           </section>
         )}
 
-        {loadState === "ready" && (
+        {status === "ready" && !showNoPosts && (
           <>
             <section className="blog-toolbar" aria-label="Browse articles">
               <div className="blog-categories" role="navigation" aria-label="Article categories">
@@ -282,14 +307,20 @@ function Blog() {
                 <h2 id="blog-latest-heading">Latest articles</h2>
                 {isFiltering && (
                   <span className="blog-latest__count">
-                    {filteredPosts.length} {filteredPosts.length === 1 ? "article" : "articles"}
+                    {total} {total === 1 ? "article" : "articles"}
                   </span>
                 )}
               </div>
 
-              {filteredPosts.length > 0 ? (
+              {pending ? (
+                <div className="blog-grid blog-grid--skeleton" aria-hidden="true">
+                  <CardSkeleton />
+                  <CardSkeleton />
+                  <CardSkeleton />
+                </div>
+              ) : gridPosts.length > 0 ? (
                 <div className="blog-grid">
-                  {filteredPosts.map((post) => (
+                  {gridPosts.map((post) => (
                     <ArticleCard key={post.id} post={post} />
                   ))}
                 </div>
@@ -297,8 +328,8 @@ function Blog() {
                 <div className="blog-empty">
                   <p className="blog-empty__title">No articles found</p>
                   <p className="blog-empty__message">
-                    {query.trim() !== ""
-                      ? `Nothing matched \u201c${query.trim()}\u201d. Try a different search.`
+                    {debouncedQuery.trim() !== ""
+                      ? `Nothing matched \u201c${debouncedQuery.trim()}\u201d. Try a different search.`
                       : "No articles in this category yet."}
                   </p>
                   {isFiltering && (
@@ -309,7 +340,7 @@ function Blog() {
                 </div>
               )}
 
-              {!isFiltering && hasMore && (
+              {!pending && !isFiltering && hasMore && (
                 <LoadMore onClick={handleLoadMore} loading={loadingMore} />
               )}
             </section>

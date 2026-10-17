@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
-import { useSeo } from "../hooks/useSeo";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSeo, setJsonLd } from "../hooks/useSeo";
 import { SITE_URL, type SeoMeta } from "../data/seo";
 import {
   fetchCategoryBySlug,
   fetchPostsByCategory,
 } from "../lib/blogService";
+import { buildArchiveSeo, buildNotFoundSeo } from "../lib/blogSsr";
 import type { BlogCategory, BlogPostPreview } from "../types/blog";
 import { ArticleCard } from "../components/BlogShared";
 import Breadcrumb from "../components/Breadcrumb";
@@ -28,7 +29,6 @@ function CategoryPage({ slug }: { slug: string }) {
     let active = true;
 
     async function load() {
-      setLoadState("loading");
       try {
         const cat = await fetchCategoryBySlug(slug);
 
@@ -44,7 +44,7 @@ function CategoryPage({ slug }: { slug: string }) {
         if (!active) return;
 
         setPosts(catPosts);
-        setTotal(t);
+        setTotal(t ?? 0);
         setLoadState("ready");
       } catch {
         if (active) setLoadState("error");
@@ -58,8 +58,7 @@ function CategoryPage({ slug }: { slug: string }) {
   const loadPage = useCallback(
     async (catId: string, pageNum: number) => {
       const offset = (pageNum - 1) * PAGE_SIZE;
-      const { posts: morePosts, total: t } = await fetchPostsByCategory(catId, PAGE_SIZE, offset);
-      setTotal(t);
+      const { posts: morePosts } = await fetchPostsByCategory(catId, PAGE_SIZE, offset, false);
       setPosts((prev) => [...prev, ...morePosts]);
     },
     [],
@@ -70,10 +69,39 @@ function CategoryPage({ slug }: { slug: string }) {
     const next = page + 1;
     setLoadingMore(true);
     setPage(next);
-    void loadPage(category.id, next).finally(() => setLoadingMore(false));
+    loadPage(category.id, next)
+      .catch(() => {})
+      .finally(() => setLoadingMore(false));
   }, [category, page, loadPage]);
 
-  useSeo(buildCategorySeo(category, slug));
+  const archiveSeo = useMemo(
+    () => (category ? buildArchiveSeo("category", category, posts) : null),
+    [category, posts],
+  );
+
+  const seo: SeoMeta = category && archiveSeo
+    ? archiveSeo.meta
+    : loadState === "not-found"
+      ? buildNotFoundSeo("category")
+      : loadState === "error"
+        ? { ...buildNotFoundSeo("category"), title: "Category \u2014 Nagriva" }
+        : {
+            title: "Category \u2014 Nagriva",
+            description: "A Nagriva blog category.",
+            canonical: `${SITE_URL}/blog/category/${slug}`,
+            og: { title: "Category \u2014 Nagriva", description: "A Nagriva blog category.", url: `${SITE_URL}/blog/category/${slug}` },
+            twitter: { title: "Category \u2014 Nagriva", description: "A Nagriva blog category.", card: "summary" },
+          };
+
+  useSeo(seo);
+
+  useEffect(() => {
+    if (archiveSeo && loadState === "ready") {
+      setJsonLd(archiveSeo.jsonLd);
+    } else if (loadState === "not-found" || loadState === "error") {
+      document.getElementById("seo-jsonld")?.remove();
+    }
+  }, [archiveSeo, loadState]);
 
   if (loadState === "loading") {
     return (
@@ -160,19 +188,6 @@ function CategoryPage({ slug }: { slug: string }) {
       </div>
     </main>
   );
-}
-
-function buildCategorySeo(category: BlogCategory | null, slug: string): SeoMeta {
-  const title = category ? `${category.name} — Nagriva Blog` : "Category — Nagriva";
-  const description = category?.description ?? `Articles about ${slug.replace(/-/g, " ")}.`;
-  const canonical = `${SITE_URL}/blog/category/${slug}`;
-  return {
-    title,
-    description,
-    canonical,
-    og: { title, description, url: canonical },
-    twitter: { title, description, card: "summary" },
-  };
 }
 
 export default CategoryPage;
