@@ -63,6 +63,60 @@ export function ArticleMeta({ post }: ArticleMetaProps) {
   );
 }
 
+interface BlogCoverImageProps {
+  src: string | null;
+  alt: string;
+  imgClassName: string;
+  fallbackClassName: string;
+  loading?: "lazy" | "eager";
+  fetchPriority?: "high" | "low" | "auto";
+  width?: number;
+  height?: number;
+}
+
+/**
+ * Renders an article cover. If the source is missing or fails to load, it
+ * degrades to the styled fallback block instead of the browser's broken-image
+ * icon, while keeping the alt text accessible via `role="img"`/`aria-label`.
+ */
+export function BlogCoverImage({
+  src,
+  alt,
+  imgClassName,
+  fallbackClassName,
+  loading = "lazy",
+  fetchPriority,
+  width,
+  height,
+}: BlogCoverImageProps) {
+  const [failed, setFailed] = useState(false);
+  const cleanAlt = alt.trim();
+
+  if (!src || failed) {
+    return (
+      <span
+        className={fallbackClassName}
+        role={cleanAlt ? "img" : undefined}
+        aria-label={cleanAlt || undefined}
+        aria-hidden={cleanAlt ? undefined : true}
+      />
+    );
+  }
+
+  return (
+    <img
+      className={imgClassName}
+      src={src}
+      alt={cleanAlt}
+      loading={loading}
+      fetchPriority={fetchPriority}
+      width={width}
+      height={height}
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
 interface ArticleCardProps {
   post: BlogPostPreview;
 }
@@ -72,11 +126,12 @@ export function ArticleCard({ post }: ArticleCardProps) {
   return (
     <article className="blog-card">
       <a className="blog-card__media" href={`/blog/${post.slug}`} tabIndex={-1} aria-hidden="true">
-        {coverUrl ? (
-          <img className="blog-card__image" src={coverUrl} alt={post.cover_image_alt ?? ""} loading="lazy" />
-        ) : (
-          <span className="blog-card__fallback" aria-hidden="true" />
-        )}
+        <BlogCoverImage
+          src={coverUrl}
+          alt={post.cover_image_alt ?? ""}
+          imgClassName="blog-card__image"
+          fallbackClassName="blog-card__fallback"
+        />
       </a>
       <div className="blog-card__body">
         <ArticleMeta post={post} />

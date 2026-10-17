@@ -38,6 +38,16 @@ function normalizeSearchTerm(term: string): string {
   return term.replace(/[,()\\]/g, " ").replace(/\s+/g, " ").trim().slice(0, 100);
 }
 
+/**
+ * True when a stored media value is already a self-contained URL (an external
+ * host such as ImgBB, or a data URI) rather than a Supabase Storage object
+ * path. Such values must be used verbatim and never passed to
+ * `storage.getPublicUrl()`.
+ */
+export function isAbsoluteMediaUrl(value: string): boolean {
+  return /^(?:https?:)?\/\//i.test(value) || /^data:/i.test(value);
+}
+
 export interface PublishedPostsQuery {
   categoryId?: string | null;
   tagId?: string | null;

@@ -3,6 +3,7 @@ import { join } from "node:path";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import {
+  isAbsoluteMediaUrl,
   queryCategoryBySlug,
   queryPublishedPostBySlug,
   queryPublishedPosts,
@@ -68,10 +69,14 @@ function createServerClient(): SupabaseClient | null {
 }
 
 function storagePublicUrl(path: string | null, bucket: string): string | null {
-  const base = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-  if (!base || !path) return null;
+  if (!path) return null;
   const clean = path.trim();
   if (!clean) return null;
+  // External/absolute URLs (e.g. ImgBB) are already usable; only bare object
+  // keys are resolved against the public Storage bucket.
+  if (isAbsoluteMediaUrl(clean)) return clean;
+  const base = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+  if (!base) return null;
   const encoded = clean.split("/").map(encodeURIComponent).join("/");
   return `${base.replace(/\/$/, "")}/storage/v1/object/public/${bucket}/${encoded}`;
 }

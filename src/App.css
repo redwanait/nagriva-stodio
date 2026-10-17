@@ -3149,6 +3149,9 @@ body.start-success-active .navbar { display: none; }
   object-fit: cover;
   object-position: center;
 }
+.blog-post__fallback {
+  background: radial-gradient(circle at 50% 45%, var(--color-accent-glow-soft), transparent 65%), var(--color-surface-2);
+}
 .blog-post__content {
   margin-top: clamp(2rem, 4vw, 3rem);
   color: var(--color-text);

@@ -10,7 +10,7 @@ import {
 } from "../lib/blogService";
 import type { BlogCategory, BlogPostPreview } from "../types/blog";
 import LoadMore from "../components/LoadMore";
-import { ArticleCard, AuthorChip, ArticleMeta } from "../components/BlogShared";
+import { ArticleCard, AuthorChip, ArticleMeta, BlogCoverImage } from "../components/BlogShared";
 
 const SEO = seoConfigs.blog;
 const PAGE_SIZE = 9;
@@ -27,19 +27,16 @@ function FeaturedArticle({ post }: FeaturedArticleProps) {
   return (
     <article className="blog-featured">
       <a className="blog-featured__media" href={`/blog/${post.slug}`} tabIndex={-1} aria-hidden="true">
-        {coverUrl ? (
-          <img
-            className="blog-featured__image"
-            src={coverUrl}
-            alt={post.cover_image_alt ?? ""}
-            width="1200"
-            height="675"
-            loading="eager"
-            fetchPriority="high"
-          />
-        ) : (
-          <span className="blog-featured__fallback" aria-hidden="true" />
-        )}
+        <BlogCoverImage
+          src={coverUrl}
+          alt={post.cover_image_alt ?? ""}
+          imgClassName="blog-featured__image"
+          fallbackClassName="blog-featured__fallback"
+          loading="eager"
+          fetchPriority="high"
+          width={1200}
+          height={675}
+        />
       </a>
       <div className="blog-featured__body">
         <ArticleMeta post={post} />

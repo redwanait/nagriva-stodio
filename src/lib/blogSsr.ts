@@ -104,14 +104,14 @@ export function buildArticleSeo(
       url,
       type: "article",
       image,
-      imageAlt: post.cover_image_alt ?? undefined,
+      imageAlt: post.cover_image_alt?.trim() || undefined,
     },
     twitter: {
       title,
       description,
       card: coverUrl ? "summary_large_image" : "summary",
       image,
-      imageAlt: post.cover_image_alt ?? undefined,
+      imageAlt: post.cover_image_alt?.trim() || undefined,
     },
   };
 
@@ -330,7 +330,7 @@ export function renderArticleDocumentContent(
     ? `<p class="blog-post__excerpt">${escapeHtml(post.excerpt)}</p>`
     : "";
   const media = coverUrl
-    ? `<div class="blog-post__media"><img class="blog-post__image" src="${escapeAttr(coverUrl)}" alt="${escapeAttr(post.cover_image_alt ?? "")}" width="1200" height="675" loading="eager" fetchpriority="high" /></div>`
+    ? `<div class="blog-post__media"><img class="blog-post__image" src="${escapeAttr(coverUrl)}" alt="${escapeAttr((post.cover_image_alt ?? "").trim())}" width="1200" height="675" loading="eager" fetchpriority="high" /></div>`
     : "";
 
   return [

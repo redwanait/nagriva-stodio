@@ -12,7 +12,7 @@ import {
 import { buildArticleSeo, buildNotFoundSeo } from "../lib/blogSsr";
 import { sanitizeArticleHtml } from "../lib/sanitizeHtml";
 import type { BlogPostDetail, BlogPostPreview, BlogTag } from "../types/blog";
-import { ArticleCard, AuthorChip } from "../components/BlogShared";
+import { ArticleCard, AuthorChip, BlogCoverImage } from "../components/BlogShared";
 import Breadcrumb from "../components/Breadcrumb";
 import SocialShare from "../components/SocialShare";
 
@@ -211,19 +211,16 @@ function BlogPostDetails({ slug }: BlogPostDetailsProps) {
           </header>
 
           <div className="blog-post__media">
-            {coverUrl ? (
-              <img
-                className="blog-post__image"
-                src={coverUrl}
-                alt={post.cover_image_alt ?? ""}
-                width="1200"
-                height="675"
-                loading="eager"
-                fetchPriority="high"
-              />
-            ) : (
-              <div className="blog-post__image blog-post__fallback" aria-hidden="true" />
-            )}
+            <BlogCoverImage
+              src={coverUrl}
+              alt={post.cover_image_alt ?? ""}
+              imgClassName="blog-post__image"
+              fallbackClassName="blog-post__image blog-post__fallback"
+              loading="eager"
+              fetchPriority="high"
+              width={1200}
+              height={675}
+            />
           </div>
 
           <div

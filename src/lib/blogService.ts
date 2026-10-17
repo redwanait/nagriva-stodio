@@ -1,5 +1,6 @@
 import { supabase } from "./supabase";
 import {
+  isAbsoluteMediaUrl,
   queryCategoriesWithPublishedPosts,
   queryCategoryBySlug,
   queryPublishedPostBySlug,
@@ -33,9 +34,12 @@ const BLOG_AUTHORS_BUCKET = "blog-authors";
  */
 function getStoragePublicUrl(bucket: string, path: string | null): string | null {
   if (!path) return null;
-  if (!supabase) return null;
   const cleanPath = path.trim();
   if (!cleanPath) return null;
+  // A value that is already a full URL (external image host, data URI) is used
+  // as-is. Only bare object keys belong to Supabase Storage.
+  if (isAbsoluteMediaUrl(cleanPath)) return cleanPath;
+  if (!supabase) return null;
   return supabase.storage.from(bucket).getPublicUrl(cleanPath).data.publicUrl;
 }
 
