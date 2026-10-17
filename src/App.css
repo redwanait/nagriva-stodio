@@ -2436,10 +2436,6 @@ body.start-success-active .navbar { display: none; }
   overflow: hidden;
   isolation: isolate;
   background-color: var(--color-bg);
-  background-image:
-    linear-gradient(var(--color-grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--color-grid-line) 1px, transparent 1px);
-  background-size: 72px 72px;
 }
 .blog-hero::before {
   content: "";

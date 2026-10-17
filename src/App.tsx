@@ -90,13 +90,6 @@ function getBlogTagSlug(): string {
   return match ? safeDecode(match[1]) : "";
 }
 
-const BLOG_ROUTES: ReadonlySet<Route> = new Set([
-  "blog",
-  "blog-post",
-  "blog-category",
-  "blog-tag",
-]);
-
 function App() {
   const [route, setRoute] = useState<Route>(getRoute);
 
@@ -140,7 +133,7 @@ function App() {
     <>
       {route !== "not-found" && <Navbar />}
       {page}
-      {(route === "home" || BLOG_ROUTES.has(route)) && <FinalCta />}
+      {route === "home" && <FinalCta />}
       {route !== "not-found" && route !== "start" && <Footer />}
     </>
   );
