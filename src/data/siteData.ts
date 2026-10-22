@@ -82,7 +82,7 @@ export const navLinks = [
 
 
 export const socialLinks = [
-  { label: "Instagram", href: "https://www.instagram.com/nagriva.co/?__pwa=1", icon: faInstagram },
+  { label: "Instagram", href: "https://www.instagram.com/nagriva.ma/?__pwa=1", icon: faInstagram },
   { label: "facebook", href: "https://www.facebook.com/profile.php?id=61575750526639", icon: faFacebook },
   { label: "linkedin", href: "https://www.linkedin.com/in/redouane-ait-el-hadj-167910315/", icon: faLinkedin },
 ];
