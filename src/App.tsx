@@ -9,6 +9,7 @@ import Services from "./pages/Services";
 import Portfolio from "./pages/Portfolio";
 import About from "./pages/About";
 import Process from "./pages/Process";
+import HandInHand from "./pages/HandInHand";
 import Start from "./pages/Start";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
@@ -24,6 +25,7 @@ type Route =
   | "portfolio"
   | "about"
   | "process"
+  | "hand-in-hand"
   | "start"
   | "blog"
   | "blog-post"
@@ -61,6 +63,7 @@ function getRoute(): Route {
   if (path === "/portfolio") return "portfolio";
   if (path === "/about") return "about";
   if (path === "/process") return "process";
+  if (path === "/hand-in-hand") return "hand-in-hand";
   if (path === "/start") return "start";
   if (/^\/blog\/category\/[^/]+$/.test(path)) return "blog-category";
   if (/^\/blog\/tag\/[^/]+$/.test(path)) return "blog-tag";
@@ -119,6 +122,7 @@ function App() {
     route === "services" ? <Services /> :
     route === "portfolio" ? <Portfolio /> :
     route === "process" ? <Process /> :
+    route === "hand-in-hand" ? <HandInHand /> :
     route === "start" ? <Start /> :
     route === "blog" ? <Blog /> :
     route === "blog-post" ? <BlogPostDetails key={getBlogSlug()} slug={getBlogSlug()} /> :

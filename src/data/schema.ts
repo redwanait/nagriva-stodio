@@ -92,6 +92,7 @@ const PAGE_TYPES: Record<RouteKey, string> = {
   portfolio: "CollectionPage",
   about: "AboutPage",
   process: "WebPage",
+  "hand-in-hand": "WebPage",
   start: "ContactPage",
   blog: "Blog",
   "privacy-policy": "WebPage",

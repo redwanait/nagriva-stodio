@@ -23,6 +23,7 @@ type VideoModalProps = {
  */
 function VideoModal({ src, poster, ariaLabel = "Video player", onClose, returnFocusRef }: VideoModalProps) {
   const [closing, setClosing] = useState(false);
+  const [loadFailed, setLoadFailed] = useState(false);
 
   const dialogRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -142,7 +143,13 @@ function VideoModal({ src, poster, ariaLabel = "Video player", onClose, returnFo
             controls
             playsInline
             preload="metadata"
+            onError={() => setLoadFailed(true)}
           />
+          {loadFailed && (
+            <p className="video-modal__error" role="alert">
+              This video is unavailable right now. Please try again later.
+            </p>
+          )}
         </div>
       </div>
     </div>,

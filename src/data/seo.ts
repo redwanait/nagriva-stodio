@@ -43,6 +43,7 @@ export type RouteKey =
   | "portfolio"
   | "about"
   | "process"
+  | "hand-in-hand"
   | "start"
   | "blog"
   | "privacy-policy"
@@ -60,6 +61,7 @@ export const ROUTES: RouteInfo[] = [
   { key: "portfolio", path: "/portfolio", dir: "portfolio" },
   { key: "about", path: "/about", dir: "about" },
   { key: "process", path: "/process", dir: "process" },
+  { key: "hand-in-hand", path: "/hand-in-hand", dir: "hand-in-hand" },
   { key: "start", path: "/start", dir: "start" },
   { key: "blog", path: "/blog", dir: "blog" },
   { key: "privacy-policy", path: "/privacy-policy", dir: "privacy-policy" },
@@ -200,6 +202,21 @@ export const seoConfigs: Record<RouteKey, SeoMeta> = {
       title: "Terms of Service \u2014 Nagriva",
       description: "Terms governing the use of the Nagriva website and services.",
       card: "summary",
+    },
+  },
+  "hand-in-hand": {
+    title: "Hand in Hand \u2014 A Nagriva Initiative",
+    description: "Hand in Hand is a Nagriva initiative that helps small businesses, associations, and community initiatives build a stronger online presence with a professional project landing page.",
+    canonical: "https://nagriva.ma/hand-in-hand",
+    og: {
+      title: "Hand in Hand \u2014 A Nagriva Initiative",
+      description: "Helping small projects build a stronger online presence through a professional website that tells their story.",
+      url: "https://nagriva.ma/hand-in-hand",
+    },
+    twitter: {
+      title: "Hand in Hand \u2014 A Nagriva Initiative",
+      description: "Helping small projects build a stronger online presence through a professional website that tells their story.",
+      card: "summary_large_image",
     },
   },
 };

@@ -4,6 +4,7 @@
     { "source": "^/portfolio(/)?$", "destination": "/portfolio/index.html" },
     { "source": "^/about(/)?$", "destination": "/about/index.html" },
     { "source": "^/process(/)?$", "destination": "/process/index.html" },
+    { "source": "^/hand-in-hand(/)?$", "destination": "/hand-in-hand/index.html" },
     { "source": "^/start(/)?$", "destination": "/start/index.html" },
     { "source": "/sitemap.xml", "destination": "/api/sitemap" },
     { "source": "^/blog/category/([^/]+)(/)?$", "destination": "/api/blog?type=category&slug=$1" },

@@ -6,8 +6,9 @@ import {
   faStarHalf,
 } from "@fortawesome/free-solid-svg-icons";
 
-const nagrivaIntroVideo = "/videos/Nagriva_Intro.mp4";
-const nagrivaIntroPoster = "/videos/Nagriva_Intro-poster.jpg";
+const nagrivaIntroVideo = "/videos/whay.mp4";
+const nagrivaIntroPoster = "/videos/whay-poster.jpg";
+const nagrivaIntroPreview = "/videos/whay-preview.jpg";
 
 import {
   services,
@@ -317,8 +318,8 @@ function Home() {
               >
                 <img
                   className="why-nagriva__video-thumb-img"
-                  src={nagrivaIntroPoster}
-                  alt="Nagriva intro film — the Nagriva logo with the tagline 'Professional enough to trust. Human enough to talk to.'"
+                  src={nagrivaIntroPreview}
+                  alt="Preview of the Nagriva film — Redouane Ait El Hadj speaking to camera."
                   loading="lazy"
                 />
                 <span className="why-nagriva__video-thumb-overlay" aria-hidden="true" />
