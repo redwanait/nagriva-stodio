@@ -142,10 +142,8 @@ function Start() {
                     email: form.email,
                     phone: form.phone,
                     need: form.need,
-                    projectId: form.projectId,
                   }}
                   errors={errors}
-                  projectReference={{ match: projectMatch, notFound: projectIdNotFound }}
                   submitting={submitting}
                   onChange={update}
                   onBlur={(field) => markTouched([field])}
@@ -159,14 +157,17 @@ function Start() {
                     contactMethod: form.contactMethod,
                     company: form.company,
                     description: form.description,
+                    projectId: form.projectId,
                   }}
                   contactSummary={{
                     name: form.fullName,
                     email: form.email,
                     phone: form.phone,
                   }}
+                  projectReference={{ match: projectMatch, notFound: projectIdNotFound }}
                   submitting={submitting}
                   onChange={update}
+                  onBlur={(field) => markTouched([field])}
                   onBack={() => setStep("contact")}
                 />
               )}

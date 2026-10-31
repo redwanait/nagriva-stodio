@@ -3,8 +3,10 @@ import {
   faArrowLeft,
   faArrowRight,
   faBuilding,
+  faCheck,
   faClock,
   faCoins,
+  faHashtag,
   faPaperPlane,
   faPenToSquare,
   faSpinner,
@@ -19,6 +21,7 @@ import {
   startFieldLabels,
   startTimelineOptions,
 } from "../../data/startPage";
+import type { PortfolioProjectMatch } from "../../lib/projectReference";
 
 type ProjectDetailsStepProps = {
   values: {
@@ -27,14 +30,20 @@ type ProjectDetailsStepProps = {
     contactMethod: string;
     company: string;
     description: string;
+    projectId: string;
   };
   contactSummary: {
     name: string;
     email: string;
     phone: string;
   };
+  projectReference: {
+    match: PortfolioProjectMatch | null;
+    notFound: boolean;
+  };
   submitting: boolean;
   onChange: (patch: Partial<ProjectDetailsStepProps["values"]>) => void;
+  onBlur: (field: keyof ProjectDetailsStepProps["values"]) => void;
   onBack: () => void;
 };
 
@@ -45,8 +54,10 @@ const CONTACT_OPTIONS = startContactOptions.map((value) => ({ value, label: valu
 function ProjectDetailsStep({
   values,
   contactSummary,
+  projectReference,
   submitting,
   onChange,
+  onBlur,
   onBack,
 }: ProjectDetailsStepProps) {
   return (
@@ -129,6 +140,53 @@ function ProjectDetailsStep({
           disabled={submitting}
           onChange={(event) => onChange({ description: event.target.value })}
         />
+
+        <div className="start-field start-project-ref">
+          <label className="start-label" htmlFor="start-project-id">
+            {startFieldLabels.projectId}
+            <span className="start-optional">Optional</span>
+          </label>
+          <div className="start-control start-control--icon">
+            <span className="start-control__icon" aria-hidden="true">
+              <FontAwesomeIcon icon={faHashtag} />
+            </span>
+            <input
+              id="start-project-id"
+              className="start-input"
+              type="text"
+              value={values.projectId}
+              placeholder={startFieldLabels.projectIdPlaceholder}
+              maxLength={32}
+              autoComplete="off"
+              autoCapitalize="characters"
+              spellCheck={false}
+              disabled={submitting}
+              aria-describedby="start-project-id-help start-project-id-status"
+              onChange={(event) => onChange({ projectId: event.target.value })}
+              onBlur={() => onBlur("projectId")}
+            />
+          </div>
+          <p id="start-project-id-help" className="start-help">
+            {startFieldLabels.projectIdHint}
+          </p>
+          <div
+            id="start-project-id-status"
+            className="start-project-ref__feedback"
+            role="status"
+            aria-live="polite"
+          >
+            {projectReference.match && (
+              <p className="start-project-ref__status">
+                <FontAwesomeIcon className="start-project-ref__check" icon={faCheck} aria-hidden="true" />
+                <span>{startFieldLabels.projectIdMatched}</span>{" "}
+                <span className="start-project-ref__title">{projectReference.match.title}</span>
+              </p>
+            )}
+            {projectReference.notFound && (
+              <p className="start-project-ref__note">{startFieldLabels.projectIdNotFound}</p>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="start-actions start-actions__stack">
