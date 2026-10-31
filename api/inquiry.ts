@@ -36,9 +36,10 @@ const VALID_CONTACTS = ["Email", "WhatsApp", "Phone"];
 const PHONE_REQUIRED_METHODS = ["WhatsApp", "Phone"];
 const SENDER = "Nagriva <contact@nagriva.ma>";
 /**
- * Absolute URL of the logo for emails. The file lives at public/logo.webp in this
- * repository, so Vite copies it to the stable path /logo.webp in the production
- * build — a local filesystem path can never work inside an email client.
+ * Absolute URL of the brand mark for emails. The file lives at public/favicon.png
+ * in this repository, so Vite copies it to the stable path /favicon.png in the
+ * production build — a local filesystem path can never work inside an email client.
+ * PNG is used because many email clients (including Gmail) do not render SVG.
  */
 const LOGO_URL = "https://nagriva.ma/favicon.png";
 
@@ -296,8 +297,8 @@ function clientGreeting(fullName: string, email: string): string {
 /**
  * Minimal customer confirmation email. No card, no tables, no CSS: Gmail and
  * mobile clients render the plain document flow, which is what makes this
- * version robust everywhere. The logo is the production file served at
- * /logo.webp (public/logo.webp in the repo).
+ * version robust everywhere. The brand mark is the production file served at
+ * /favicon.png (public/favicon.png in the repo).
  */
 function clientEmailHtml(input: { fullName: string; email: string }): string {
   const greeting = escapeHtml(clientGreeting(input.fullName, input.email));
@@ -309,7 +310,7 @@ function clientEmailHtml(input: { fullName: string; email: string }): string {
   <title>We received your project inquiry — Nagriva</title>
 </head>
 <body>
-  <p><img src="${LOGO_URL}" width="192" height="64" alt="Nagriva"></p>
+  <p><img src="${LOGO_URL}" width="64" height="64" alt="Nagriva"></p>
   <p>Hi ${greeting},</p>
   <p>Thank you for contacting Nagriva. We've received your project request.</p>
   <p>We review every request personally and will get back to you within one business day.</p>
