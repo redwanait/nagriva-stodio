@@ -40,7 +40,7 @@ const SENDER = "Nagriva <contact@nagriva.ma>";
  * repository, so Vite copies it to the stable path /logo.webp in the production
  * build — a local filesystem path can never work inside an email client.
  */
-const LOGO_URL = "https://nagriva.ma/logo.webp";
+const LOGO_URL = "https://nagriva.ma/favicon.png";
 
 function asString(value: unknown): string {
   if (typeof value === "string") return value.trim();
