@@ -4,6 +4,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
 import {
+  startReplyChannel,
   startSuccess,
   startSuccessMessages,
   startWhatsappUrl,
@@ -16,6 +17,9 @@ const SWAP_MS = 60;
 
 type StartSuccessProps = {
   name: string;
+  email: string;
+  /** Backend contact value: "WhatsApp" | "Email" | "Phone". */
+  contactMethod: string;
 };
 
 function useSuccessTypewriter(active: boolean) {
@@ -82,9 +86,10 @@ function useSuccessTypewriter(active: boolean) {
   return { text, dir, full };
 }
 
-function StartSuccess({ name }: StartSuccessProps) {
+function StartSuccess({ name, email, contactMethod }: StartSuccessProps) {
   const message = useSuccessTypewriter(true);
   const firstName = name.trim().split(/\s+/)[0] ?? "";
+  const replyChannel = startReplyChannel[contactMethod] ?? startReplyChannel.Email;
 
   return (
     <section className="start-success" aria-labelledby="start-success-title">
@@ -99,14 +104,17 @@ function StartSuccess({ name }: StartSuccessProps) {
             : startSuccess.title}
         </h2>
         <p className="start-success__description">{startSuccess.description}</p>
+        <p className="start-success__confirm">
+          {startSuccess.confirmationLabel} <strong>{email}</strong>. {startSuccess.replyLabel}{" "}
+          {replyChannel}.
+        </p>
 
         <div className="start-success__message">
           <p dir={message.dir} aria-hidden="true">
             {message.text}
           </p>
-          <span className="visually-hidden" aria-live="polite">
-            {message.full}
-          </span>
+          {/* No live region here: the rotating text would otherwise be re-announced every few seconds. */}
+          <span className="visually-hidden">{message.full}</span>
         </div>
 
         <div className="start-success__actions">

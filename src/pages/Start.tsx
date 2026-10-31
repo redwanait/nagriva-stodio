@@ -3,6 +3,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import { useSeo } from "../hooks/useSeo";
 import { useStartFlow } from "../hooks/useStartFlow";
 import { seoConfigs } from "../data/seo";
+import { startContactMethodValue, startSubmitMessages, startWhatsappUrl } from "../data/startPage";
 import ContactStep from "../components/start/ContactStep";
 import ProjectDetailsStep from "../components/start/ProjectDetailsStep";
 import StartHero from "../components/start/StartHero";
@@ -22,12 +23,19 @@ function Start() {
 
   const endCelebration = useCallback(() => setCelebrating(false), []);
 
+  // Runs after the failed submit has rendered, so the invalid field is in the DOM.
+  const focusFirstInvalid = () => {
+    window.setTimeout(() => {
+      panelRef.current?.querySelector<HTMLElement>("[aria-invalid='true']")?.focus();
+    }, 0);
+  };
+
   const {
     form,
     errors,
     submitting,
     submitError,
-    pendingVerification,
+    verificationNotice,
     turnstileContainerRef,
     update,
     markTouched,
@@ -36,9 +44,6 @@ function Start() {
     projectIdNotFound,
     submit,
   } = useStartFlow();
-
-  // The Turnstile script loads asynchronously, so the hook keeps retrying until
-  // the widget is available. No page-level mount is needed.
 
   // Keep the top of the panel in view when the steps change, so the visitor
   // always lands on the new heading rather than mid-form.
@@ -64,6 +69,7 @@ function Start() {
   const goToDetails = () => {
     if (!stepOneValid) {
       markTouched(["fullName", "email", "phone", "need"]);
+      focusFirstInvalid();
       return;
     }
     setStep("details");
@@ -73,12 +79,15 @@ function Start() {
     if (step !== "contact" && !stepOneValid) {
       setStep("contact");
       markTouched(["fullName", "email", "phone", "need"]);
+      focusFirstInvalid();
       return;
     }
     const ok = await submit();
     if (ok) {
       setSubmitted(true);
       setCelebrating(true);
+    } else {
+      focusFirstInvalid();
     }
   };
 
@@ -87,7 +96,11 @@ function Start() {
       {submitted ? (
         <>
           {celebrating && <SuccessCelebration onComplete={endCelebration} />}
-          <StartSuccess name={form.fullName} />
+          <StartSuccess
+            name={form.fullName}
+            email={form.email.trim()}
+            contactMethod={startContactMethodValue[form.contactMethod] ?? "Email"}
+          />
         </>
       ) : (
         <>
@@ -98,6 +111,7 @@ function Start() {
               className="start-panel"
               ref={panelRef}
               noValidate
+              aria-busy={submitting || undefined}
               onSubmit={(event) => {
                 event.preventDefault();
                 // Honeypot: a filled hidden field means a bot, so the request is
@@ -158,15 +172,24 @@ function Start() {
               )}
 
               <div className="start-turnstile" ref={turnstileContainerRef} />
-              {pendingVerification && (
+              <p className="visually-hidden" role="status">
+                {submitting ? startSubmitMessages.sending : ""}
+              </p>
+              {verificationNotice && (
                 <p className="start-verify-note" role="status">
-                  One quick check from Cloudflare, then your request is on its way.
+                  {verificationNotice}
                 </p>
               )}
               {submitError && (
-                <p className="start-error start-error--global" role="alert">
-                  {submitError}
-                </p>
+                <div className="start-error start-error--global" role="alert">
+                  <p className="start-error">{submitError}</p>
+                  <p className="start-error__fallback">
+                    {startSubmitMessages.fallbackLead}{" "}
+                    <a className="start-error__link" href={startWhatsappUrl}>
+                      {startSubmitMessages.fallbackLink}
+                    </a>
+                  </p>
+                </div>
               )}
             </form>
           </section>

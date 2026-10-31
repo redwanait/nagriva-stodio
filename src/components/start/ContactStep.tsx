@@ -6,6 +6,7 @@ import {
   faHashtag,
   faLayerGroup,
   faPhone,
+  faSpinner,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -71,6 +72,8 @@ function ContactStep({
           value={values.fullName}
           placeholder="Your full name"
           autoComplete="name"
+          autoCapitalize="words"
+          maxLength={120}
           icon={faUser}
           disabled={submitting}
           onChange={(event) => onChange({ fullName: event.target.value })}
@@ -86,6 +89,8 @@ function ContactStep({
           value={values.email}
           placeholder="you@example.com"
           autoComplete="email"
+          autoCapitalize="none"
+          spellCheck={false}
           icon={faEnvelope}
           disabled={submitting}
           onChange={(event) => onChange({ email: event.target.value })}
@@ -101,6 +106,7 @@ function ContactStep({
           value={values.phone}
           placeholder="+212 6XX XXX XXX"
           autoComplete="tel"
+          maxLength={20}
           icon={faPhone}
           disabled={submitting}
           onChange={(event) => onChange({ phone: event.target.value })}
@@ -174,7 +180,12 @@ function ContactStep({
       <div className="start-actions">
         <button className="start-button start-button--primary" type="submit" disabled={submitting}>
           {submitting ? "Sending…" : startContactStep.submitLabel}
-          {!submitting && <FontAwesomeIcon className="start-button__icon" icon={faArrowRight} aria-hidden="true" />}
+          <FontAwesomeIcon
+            className="start-button__icon"
+            icon={submitting ? faSpinner : faArrowRight}
+            spin={submitting}
+            aria-hidden="true"
+          />
         </button>
 
         <button

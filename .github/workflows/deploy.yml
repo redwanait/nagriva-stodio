@@ -1,9 +1,11 @@
 name: Deploy to GitHub Pages
 
+# Manual-only. Routine pushes to main must NOT publish a second, broken copy of
+# the site: GitHub Pages has no serverless functions, so /api/inquiry (Turnstile
+# verification + Supabase + Resend) cannot run there and the lead form is broken.
+# The previously published Pages site stays public until an owner disables
+# GitHub Pages in the repository settings; this workflow just stops refreshing it.
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:

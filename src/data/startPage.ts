@@ -15,7 +15,8 @@ export const startHero = {
   // Arabic headline (RTL) — only the final phrase is blue.
   headlineBaseAr: "لِنَبْنِ شيئاً يستحق ",
   headlineAccentAr: "الحديث عنه.",
-  description: "Four quick details and we'll take it from there. No long brief needed.",
+  description:
+    "Websites for startups and established businesses. Four quick details and we'll take it from there. No long brief needed.",
   reassurance: [],
   contactNote: "Prefer to talk first?",
   contactWhatsapp: "Message us on WhatsApp",
@@ -98,8 +99,17 @@ export const startDetailsStep = {
 export const startSuccess = {
   title: "Thanks, we got it.",
   description: "We'll get back to you shortly.",
+  confirmationLabel: "We've sent a confirmation to",
+  replyLabel: "We'll reach you",
   whatsappLabel: "Continue on WhatsApp",
   homeLabel: "Back to Nagriva",
+};
+
+// Backend contact value -> how the success view names the channel.
+export const startReplyChannel: Record<string, string> = {
+  WhatsApp: "on WhatsApp",
+  Email: "by email",
+  Phone: "by phone",
 };
 
 export const startFieldLabels = {
@@ -131,6 +141,25 @@ export const startValidation = {
   phoneInvalid: "That phone number looks incomplete.",
   need: "Please choose what you need.",
   submitHint: "Fill in the highlighted fields to continue.",
+};
+
+// Guidance shown next to the form while the Cloudflare verification runs.
+export const startVerificationMessages = {
+  checking: "One quick security check is still running. Press Submit again once it's done.",
+  ready: "Security check complete. Press Submit to send your request.",
+  failed: "The security check didn't finish. Press Submit to try again, or message us on WhatsApp.",
+  unavailable:
+    "The security check couldn't load on this page. Turn off content blockers and refresh, or message us on WhatsApp.",
+};
+
+export const startSubmitMessages = {
+  sending: "Sending your request…",
+  failed: "Sorry — we couldn't send your request right now. Please try again in a moment.",
+  network: "We couldn't reach our server. Check your connection, then try again.",
+  timeout: "This is taking longer than expected. Check your connection, then try again.",
+  invalid: "Some details need another look. Please check the form and try again.",
+  fallbackLead: "Prefer to talk now?",
+  fallbackLink: "Message us on WhatsApp",
 };
 
 // Short, human explanations reused by the success panel. Rotating through them

@@ -1,7 +1,10 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 
 type InquiryBody = {
+  /** Client-generated idempotency key. Retries reuse it so the row is not duplicated. */
+  submissionId?: unknown;
   fullName?: unknown;
   email?: unknown;
   company?: unknown;
@@ -80,7 +83,27 @@ async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
   }
 }
 
+/** A v4 UUID the browser generated for this submission attempt. */
+function isValidSubmissionId(value: string): boolean {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
+}
+
+/**
+ * Server-only Supabase client. Inserts run under the service-role key so they
+ * no longer depend on the public anon INSERT policy. The key never ships to the
+ * browser and must not be placed in any VITE_* variable.
+ */
+function getSupabaseAdmin() {
+  const url = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !serviceRoleKey) return null;
+  return createClient(url, serviceRoleKey, { auth: { persistSession: false } });
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Submissions are never cached by the browser, the CDN, or any proxy in front of them.
+  res.setHeader("Cache-Control", "no-store");
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed." });
   }
@@ -101,6 +124,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const preferredContact = asString(body.preferredContact);
   const phone = asString(body.phone);
   const website = asString(body.website);
+  const submissionId = asString(body.submissionId);
   // Optional portfolio reference. An unknown but well-formed ID is accepted;
   // only length and URL scheme are checked, so it never blocks a request.
   const projectReference = asString(body.projectReference).toUpperCase();
@@ -120,6 +144,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const turnstileOk = await verifyTurnstile(turnstileToken, getRemoteIp(req));
   if (!turnstileOk) {
     return res.status(400).json({ error: "Verification failed. Please try again." });
+  }
+
+  // The idempotency key is mandatory: it is how a retry after a dropped response
+  // reuses the same row instead of writing a duplicate.
+  if (!isValidSubmissionId(submissionId)) {
+    return res.status(400).json({ error: "Invalid submission ID." });
   }
 
   const errors: Record<string, string> = {};
@@ -158,6 +188,44 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (!apiKey) {
     return res.status(500).json({ error: "Email service is not configured. Please try again later." });
+  }
+
+  const supabaseAdmin = getSupabaseAdmin();
+  if (!supabaseAdmin) {
+    return res.status(500).json({ error: "Inquiry storage is not configured. Please try again later." });
+  }
+
+  // Only now is anything persisted: Turnstile verification and field validation
+  // both passed. The row keeps status "pending" and the same columns the
+  // dashboard reads; only the insert path changed (service role instead of anon).
+  const projectColumns = projectReference
+    ? {
+        project_reference: projectReference,
+        project_title: projectTitle || null,
+        project_url: projectUrl || null,
+      }
+    : {};
+  const { error: insertError } = await supabaseAdmin.from("inquiries").insert({
+    id: submissionId,
+    full_name: fullName,
+    email,
+    company: company || null,
+    need,
+    project_description: projectDescription,
+    budget: budget || null,
+    preferred_contact: preferredContact,
+    phone: phone || null,
+    status: "pending",
+    ...projectColumns,
+  });
+
+  // 23505 = the submissionId already exists. That is the retry path: the row from
+  // the first attempt is kept untouched (status included) and we continue to the
+  // email step instead of duplicating the lead.
+  if (insertError && insertError.code !== "23505") {
+    // Code and message only; the full error object can echo submitted values.
+    console.error("Failed to save inquiry:", { code: insertError.code, message: insertError.message });
+    return res.status(500).json({ error: "Unable to save your inquiry. Please try again." });
   }
 
   const resend = new Resend(apiKey);

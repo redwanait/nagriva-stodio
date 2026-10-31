@@ -1773,6 +1773,8 @@ main.process-page { overflow: visible; }
 .start-input--textarea { min-height: 92px; resize: vertical; }
 .start-error { margin: 0; color: var(--color-danger-text); font-size: .76rem; line-height: 1.45; }
 .start-error--global { margin-top: 1rem; text-align: center; }
+.start-error__fallback { margin: .35rem 0 0; color: var(--color-muted); font-size: .76rem; line-height: 1.5; }
+.start-error__link { color: var(--color-accent-text); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
 .start-help { margin: 0; color: var(--color-text-dim); font-size: .72rem; line-height: 1.5; }
 .start-project-ref__feedback:empty { margin-top: -.4rem; }
 .start-project-ref__status { display: flex; align-items: center; flex-wrap: wrap; gap: .4rem; margin: 0; color: var(--color-text-dim); font-size: .72rem; line-height: 1.5; }
@@ -1844,11 +1846,14 @@ main.process-page { overflow: visible; }
 /* Restrained sheen: one soft reflection on hover, plus a very occasional idle
    pass so the main action keeps drawing the eye. The sheen lives on ::after and
    the button clips it, so the button itself never changes colour. */
-.start-button--primary::after { content: ""; position: absolute; top: -30%; bottom: -30%; left: -70%; width: 40%; background: linear-gradient(100deg, transparent 0%, rgba(255,255,255,.10) 28%, rgba(255,255,255,.30) 50%, rgba(255,255,255,.10) 72%, transparent 100%); filter: blur(8px); transform: skewX(-16deg); opacity: 0; pointer-events: none; }
+.start-button--primary::after { content: ""; position: absolute; top: -30%; bottom: -30%; left: 0; width: 40%; background: linear-gradient(100deg, transparent 0%, rgba(255,255,255,.10) 28%, rgba(255,255,255,.30) 50%, rgba(255,255,255,.10) 72%, transparent 100%); filter: blur(8px); transform: translateX(-175%) skewX(-16deg); opacity: 0; pointer-events: none; }
 .start-button--primary:hover:not(:disabled)::after { animation: start-sheen .9s cubic-bezier(.35,0,.25,1); }
-.start-button--primary:not(:disabled)::after { animation: start-sheen 1.9s cubic-bezier(.4,0,.2,1) 12s infinite; }
+.start-button--primary:not(:disabled)::after { animation: start-sheen-idle 8s linear 6s infinite; }
 .start-button--primary:disabled::after { display: none; }
-@keyframes start-sheen { 0% { left: -70%; opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { left: 120%; opacity: 0; } }
+/* Animates transform, not `left`, so the browser moves the layer without repainting. */
+@keyframes start-sheen { 0% { transform: translateX(-175%) skewX(-16deg); opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { transform: translateX(300%) skewX(-16deg); opacity: 0; } }
+/* One sweep at the start of an 8s cycle, then rest. */
+@keyframes start-sheen-idle { 0% { transform: translateX(-175%) skewX(-16deg); opacity: 0; } 3% { opacity: 1; } 21% { opacity: 1; } 24% { transform: translateX(300%) skewX(-16deg); opacity: 0; } 100% { transform: translateX(300%) skewX(-16deg); opacity: 0; } }
 
 .start-button--optional { border-color: var(--color-line-strong); border-radius: var(--radius-button); background: var(--color-bg); color: var(--color-text); }
 .start-button--optional:hover:not(:disabled) { border-color: var(--color-accent); background: var(--color-accent-wash); color: var(--color-accent-text); }
@@ -1871,6 +1876,8 @@ main.process-page { overflow: visible; }
 .start-success__mark { display: grid; place-items: center; width: 58px; height: 58px; border: 1px solid rgba(0,71,255,.4); border-radius: 50%; background: var(--color-accent-tint); color: var(--color-accent-text); font-size: 1.1rem; }
 .start-success__title { margin: 1.5rem 0 0; font-size: clamp(1.5rem, 3.4vw, 2.1rem); line-height: 1.1; letter-spacing: -.05em; }
 .start-success__description { max-width: 360px; margin: .7rem 0 0; color: var(--color-muted); font-size: .9rem; line-height: 1.7; }
+.start-success__confirm { max-width: 360px; margin: .6rem 0 0; color: var(--color-muted); font-size: .8rem; line-height: 1.6; overflow-wrap: anywhere; }
+.start-success__confirm strong { color: var(--color-text); font-weight: 500; }
 .start-success__message { min-height: 1.6rem; margin: 1.1rem 0 0; color: var(--color-text-dim); font-size: .78rem; line-height: 1.6; }
 .start-success__message p { margin: 0; }
 .start-success__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; margin-top: 1.75rem; }
@@ -1883,6 +1890,12 @@ body.start-success-active { overflow: hidden; }
 body.start-success-active .navbar { display: none; }
 .start-page--success { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; min-height: 100vh; min-height: 100svh; max-height: 100svh; overflow: hidden; padding: calc(clamp(1.25rem, 4vh, 2.75rem) + env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) calc(clamp(1.25rem, 4vh, 2.75rem) + env(safe-area-inset-bottom, 0px)) max(1rem, env(safe-area-inset-left, 0px)); }
 .start-page--success .start-success { position: relative; z-index: 6; margin: 0; }
+/* Short phones: tighten the card so the confirmation line still fits one screen. */
+@media (max-height: 640px) {
+  .start-success__panel { padding-top: 2rem; padding-bottom: 2rem; }
+  .start-success__title { margin-top: 1rem; }
+  .start-success__actions { margin-top: 1.25rem; }
+}
 
 /* Celebration -------------------------------------------------------------- */
 /* Decorative full-viewport layer. It sits below the navbar (z:20) and the

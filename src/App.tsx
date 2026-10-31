@@ -1,23 +1,26 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import "./App.css";
 import { usePageView } from "./hooks/usePageView";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import FinalCta from "./components/FinalCta";
-import Home from "./pages/Home";
-import Services from "./pages/Services";
-import Portfolio from "./pages/Portfolio";
-import About from "./pages/About";
-import Process from "./pages/Process";
-import HandInHand from "./pages/HandInHand";
-import Start from "./pages/Start";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsOfService from "./pages/TermsOfService";
-import Blog from "./pages/Blog";
-import BlogPostDetails from "./pages/BlogPostDetails";
-import CategoryPage from "./pages/CategoryPage";
-import TagPage from "./pages/TagPage";
-import NotFound from "./pages/NotFound";
+
+// Each page is its own chunk, so a visitor downloads only the code for the page
+// they open. Before this, every route shared one bundle that included the whole site.
+const Home = lazy(() => import("./pages/Home"));
+const Services = lazy(() => import("./pages/Services"));
+const Portfolio = lazy(() => import("./pages/Portfolio"));
+const About = lazy(() => import("./pages/About"));
+const Process = lazy(() => import("./pages/Process"));
+const HandInHand = lazy(() => import("./pages/HandInHand"));
+const Start = lazy(() => import("./pages/Start"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPostDetails = lazy(() => import("./pages/BlogPostDetails"));
+const CategoryPage = lazy(() => import("./pages/CategoryPage"));
+const TagPage = lazy(() => import("./pages/TagPage"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 type Route =
   | "home"
@@ -136,7 +139,7 @@ function App() {
   return (
     <>
       {route !== "not-found" && <Navbar />}
-      {page}
+      <Suspense fallback={null}>{page}</Suspense>
       {route === "home" && <FinalCta />}
       {route !== "not-found" && route !== "start" && <Footer />}
     </>

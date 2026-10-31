@@ -5,9 +5,10 @@ import {
   startContactMethodValue,
   startContactOptions,
   startNeedValue,
+  startSubmitMessages,
   startValidation,
+  startVerificationMessages,
 } from "../data/startPage";
-import { submitStartInquiry } from "../lib/startInquiryService";
 import {
   findPortfolioProject,
   normalizeProjectId,
@@ -32,6 +33,16 @@ declare global {
     };
   }
 }
+
+const TURNSTILE_SCRIPT_SRC = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+const TURNSTILE_SITE_KEY: string | undefined = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+/** Long enough for a slow mobile connection, short enough that the button never hangs. */
+const INQUIRY_TIMEOUT_MS = 30000;
+
+type VerificationIssue = "failed" | "unavailable";
+
+/** Thrown for failures whose message is already written for the visitor. */
+class StartSubmitError extends Error {}
 
 const EMPTY_FORM: StartFormState = {
   fullName: "",
@@ -71,12 +82,45 @@ function validateStepOne(form: StartFormState): StartFieldErrors {
   return errors;
 }
 
+function describeVerification(
+  issue: VerificationIssue | null,
+  waiting: boolean,
+  hasToken: boolean,
+): string {
+  if (issue === "unavailable") return startVerificationMessages.unavailable;
+  if (issue === "failed") return startVerificationMessages.failed;
+  if (!waiting) return "";
+  return hasToken ? startVerificationMessages.ready : startVerificationMessages.checking;
+}
+
+function createTurnstileScript(): HTMLScriptElement {
+  const script = document.createElement("script");
+  script.src = TURNSTILE_SCRIPT_SRC;
+  script.async = true;
+  document.head.appendChild(script);
+  return script;
+}
+
+/** v4 UUID used as the server-side idempotency key, with a fallback for older browsers. */
+function createSubmissionId(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  const bytes = new Uint8Array(16);
+  crypto.getRandomValues(bytes);
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+}
+
 export type StartFlow = {
   form: StartFormState;
   errors: StartFieldErrors;
   submitting: boolean;
   submitError: string;
-  pendingVerification: boolean;
+  /** Guidance about the verification check. Empty when there is nothing to say. */
+  verificationNotice: string;
   turnstileContainerRef: RefObject<HTMLDivElement | null>;
   update: (patch: Partial<StartFormState>) => void;
   markTouched: (fields: Array<keyof StartFormState>) => void;
@@ -91,7 +135,6 @@ export type StartFlow = {
    * only enriches the payload built from the shared form state.
    */
   submit: () => Promise<boolean>;
-  mountTurnstile: () => void;
 };
 
 export function useStartFlow(): StartFlow {
@@ -100,10 +143,18 @@ export function useStartFlow(): StartFlow {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
-  const [pendingVerification, setPendingVerification] = useState(false);
+  const [waitingForToken, setWaitingForToken] = useState(false);
+  const [verificationIssue, setVerificationIssue] = useState<VerificationIssue | null>(() =>
+    TURNSTILE_SITE_KEY ? null : "unavailable",
+  );
 
   const turnstileContainerRef = useRef<HTMLDivElement>(null);
   const turnstileWidgetRef = useRef<string | null>(null);
+  // Blocks a second submit while one is still in flight (double tap, Enter held down).
+  const inFlightRef = useRef(false);
+  // Idempotency key for the server-side insert. Generated once per visit and reused
+  // on every retry, so a retry after a dropped response writes no second row.
+  const submissionIdRef = useRef<string | null>(null);
 
   const update = useCallback((patch: Partial<StartFormState>) => {
     setForm((current) => ({ ...current, ...patch }));
@@ -119,51 +170,50 @@ export function useStartFlow(): StartFlow {
     });
   }, []);
 
-  // The widget is mounted once by the page and kept alive across both steps, so
-  // moving forward and back never asks the visitor to solve it twice.
+  // The widget is mounted once and kept alive across both steps, so moving forward
+  // and back never asks the visitor to solve it twice.
   const mountTurnstile = useCallback(() => {
     const container = turnstileContainerRef.current;
-    if (!container || turnstileWidgetRef.current || !window.turnstile) return false;
+    if (!TURNSTILE_SITE_KEY || !container || turnstileWidgetRef.current || !window.turnstile) return;
 
-    const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
-    if (!siteKey) return false;
-
-    container.innerHTML = "";
     turnstileWidgetRef.current = window.turnstile.render(container, {
-      sitekey: siteKey,
+      sitekey: TURNSTILE_SITE_KEY,
       callback: (token: string) => {
         setTurnstileToken(token);
-        setPendingVerification(false);
+        setVerificationIssue(null);
       },
       "error-callback": () => {
         setTurnstileToken("");
-        setPendingVerification(true);
+        setVerificationIssue("failed");
       },
       "expired-callback": () => {
         setTurnstileToken("");
-        setPendingVerification(true);
       },
       theme: "auto",
     });
-    return true;
   }, []);
 
-  // The Turnstile script is loaded asynchronously, so the first render can run
-  // before `window.turnstile` exists. Poll briefly until it is available so the
-  // check never silently disappears.
+  // The script is only needed on this page, so it is requested here instead of
+  // from index.html. The widget mounts on the script's load event. There is no
+  // timed polling, so a slow connection cannot leave the form permanently blocked.
   useEffect(() => {
-    if (mountTurnstile()) return;
+    if (!TURNSTILE_SITE_KEY) return;
+    if (window.turnstile) {
+      mountTurnstile();
+      return;
+    }
 
-    const interval = window.setInterval(() => {
-      if (mountTurnstile()) {
-        window.clearInterval(interval);
-      }
-    }, 400);
-    const timeout = window.setTimeout(() => window.clearInterval(interval), 10000);
+    const script =
+      document.querySelector<HTMLScriptElement>(`script[src="${TURNSTILE_SCRIPT_SRC}"]`) ??
+      createTurnstileScript();
+    const handleLoad = () => mountTurnstile();
+    const handleError = () => setVerificationIssue("unavailable");
 
+    script.addEventListener("load", handleLoad);
+    script.addEventListener("error", handleError);
     return () => {
-      window.clearInterval(interval);
-      window.clearTimeout(timeout);
+      script.removeEventListener("load", handleLoad);
+      script.removeEventListener("error", handleError);
     };
   }, [mountTurnstile]);
 
@@ -200,10 +250,11 @@ export function useStartFlow(): StartFlow {
   const projectIdNotFound =
     touched.projectId === true && normalizeProjectId(form.projectId) !== "" && projectMatch === null;
 
-  const persist = useCallback(async () => {
+  const persist = useCallback(async (): Promise<boolean> => {
+    inFlightRef.current = true;
     setSubmitting(true);
     setSubmitError("");
-    setPendingVerification(false);
+    setWaitingForToken(false);
 
     // The existing API requires a non-empty description, so Step 01 alone sends
     // a short placeholder. TEMPORARY: replace once the endpoint accepts an
@@ -226,80 +277,117 @@ export function useStartFlow(): StartFlow {
           }
         : {};
 
-    try {
-      // Step 01 is the lead. Step 02 only adds qualification to that same
-      // request, so both steps build one payload from the shared form state.
-      await submitStartInquiry({
-        fullName: form.fullName.trim(),
-        email: form.email.trim(),
-        company: form.company.trim(),
-        need,
-        projectDescription,
-        budget: form.budget,
-        preferredContact: startContactMethodValue[form.contactMethod] ?? "Email",
-        phone: form.phone.trim(),
-        ...projectFields,
-      });
+    // One set of fields feeds the single server request. Step 01 is the lead.
+    // Step 02 only adds qualification to the same request. Nothing is written
+    // from the browser: /api/inquiry verifies Turnstile and persists server-side.
+    const fields = {
+      fullName: form.fullName.trim(),
+      email: form.email.trim(),
+      company: form.company.trim(),
+      need,
+      projectDescription,
+      budget: form.budget,
+      preferredContact: startContactMethodValue[form.contactMethod] ?? "Email",
+      phone: form.phone.trim(),
+      ...projectFields,
+    };
 
-      const response = await fetch("/api/inquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fullName: form.fullName.trim(),
-          email: form.email.trim(),
-          company: form.company.trim(),
-          need,
-          projectDescription,
-          budget: form.budget,
-          preferredContact: startContactMethodValue[form.contactMethod] ?? "Email",
-          phone: form.phone.trim(),
-          website: form.website,
-          turnstileToken,
-          ...projectFields,
-        }),
-      });
+    // Reused across retries within this visit so the server treats them as the
+    // same submission and never stores a second row for it.
+    if (!submissionIdRef.current) {
+      submissionIdRef.current = createSubmissionId();
+    }
+    let tokenSent = false;
+
+    try {
+      // The server verifies Turnstile first, then stores the row, then sends the
+      // emails. Only a 2xx response means every required step completed.
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), INQUIRY_TIMEOUT_MS);
+      let response: Response;
+      tokenSent = true;
+      try {
+        response = await fetch("/api/inquiry", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            submissionId: submissionIdRef.current,
+            ...fields,
+            website: form.website,
+            turnstileToken,
+          }),
+          signal: controller.signal,
+        });
+      } catch {
+        throw new StartSubmitError(
+          controller.signal.aborted ? startSubmitMessages.timeout : startSubmitMessages.network,
+        );
+      } finally {
+        window.clearTimeout(timeout);
+      }
 
       if (!response.ok) {
-        const data = await response.json().catch(() => null);
-        throw new Error(data?.error ?? "Submission failed.");
+        const data = (await response.json().catch(() => null)) as {
+          error?: unknown;
+          errors?: unknown;
+        } | null;
+        if (typeof data?.error === "string" && data.error !== "") {
+          throw new StartSubmitError(data.error);
+        }
+        throw new StartSubmitError(
+          data?.errors ? startSubmitMessages.invalid : startSubmitMessages.failed,
+        );
       }
 
       resetTurnstile();
       return true;
     } catch (err) {
-      resetTurnstile();
-      setSubmitError(
-        err instanceof Error && err.message
-          ? err.message
-          : "Sorry — we couldn't send your request right now. Please try again in a moment.",
-      );
+      // A verification token can only be used once, so it is cleared after any attempt
+      // that reached the server. A failure before that leaves it valid for the next try.
+      if (tokenSent) resetTurnstile();
+      setSubmitError(err instanceof StartSubmitError ? err.message : startSubmitMessages.failed);
       return false;
     } finally {
+      inFlightRef.current = false;
       setSubmitting(false);
     }
   }, [form, need, projectMatch, resetTurnstile, turnstileToken]);
 
-  const submit = useCallback(async () => {
+  const submit = useCallback(async (): Promise<boolean> => {
+    if (inFlightRef.current) return false;
+
     markTouched(STEP_ONE_FIELDS);
 
     if (Object.keys(validateStepOne(form)).length > 0) return false;
 
-    // An empty token means the widget is still solving. Surface that instead of
-    // submitting a request that the server will reject.
+    // Without the widget there is no way to verify the visitor. The notice explains
+    // this, so the form does not wait on a check that can never finish.
+    if (verificationIssue === "unavailable") return false;
+
+    // An empty token means the check is still running or has failed. Say so and let
+    // the visitor press Submit again once it is ready.
     if (turnstileToken === "") {
-      setPendingVerification(true);
+      if (verificationIssue === "failed" && turnstileWidgetRef.current && window.turnstile) {
+        setVerificationIssue(null);
+        window.turnstile.reset(turnstileWidgetRef.current);
+      }
+      setWaitingForToken(true);
       return false;
     }
 
     return persist();
-  }, [form, markTouched, persist, turnstileToken]);
+  }, [form, markTouched, persist, turnstileToken, verificationIssue]);
 
   return {
     form,
     errors,
     submitting,
     submitError,
-    pendingVerification,
+    verificationNotice: describeVerification(
+      verificationIssue,
+      waitingForToken,
+      turnstileToken !== "",
+    ),
     turnstileContainerRef,
     update,
     markTouched,
@@ -307,7 +395,6 @@ export function useStartFlow(): StartFlow {
     projectMatch,
     projectIdNotFound,
     submit,
-    mountTurnstile,
   };
 }
 

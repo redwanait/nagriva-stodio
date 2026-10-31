@@ -7,6 +7,7 @@ import {
   faCoins,
   faPaperPlane,
   faPenToSquare,
+  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 
 import SelectField from "./SelectField";
@@ -120,6 +121,7 @@ function ProjectDetailsStep({
           label={startFieldLabels.description}
           optional
           rows={3}
+          maxLength={5000}
           value={values.description}
           placeholder={startFieldLabels.descriptionPlaceholder}
           hint={startFieldLabels.descriptionHint}
@@ -132,7 +134,12 @@ function ProjectDetailsStep({
       <div className="start-actions start-actions__stack">
         <button className="start-button start-button--primary" type="submit" disabled={submitting}>
           {submitting ? "Sending…" : startDetailsStep.submitLabel}
-          {!submitting && <FontAwesomeIcon className="start-button__icon" icon={faArrowRight} aria-hidden="true" />}
+          <FontAwesomeIcon
+            className="start-button__icon"
+            icon={submitting ? faSpinner : faArrowRight}
+            spin={submitting}
+            aria-hidden="true"
+          />
         </button>
 
         <button
